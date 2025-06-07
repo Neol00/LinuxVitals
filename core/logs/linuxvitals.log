@@ -1,0 +1,1346 @@
+2025-06-07 13:38:11,455 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 13:38:11,455 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 13:38:11,455 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 13:38:11,455 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 13:38:11,456 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,456 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 13:38:11,457 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 13:38:11,457 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 13:38:11,457 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,457 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 13:38:11,464 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 13:38:11,515 - root - ERROR - Failed to attach widget: 'Grid' object has no attribute 'get_children'
+2025-06-07 13:38:11,516 - root - ERROR - Error creating memory graphs section: No module named 'memory_management'
+2025-06-07 13:38:11,516 - root - ERROR - Error creating disk graphs section: No module named 'disk_management'
+2025-06-07 13:38:12,534 - root - WARNING - No CPU speeds available to update
+2025-06-07 13:38:12,535 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:09:22,882 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:09:22,883 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:09:22,953 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:09:22,953 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,953 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:22,954 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,954 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:22,955 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:22,955 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:22,955 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:22,955 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,955 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:22,962 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:09:22,963 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:09:22,963 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:09:23,012 - root - ERROR - Failed to attach widget: 'Grid' object has no attribute 'get_children'
+2025-06-07 14:09:23,014 - root - ERROR - Error creating memory graphs section: No module named 'memory_management'
+2025-06-07 14:09:23,014 - root - ERROR - Error creating disk graphs section: No module named 'disk_management'
+2025-06-07 14:09:24,033 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:09:24,033 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:09:40,984 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:09:40,984 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:09:41,047 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:09:41,047 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,047 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,047 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:09:41,048 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,048 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:09:41,049 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:09:41,049 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:09:41,049 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:09:41,049 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:09:41,049 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,049 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:09:41,056 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:09:41,056 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:09:41,056 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:09:41,093 - root - ERROR - Failed to attach widget: 'Grid' object has no attribute 'get_children'
+2025-06-07 14:09:41,093 - root - ERROR - Error creating memory graphs section: No module named 'memory_management'
+2025-06-07 14:09:41,093 - root - ERROR - Error creating disk graphs section: No module named 'disk_management'
+2025-06-07 14:09:42,108 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:09:42,108 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:19:20,319 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:19:20,320 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:19:20,387 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:19:20,387 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:19:20,387 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:19:20,387 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:19:20,388 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:19:20,389 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:19:20,389 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,389 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:19:20,396 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:19:20,396 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:19:20,396 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:23:38,242 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:23:38,242 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:23:38,307 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:23:38,307 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,307 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:23:38,308 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,308 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:23:38,309 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:23:38,309 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:23:38,309 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:23:38,309 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,309 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:23:38,316 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:23:38,316 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:23:38,316 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:23:39,376 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:23:39,376 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:37:22,191 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:37:22,191 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:37:22,255 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:37:22,255 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,255 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,255 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:37:22,256 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,256 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:37:22,257 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:37:22,257 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:37:22,257 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:37:22,257 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:37:22,257 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,257 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:37:22,264 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:37:22,264 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:37:22,264 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:37:23,330 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:37:23,330 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:42:30,309 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:42:30,309 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:42:30,394 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:42:30,395 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:42:30,395 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,395 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:42:30,396 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,396 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:42:30,397 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:42:30,397 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,397 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:42:30,403 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:42:30,404 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:42:30,404 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:42:31,462 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:42:31,462 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:50:18,809 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 14:50:18,809 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 14:50:18,876 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 14:50:18,877 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,877 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 14:50:18,884 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 14:50:18,885 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 14:50:18,885 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 14:50:19,939 - root - WARNING - No CPU speeds available to update
+2025-06-07 14:50:19,939 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 14:50:36,474 - root - ERROR - Error showing service context menu: 'gi.repository.Gtk' object has no attribute 'Rectangle'
+2025-06-07 14:51:06,159 - root - ERROR - Error showing kill confirmation dialog: gobject `GtkMessageDialog' doesn't support property `flags'
+2025-06-07 17:41:56,227 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 17:41:56,227 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 17:41:56,292 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:41:56,292 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:41:56,292 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 17:41:56,292 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:41:56,293 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,293 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:41:56,294 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:41:56,294 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:41:56,294 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,294 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:41:56,301 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 17:41:56,301 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 17:41:56,301 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 17:41:57,362 - root - WARNING - No CPU speeds available to update
+2025-06-07 17:41:57,362 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 17:42:21,967 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 17:42:21,967 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 17:42:22,042 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:42:22,042 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,042 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:42:22,043 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,043 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:42:22,044 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:42:22,044 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:42:22,044 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,044 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:42:22,051 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 17:42:22,051 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 17:42:22,051 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 17:42:23,103 - root - WARNING - No CPU speeds available to update
+2025-06-07 17:42:23,103 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 17:52:29,683 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 17:52:29,683 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 17:52:29,750 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:52:29,750 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:52:29,750 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:52:29,750 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,750 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:52:29,751 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,751 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:52:29,752 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:52:29,752 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,752 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:52:29,759 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 17:52:29,759 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 17:52:29,759 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 17:52:30,813 - root - WARNING - No CPU speeds available to update
+2025-06-07 17:52:30,813 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 17:52:36,812 - root - ERROR - Error showing kill confirmation dialog: gobject `GtkMessageDialog' doesn't support property `flags'
+2025-06-07 17:56:12,155 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 17:56:12,155 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 17:56:12,221 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 17:56:12,221 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,221 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 17:56:12,222 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 17:56:12,223 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 17:56:12,223 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 17:56:12,223 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,223 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 17:56:12,230 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 17:56:12,230 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 17:56:12,230 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 17:56:13,285 - root - WARNING - No CPU speeds available to update
+2025-06-07 17:56:13,285 - root - ERROR - Governor file path not found or could not read the governor for thread 0
+2025-06-07 17:56:18,734 - root - ERROR - Error showing kill confirmation dialog: gobject `GtkMessageDialog' doesn't support property `flags'
+2025-06-07 18:03:49,559 - root - ERROR - Min or max frequency files are not set for any thread.
+2025-06-07 18:03:49,559 - root - WARNING - Some essential CPU paths are missing, reinitializing...
+2025-06-07 18:03:49,628 - root - ERROR - Access error on /sys/devices/system/cpu/cpu0/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu0/cpufreq'
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_governor for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_cur_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_max_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_min_freq for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_available_governors for thread 0 does not exist at /sys/devices/system/cpu/cpu0/cpufreq.
+2025-06-07 18:03:49,628 - root - ERROR - Access error on /sys/devices/system/cpu/cpu1/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu1/cpufreq'
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_governor for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_cur_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_max_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_min_freq for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_available_governors for thread 1 does not exist at /sys/devices/system/cpu/cpu1/cpufreq.
+2025-06-07 18:03:49,628 - root - ERROR - Access error on /sys/devices/system/cpu/cpu2/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu2/cpufreq'
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_governor for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_cur_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_max_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File cpuinfo_min_freq for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_available_governors for thread 2 does not exist at /sys/devices/system/cpu/cpu2/cpufreq.
+2025-06-07 18:03:49,628 - root - ERROR - Access error on /sys/devices/system/cpu/cpu3/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu3/cpufreq'
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_governor for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,628 - root - WARNING - File scaling_cur_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 3 does not exist at /sys/devices/system/cpu/cpu3/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu4/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu4/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 4 does not exist at /sys/devices/system/cpu/cpu4/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu5/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu5/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 5 does not exist at /sys/devices/system/cpu/cpu5/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu6/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu6/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 6 does not exist at /sys/devices/system/cpu/cpu6/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu7/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu7/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 7 does not exist at /sys/devices/system/cpu/cpu7/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu8/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu8/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_min_freq for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_available_governors for thread 8 does not exist at /sys/devices/system/cpu/cpu8/cpufreq.
+2025-06-07 18:03:49,629 - root - ERROR - Access error on /sys/devices/system/cpu/cpu9/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu9/cpufreq'
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_governor for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_cur_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File scaling_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,629 - root - WARNING - File cpuinfo_max_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File cpuinfo_min_freq for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_available_governors for thread 9 does not exist at /sys/devices/system/cpu/cpu9/cpufreq.
+2025-06-07 18:03:49,630 - root - ERROR - Access error on /sys/devices/system/cpu/cpu10/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu10/cpufreq'
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_governor for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_cur_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File cpuinfo_max_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File cpuinfo_min_freq for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_available_governors for thread 10 does not exist at /sys/devices/system/cpu/cpu10/cpufreq.
+2025-06-07 18:03:49,630 - root - ERROR - Access error on /sys/devices/system/cpu/cpu11/cpufreq: [Errno 2] No such file or directory: '/sys/devices/system/cpu/cpu11/cpufreq'
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_governor for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_cur_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File cpuinfo_max_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File cpuinfo_min_freq for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,630 - root - WARNING - File scaling_available_governors for thread 11 does not exist at /sys/devices/system/cpu/cpu11/cpufreq.
+2025-06-07 18:03:49,637 - root - WARNING - No thermal files found for CPU temperature monitoring.
+2025-06-07 18:03:49,637 - root - WARNING - Some CPU control features may not be available due to missing system files.
+2025-06-07 18:03:49,637 - root - WARNING - This is common in virtualized environments like WSL.
+2025-06-07 18:03:50,699 - root - WARNING - No CPU speeds available to update
+2025-06-07 18:03:50,699 - root - ERROR - Governor file path not found or could not read the governor for thread 0
