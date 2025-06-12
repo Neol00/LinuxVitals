@@ -566,17 +566,353 @@ class LinuxVitalsApp(Gtk.Application):
             self.logger.error(f"Error creating services filter controls: {e}")
 
     def create_control_widgets(self):
-        """Create widgets for the control tab (placeholder)"""
+        """Create widgets for the control tab"""
         try:
-            # This would be implemented by a ControlTabManager in full refactoring
-            info_label = self.widget_factory.create_label(
-                self.control_box, 
-                text="CPU Control features would be implemented here")
-            info_label.set_halign(Gtk.Align.CENTER)
-            info_label.set_valign(Gtk.Align.CENTER)
+            # Create CPU frequency control section
+            self.create_frequency_control_section()
+            
+            # Create CPU governor control section
+            self.create_governor_control_section()
+            
+            # Create CPU boost control section
+            self.create_boost_control_section()
+            
+            # Create TDP control section (Intel/AMD)
+            self.create_tdp_control_section()
+            
+            # Create PBO control section (AMD)
+            self.create_pbo_control_section()
+            
+            # Create EPB control section (Intel)
+            self.create_epb_control_section()
             
         except Exception as e:
             self.logger.error(f"Error creating control widgets: {e}")
+
+    def create_frequency_control_section(self):
+        """Create CPU frequency control widgets using scale manager"""
+        try:
+            # Frequency control frame
+            freq_frame = self.widget_factory.create_frame()
+            freq_frame.set_label("CPU Frequency Control")
+            self.control_box.append(freq_frame)
+            
+            freq_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+            freq_frame.set_child(freq_box)
+            
+            # Select all threads control
+            select_all_box = self.widget_factory.create_horizontal_box(spacing=10)
+            freq_box.append(select_all_box)
+            
+            self.select_all_threads_checkbutton = self.widget_factory.create_checkbutton(
+                select_all_box, "Select All Threads", False, self.on_select_all_threads_toggled)
+            
+            # Apply button in the same row
+            self.apply_max_min_button = self.widget_factory.create_button(
+                select_all_box, "Apply Frequency Limits", self.cpu_manager.apply_cpu_clock_speed_limits)
+            self.apply_max_min_button.set_hexpand(False)
+            
+            # Create a flow box for thread controls (similar to monitor tab)
+            threads_flow = self.widget_factory.create_flowbox(
+                valign=Gtk.Align.START,
+                max_children_per_line=3,  # 3 threads per row for better space usage
+                min_children_per_line=1,
+                row_spacing=10,
+                column_spacing=10,
+                homogeneous=True,
+                selection_mode=Gtk.SelectionMode.NONE)
+            freq_box.append(threads_flow)
+            
+            # Initialize storage
+            self.cpu_max_min_checkbuttons = {}
+            self.min_scales = {}
+            self.max_scales = {}
+            
+            # Get cached frequency limits from scale manager
+            min_freqs, max_freqs = self.scale_manager._cached_freqs or ([1000] * self.cpu_file_search.thread_count, [3000] * self.cpu_file_search.thread_count)
+            
+            # Create thread control boxes
+            for i in range(self.cpu_file_search.thread_count):
+                # Create frame for each thread
+                thread_frame = self.widget_factory.create_frame()
+                thread_frame.set_size_request(200, 160)  # Compact size
+                threads_flow.append(thread_frame)
+                
+                thread_box = self.widget_factory.create_vertical_box(margin_start=8, margin_end=8, margin_top=5, margin_bottom=5, spacing=5)
+                thread_frame.set_child(thread_box)
+                
+                # Thread header with enable checkbox
+                header_box = self.widget_factory.create_horizontal_box()
+                thread_box.append(header_box)
+                
+                self.cpu_max_min_checkbuttons[i] = self.widget_factory.create_checkbutton(
+                    header_box, f"CPU {i}", False)
+                self.cpu_max_min_checkbuttons[i].get_style_context().add_class('small-label')
+                
+                # Get frequency limits for this thread
+                min_freq = min_freqs[i] if i < len(min_freqs) else 1000
+                max_freq = max_freqs[i] if i < len(max_freqs) else 3000
+                
+                # Min frequency section
+                min_section = self.widget_factory.create_vertical_box(spacing=2)
+                thread_box.append(min_section)
+                
+                min_header = self.widget_factory.create_horizontal_box()
+                min_section.append(min_header)
+                
+                min_title = self.widget_factory.create_label(min_header, "Min:")
+                min_title.set_halign(Gtk.Align.START)
+                min_title.get_style_context().add_class('small-label')
+                
+                # Spacer to push frequency label to the right
+                min_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
+                min_header.append(min_spacer)
+                
+                min_freq_label = self.widget_factory.create_label(min_header, f"{min_freq:.0f} MHz")
+                min_freq_label.set_halign(Gtk.Align.END)
+                min_freq_label.get_style_context().add_class('small-label')
+                
+                # Min frequency scale
+                self.min_scales[i] = self.widget_factory.create_scale(
+                    min_section, 
+                    self.scale_manager.update_min_max_labels,
+                    min_freq, 
+                    max_freq, 
+                    Frequency=True
+                )
+                if self.min_scales[i]:
+                    self.min_scales[i].set_value(min_freq)
+                    self.min_scales[i].set_name(f"cpu_min_scale_{i}")
+                    self.min_scales[i].set_size_request(180, 30)  # Compact scale
+                    
+                    # Connect to update frequency label (use closure to capture variables)
+                    def make_min_freq_updater(label):
+                        def update_min_freq_label(scale):
+                            label.set_text(f"{scale.get_value():.0f} MHz")
+                        return update_min_freq_label
+                    self.min_scales[i].connect("value-changed", make_min_freq_updater(min_freq_label))
+                
+                # Max frequency section
+                max_section = self.widget_factory.create_vertical_box(spacing=2)
+                thread_box.append(max_section)
+                
+                max_header = self.widget_factory.create_horizontal_box()
+                max_section.append(max_header)
+                
+                max_title = self.widget_factory.create_label(max_header, "Max:")
+                max_title.set_halign(Gtk.Align.START)
+                max_title.get_style_context().add_class('small-label')
+                
+                # Spacer to push frequency label to the right
+                max_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
+                max_header.append(max_spacer)
+                
+                max_freq_label = self.widget_factory.create_label(max_header, f"{max_freq:.0f} MHz")
+                max_freq_label.set_halign(Gtk.Align.END)
+                max_freq_label.get_style_context().add_class('small-label')
+                
+                # Max frequency scale
+                self.max_scales[i] = self.widget_factory.create_scale(
+                    max_section, 
+                    self.scale_manager.update_min_max_labels,
+                    min_freq, 
+                    max_freq, 
+                    Frequency=True
+                )
+                if self.max_scales[i]:
+                    self.max_scales[i].set_value(max_freq)
+                    self.max_scales[i].set_name(f"cpu_max_scale_{i}")
+                    self.max_scales[i].set_size_request(180, 30)  # Compact scale
+                    
+                    # Connect to update frequency label (use closure to capture variables)
+                    def make_max_freq_updater(label):
+                        def update_max_freq_label(scale):
+                            label.set_text(f"{scale.get_value():.0f} MHz")
+                        return update_max_freq_label
+                    self.max_scales[i].connect("value-changed", make_max_freq_updater(max_freq_label))
+            
+        except Exception as e:
+            self.logger.error(f"Error creating frequency control section: {e}")
+
+    def on_select_all_threads_toggled(self, checkbutton):
+        """Handle select all threads checkbox toggle"""
+        try:
+            select_all = checkbutton.get_active()
+            for i in range(self.cpu_file_search.thread_count):
+                if i in self.cpu_max_min_checkbuttons:
+                    self.cpu_max_min_checkbuttons[i].set_active(select_all)
+        except Exception as e:
+            self.logger.error(f"Error toggling select all threads: {e}")
+
+    def create_governor_control_section(self):
+        """Create CPU governor control widgets"""
+        try:
+            # Governor control frame
+            gov_frame = self.widget_factory.create_frame()
+            gov_frame.set_label("CPU Governor Control")
+            self.control_box.append(gov_frame)
+            
+            gov_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+            gov_frame.set_child(gov_box)
+            
+            # Governor dropdown
+            gov_label = self.widget_factory.create_label(gov_box, "Select CPU Governor:")
+            
+            # Create dropdown with placeholder
+            governors_list = ["Select Governor"]
+            self.governor_dropdown = self.widget_factory.create_dropdown(gov_box, governors_list, self.cpu_manager.set_cpu_governor)
+            
+            # Update with available governors
+            self.cpu_manager.update_governor_dropdown()
+            
+        except Exception as e:
+            self.logger.error(f"Error creating governor control section: {e}")
+
+    def create_boost_control_section(self):
+        """Create CPU boost control widgets"""
+        try:
+            # Boost control frame
+            boost_frame = self.widget_factory.create_frame()
+            boost_frame.set_label("CPU Boost Control")
+            self.control_box.append(boost_frame)
+            
+            boost_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10)
+            boost_frame.set_child(boost_box)
+            
+            # Boost checkbox
+            self.boost_checkbutton = self.widget_factory.create_checkbutton(boost_box, "Enable CPU Boost", False)
+            self.boost_checkbutton.connect("toggled", self.cpu_manager.toggle_boost)
+            
+        except Exception as e:
+            self.logger.error(f"Error creating boost control section: {e}")
+
+    def create_tdp_control_section(self):
+        """Create TDP control widgets"""
+        try:
+            # Check if TDP control is available
+            if self.cpu_file_search.cpu_type == "Intel":
+                max_tdp = self.cpu_manager.get_allowed_tdp_values()
+                if max_tdp:
+                    self.create_intel_tdp_widgets(max_tdp)
+            elif self.cpu_file_search.cpu_type == "Other" and self.global_state.is_ryzen_smu_installed():
+                self.create_amd_tdp_widgets()
+                
+        except Exception as e:
+            self.logger.error(f"Error creating TDP control section: {e}")
+
+    def create_intel_tdp_widgets(self, max_tdp):
+        """Create Intel TDP control widgets"""
+        try:
+            # Intel TDP control frame
+            tdp_frame = self.widget_factory.create_frame()
+            tdp_frame.set_label("Intel TDP Control")
+            self.control_box.append(tdp_frame)
+            
+            tdp_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+            tdp_frame.set_child(tdp_box)
+            
+            # TDP scale
+            tdp_label = self.widget_factory.create_label(tdp_box, f"TDP: {max_tdp:.1f} W")
+            self.tdp_scale = self.widget_factory.create_scale(tdp_box, None, 5.0, max_tdp)
+            
+            # Update label on value change and set initial value
+            if self.tdp_scale:
+                self.tdp_scale.set_value(max_tdp)
+                def update_tdp_label(scale):
+                    tdp_label.set_text(f"TDP: {scale.get_value():.1f} W")
+                self.tdp_scale.connect("value-changed", update_tdp_label)
+            
+            # Apply button
+            self.apply_tdp_button = self.widget_factory.create_button(tdp_box, "Apply TDP", self.cpu_manager.set_intel_tdp)
+            
+        except Exception as e:
+            self.logger.error(f"Error creating Intel TDP widgets: {e}")
+
+    def create_amd_tdp_widgets(self):
+        """Create AMD TDP control widgets"""
+        try:
+            # AMD TDP control frame
+            tdp_frame = self.widget_factory.create_frame()
+            tdp_frame.set_label("AMD Ryzen TDP Control")
+            self.control_box.append(tdp_frame)
+            
+            tdp_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+            tdp_frame.set_child(tdp_box)
+            
+            # TDP scale (common range for AMD)
+            tdp_label = self.widget_factory.create_label(tdp_box, "TDP: 65.0 W")
+            self.tdp_scale = self.widget_factory.create_scale(tdp_box, None, 15.0, 200.0)
+            
+            # Update label on value change and set initial value
+            if self.tdp_scale:
+                self.tdp_scale.set_value(65.0)
+                def update_tdp_label(scale):
+                    tdp_label.set_text(f"TDP: {scale.get_value():.1f} W")
+                self.tdp_scale.connect("value-changed", update_tdp_label)
+            
+            # Apply button
+            self.apply_tdp_button = self.widget_factory.create_button(tdp_box, "Apply TDP", self.cpu_manager.set_ryzen_tdp)
+            
+        except Exception as e:
+            self.logger.error(f"Error creating AMD TDP widgets: {e}")
+
+    def create_pbo_control_section(self):
+        """Create PBO curve control widgets (AMD only)"""
+        try:
+            if self.cpu_file_search.cpu_type == "Other" and self.global_state.is_ryzen_smu_installed():
+                # PBO control frame
+                pbo_frame = self.widget_factory.create_frame()
+                pbo_frame.set_label("AMD PBO Curve Optimizer")
+                self.control_box.append(pbo_frame)
+                
+                pbo_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+                pbo_frame.set_child(pbo_box)
+                
+                # PBO curve offset scale
+                pbo_label = self.widget_factory.create_label(pbo_box, "Curve Offset: 0")
+                self.pbo_curve_scale = self.widget_factory.create_scale(pbo_box, None, -30, 30, Negative=True)
+                
+                # Update label on value change and set initial value
+                if self.pbo_curve_scale:
+                    self.pbo_curve_scale.set_value(0)
+                    def update_pbo_label(scale):
+                        pbo_label.set_text(f"Curve Offset: {int(scale.get_value())}")
+                    self.pbo_curve_scale.connect("value-changed", update_pbo_label)
+                
+                # Apply button
+                self.apply_pbo_button = self.widget_factory.create_button(pbo_box, "Apply PBO Offset", self.cpu_manager.set_pbo_curve_offset)
+                
+        except Exception as e:
+            self.logger.error(f"Error creating PBO control section: {e}")
+
+    def create_epb_control_section(self):
+        """Create Energy Performance Bias control widgets (Intel only)"""
+        try:
+            if self.cpu_file_search.cpu_type == "Intel":
+                # EPB control frame
+                epb_frame = self.widget_factory.create_frame()
+                epb_frame.set_label("Intel Energy Performance Bias")
+                self.control_box.append(epb_frame)
+                
+                epb_box = self.widget_factory.create_vertical_box(margin_start=10, margin_end=10, margin_top=10, margin_bottom=10, spacing=10)
+                epb_frame.set_child(epb_box)
+                
+                # EPB dropdown
+                epb_label = self.widget_factory.create_label(epb_box, "Select Energy Performance Bias:")
+                
+                epb_options = [
+                    "Select Energy Performance Bias",
+                    "0 - Maximum Performance",
+                    "4 - Balanced Performance",
+                    "6 - Normal",
+                    "8 - Balanced Power Save",
+                    "15 - Maximum Power Save"
+                ]
+                
+                self.epb_dropdown = self.widget_factory.create_dropdown(epb_box, epb_options, self.cpu_manager.set_energy_perf_bias)
+                
+        except Exception as e:
+            self.logger.error(f"Error creating EPB control section: {e}")
 
     # Event Handlers
     def on_navigation_selected(self, listbox, row):
@@ -742,9 +1078,37 @@ class LinuxVitalsApp(Gtk.Application):
                 self.gui_components.add_widget("current_governor_label", self.current_governor_label)
             if hasattr(self, 'thermal_throttle_label'):
                 self.gui_components.add_widget("thermal_throttle_label", self.thermal_throttle_label)
+            
+            # Add control tab widgets if they exist
+            if hasattr(self, 'cpu_max_min_checkbuttons'):
+                self.gui_components.add_widget("cpu_max_min_checkbuttons", self.cpu_max_min_checkbuttons)
+            if hasattr(self, 'min_scales'):
+                self.gui_components.add_widget("cpu_min_scales", self.min_scales)
+            if hasattr(self, 'max_scales'):
+                self.gui_components.add_widget("cpu_max_scales", self.max_scales)
+            if hasattr(self, 'apply_max_min_button'):
+                self.gui_components.add_widget("apply_max_min_button", self.apply_max_min_button)
+            if hasattr(self, 'governor_dropdown'):
+                self.gui_components.add_widget("governor_dropdown", self.governor_dropdown)
+            if hasattr(self, 'boost_checkbutton'):
+                self.gui_components.add_widget("boost_checkbutton", self.boost_checkbutton)
+            if hasattr(self, 'tdp_scale'):
+                self.gui_components.add_widget("tdp_scale", self.tdp_scale)
+            if hasattr(self, 'apply_tdp_button'):
+                self.gui_components.add_widget("apply_tdp_button", self.apply_tdp_button)
+            if hasattr(self, 'pbo_curve_scale'):
+                self.gui_components.add_widget("pbo_curve_scale", self.pbo_curve_scale)
+            if hasattr(self, 'apply_pbo_button'):
+                self.gui_components.add_widget("apply_pbo_button", self.apply_pbo_button)
+            if hasattr(self, 'epb_dropdown'):
+                self.gui_components.add_widget("epb_dropdown", self.epb_dropdown)
                 
             # Set up CPU manager GUI components now that widgets are added
             self.cpu_manager.setup_gui_components()
+            
+            # Set up scale manager GUI components if control tab exists
+            if hasattr(self, 'min_scales') and hasattr(self, 'max_scales'):
+                self.scale_manager.setup_gui_components()
                 
         except Exception as e:
             self.logger.error(f"Error adding widgets to GUI components: {e}")
