@@ -647,7 +647,7 @@ class CPUManager:
 
         # If CPU type is not Intel, return None without logging an error
         if cpu_type != "Intel":
-            self.logger.debug("TDP is only supported on Intel CPUs, not logging as error.")
+            self.logger.info("TDP is only supported on Intel CPUs, not logging as error.")
             return None
 
         # Get the allowed TDP values for Intel CPUs
@@ -745,7 +745,7 @@ class CPUManager:
         # Read the CPU statistics from the stat file
         stat_file_path = self.cpu_file_search.proc_files['stat']
         if not stat_file_path:
-            print("Stat file not found.")
+            self.logger.error("Stat file not found.")
             return None
 
         cpu_stats = []  # List to store the CPU statistics
@@ -961,7 +961,7 @@ class CPUManager:
                 self.logger.info(f"Updating dropdown with governors: {governors_list}")
                 try:
                     # Create new StringList and populate it
-                    new_store = Gtk.StringList()
+                    new_store = self.widget_factory.create_string_list()
                     for governor in governors_list:
                         new_store.append(governor)
                         self.logger.info(f"Added governor to dropdown: {governor}")

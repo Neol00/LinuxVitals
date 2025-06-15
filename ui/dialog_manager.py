@@ -65,7 +65,7 @@ class DialogManager:
             
             # Application icon
             if self.icon_path:
-                icon = Gtk.Image.new_from_file(self.icon_path)
+                icon = self.widget_factory.create_image(file_path=self.icon_path)
                 icon.set_size_request(128, 128)
                 about_fixed.put(icon, 0, 10)
             
@@ -124,14 +124,14 @@ class DialogManager:
     def show_error_dialog(self, parent_window, title, message):
         """Show an error dialog"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=parent_window,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text=title
+                text=title,
+                secondary_text=message
             )
-            dialog.format_secondary_text(message)
             
             def on_response(dialog, response):
                 dialog.destroy()
@@ -145,14 +145,14 @@ class DialogManager:
     def show_confirmation_dialog(self, parent_window, title, message, on_confirm):
         """Show a confirmation dialog"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=parent_window,
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text=title
+                text=title,
+                secondary_text=message
             )
-            dialog.format_secondary_text(message)
             
             def on_response(dialog, response):
                 if response == Gtk.ResponseType.YES:
@@ -168,7 +168,7 @@ class DialogManager:
     def show_mount_properties_dialog(self, parent_window, mount_info):
         """Show mount properties dialog"""
         try:
-            dialog = Gtk.Dialog(title=f"Mount Properties - {mount_info.get('device', 'Unknown')}")
+            dialog = self.widget_factory.create_dialog(title=f"Mount Properties - {mount_info.get('device', 'Unknown')}")
             dialog.set_transient_for(parent_window)
             dialog.set_default_size(400, 300)
             
@@ -186,7 +186,7 @@ class DialogManager:
                 ("Usage", mount_info.get('usage_percent', 'N/A'))
             ]
             
-            grid = Gtk.Grid()
+            grid = self.widget_factory.create_grid()
             grid.set_row_spacing(5)
             grid.set_column_spacing(10)
             grid.set_margin_start(10)
@@ -195,11 +195,11 @@ class DialogManager:
             grid.set_margin_bottom(10)
             
             for i, (label_text, value_text) in enumerate(properties):
-                label = Gtk.Label(label=f"{label_text}:")
+                label = self.widget_factory.create_label(None, f"{label_text}:")
                 label.set_halign(Gtk.Align.START)
                 grid.attach(label, 0, i, 1, 1)
                 
-                value_label = Gtk.Label(label=str(value_text))
+                value_label = self.widget_factory.create_label(None, str(value_text))
                 value_label.set_halign(Gtk.Align.START)
                 value_label.set_selectable(True)
                 grid.attach(value_label, 1, i, 1, 1)

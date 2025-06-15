@@ -180,7 +180,7 @@ class HardwareDetector:
                 except PermissionError:
                     continue
                 except Exception as e:
-                    self.logger.debug(f"Error checking thermal directory {thermal_dir}: {e}")
+                    self.logger.info(f"Error checking thermal directory {thermal_dir}: {e}")
                     continue
             
             # Check for CPU temperature in hwmon

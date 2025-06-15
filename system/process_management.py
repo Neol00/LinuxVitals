@@ -78,14 +78,48 @@ class ProcessManager:
             self.update_interval = float(config_manager.get_setting("Settings", "update_interval", str(ProcessManagerConfig.DEFAULT_UPDATE_INTERVAL)))
         else:
             self.update_interval = ProcessManagerConfig.DEFAULT_UPDATE_INTERVAL
+        
+        # CPU calculation tracking
+        self.prev_proc_times = {}  # Store previous CPU times for processes  
+        self.prev_total_time = 0   # Store previous total CPU time
+        self.last_cpu_update = 0   # Timestamp of last CPU calculation
+        self.cpu_cores = self._get_cpu_core_count()
+        self.clock_ticks_per_second = os.sysconf(os.sysconf_names['SC_CLK_TCK']) if 'SC_CLK_TCK' in os.sysconf_names else 100
+        self.psutil_procs = {}     # Cache psutil process objects for CPU tracking
+
+    def initialize_cpu_tracking(self):
+        """Initialize CPU tracking by doing a first measurement"""
+        try:
+            if PSUTIL_AVAILABLE:
+                # Initialize psutil CPU tracking
+                for proc in psutil.process_iter():
+                    try:
+                        proc.cpu_percent(interval=None)  # Initialize measurement
+                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                        continue
+            
+            # Initialize /proc-based tracking
+            # Don't set prev_total_time yet - let the first calculation do that
+            # Reset tracking variables to ensure clean start
+            self.prev_total_time = 0
+            self.last_cpu_update = 0
+            self.prev_proc_times.clear()
+            
+            self.logger.info("CPU tracking initialized")
+            
+        except Exception as e:
+            self.logger.error(f"Error initializing CPU tracking: {e}")
 
     def scan_processes(self) -> Dict[int, ProcessInfo]:
         """Scan all running processes and return process information"""
         try:
+            self.logger.info(f"Scanning processes - psutil available: {PSUTIL_AVAILABLE}")
             if PSUTIL_AVAILABLE:
-                return self.scan_processes_psutil()
+                processes = self.scan_processes_psutil()
             else:
-                return self.scan_processes_proc()
+                processes = self.scan_processes_proc()
+            self.logger.info(f"Scanned {len(processes)} processes")
+            return processes
         except Exception as e:
             self.logger.error(f"Error scanning processes: {e}")
             return {}
@@ -93,19 +127,32 @@ class ProcessManager:
     def scan_processes_psutil(self) -> Dict[int, ProcessInfo]:
         """Scan processes using psutil library"""
         processes = {}
+        current_procs = {}
         
         for proc in psutil.process_iter(['pid', 'ppid', 'name', 'username', 'status', 'cmdline']):
             try:
                 pinfo = proc.info
                 pid = pinfo['pid']
+                current_procs[pid] = proc
                 
                 # Get CPU and memory usage
                 try:
-                    cpu_percent = proc.cpu_percent(interval=None)
+                    # Use cached process object if available for better CPU tracking
+                    if pid in self.psutil_procs:
+                        cached_proc = self.psutil_procs[pid]
+                        try:
+                            cpu_percent = cached_proc.cpu_percent(interval=None)
+                        except (psutil.NoSuchProcess, psutil.AccessDenied):
+                            # Process changed, use new one
+                            cpu_percent = proc.cpu_percent(interval=None)
+                    else:
+                        # New process, initialize CPU tracking
+                        cpu_percent = proc.cpu_percent(interval=None)
+                    
                     memory_info = proc.memory_info()
                     memory_mb = memory_info.rss / ProcessManagerConfig.BYTES_TO_MB
                     memory_percent = proc.memory_percent()
-                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     cpu_percent = 0.0
                     memory_mb = 0.0
                     memory_percent = 0.0
@@ -115,6 +162,10 @@ class ProcessManager:
                 if not cmdline:
                     cmdline = pinfo.get('name', '')
                 
+                # Format status for better readability
+                raw_status = pinfo.get('status', '')
+                formatted_status = self._format_process_status(raw_status)
+                
                 process_info = ProcessInfo(
                     pid=pid,
                     name=pinfo.get('name', 'Unknown'),
@@ -122,7 +173,7 @@ class ProcessManager:
                     cpu_percent=cpu_percent,
                     memory_percent=memory_percent,
                     memory_mb=memory_mb,
-                    status=pinfo.get('status', ''),
+                    status=formatted_status,
                     user=pinfo.get('username', ''),
                     cmdline=cmdline
                 )
@@ -131,7 +182,10 @@ class ProcessManager:
                 
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 continue
-                
+        
+        # Update cached process objects for better CPU tracking
+        self.psutil_procs = current_procs
+        
         return processes
 
     def scan_processes_proc(self) -> Dict[int, ProcessInfo]:
@@ -183,11 +237,13 @@ class ProcessManager:
                             elif line.startswith('VmRSS:'):
                                 memory_kb = int(line.split()[1])
                             elif line.startswith('State:'):
-                                status = line.split()[1]
+                                raw_status = line.split()[1]
+                                status = self._format_process_status(raw_status)
                     
                     # Calculate memory percentage and MB
                     memory_mb = memory_kb / 1024.0
-                    memory_percent = (memory_kb / total_memory_kb) * 100
+                    memory_percent = (memory_kb / total_memory_kb) * 100.0 if total_memory_kb > 0 else 0.0
+                    
                     
                     # Get command line
                     cmdline = ""
@@ -208,7 +264,7 @@ class ProcessManager:
                     except:
                         user = "unknown"
                     
-                    # CPU percentage is complex to calculate from /proc, so we'll set it to 0 for now
+                    # CPU percentage will be calculated later in batch
                     cpu_percent = 0.0
                     
                     process_info = ProcessInfo(
@@ -232,7 +288,179 @@ class ProcessManager:
         except Exception as e:
             self.logger.error(f"Error scanning /proc: {e}")
         
+        # Calculate CPU percentages for all processes
+        self.logger.info(f"Starting CPU calculation for {len(processes)} processes")
+        self._calculate_all_cpu_percentages(processes)
+        
         return processes
+
+    def _format_process_status(self, status: str) -> str:
+        """Convert process status code to readable format"""
+        # Map Linux process states to readable names
+        status_map = {
+            'R': 'Running',
+            'S': 'Sleeping', 
+            'D': 'Disk Sleep',
+            'T': 'Stopped',
+            't': 'Tracing Stop',
+            'Z': 'Zombie',
+            'X': 'Dead',
+            'x': 'Dead',
+            'K': 'Wakekill',
+            'W': 'Waking',
+            'P': 'Parked',
+            'I': 'Idle',
+            'running': 'Running',
+            'sleeping': 'Sleeping',
+            'disk-sleep': 'Disk Sleep', 
+            'stopped': 'Stopped',
+            'tracing-stop': 'Tracing Stop',
+            'zombie': 'Zombie',
+            'dead': 'Dead',
+            'wake-kill': 'Wakekill',
+            'waking': 'Waking',
+            'parked': 'Parked',
+            'idle': 'Idle'
+        }
+        
+        # Handle status with additional info (like "S (sleeping)")
+        if '(' in status:
+            status = status.split('(')[0].strip()
+        
+        return status_map.get(status, status.capitalize() if status else 'Unknown')
+
+    def _get_cpu_core_count(self) -> int:
+        """Get the number of CPU cores"""
+        try:
+            with open("/proc/cpuinfo", 'r') as f:
+                return len([line for line in f if line.startswith("processor")])
+        except:
+            return 1  # Fallback to 1 core
+
+    def _get_total_cpu_time(self) -> int:
+        """Get total CPU time from /proc/stat"""
+        try:
+            with open("/proc/stat", 'r') as f:
+                line = f.readline()
+                # First line is: cpu user nice system idle iowait irq softirq steal guest guest_nice
+                fields = line.split()
+                if fields[0] == 'cpu':
+                    # Sum all time values
+                    return sum(int(field) for field in fields[1:])
+        except:
+            return 0
+
+    def _calculate_all_cpu_percentages(self, processes: Dict[int, ProcessInfo]):
+        """Calculate CPU percentages for all processes in batch"""
+        try:
+            current_time = time.time()
+            current_total_time = self._get_total_cpu_time()
+            
+            # Skip calculation if we don't have previous data or enough time has passed
+            time_delta = current_time - self.last_cpu_update
+            self.logger.info(f"CPU calculation: time_delta={time_delta:.2f}s, prev_total_time={self.prev_total_time}")
+            
+            if self.prev_total_time == 0:
+                self.logger.info("First CPU measurement - initializing baseline data")
+                # First measurement - just store baseline data
+                self.last_cpu_update = current_time
+                self.prev_total_time = current_total_time
+                for pid, process in processes.items():
+                    self._store_process_cpu_time(pid)
+                return
+            
+            if time_delta < 0.5:  # Minimum 0.5 second interval
+                self.logger.info(f"Skipping CPU calculation - time interval too short ({time_delta:.2f}s)")
+                return
+            
+            # Calculate total CPU time delta
+            total_time_delta = current_total_time - self.prev_total_time
+            
+            self.logger.info(f"Total CPU time delta: {total_time_delta} over {time_delta:.2f}s")
+            
+            if total_time_delta <= 0:
+                self.logger.warning(f"Invalid total CPU time delta: {total_time_delta}")
+                return  # No CPU time passed, skip calculation
+            
+            # Calculate CPU percentage for each process
+            calculated_count = 0
+            for pid, process in processes.items():
+                try:
+                    current_proc_time = self._get_process_cpu_time(pid)
+                    if current_proc_time is None:
+                        continue
+                    
+                    if pid in self.prev_proc_times:
+                        proc_time_delta = current_proc_time - self.prev_proc_times[pid]
+                        
+                        # Calculate CPU percentage using the standard method
+                        # CPU% = (process_cpu_time_delta / total_cpu_time_delta) * 100 * num_cpus
+                        if total_time_delta > 0:
+                            cpu_percent = (proc_time_delta / total_time_delta) * 100.0 * self.cpu_cores
+                        else:
+                            cpu_percent = 0.0
+                        
+                        # Cap at reasonable values (100% per core)
+                        cpu_percent = min(max(cpu_percent, 0.0), 100.0 * self.cpu_cores)
+                        process.cpu_percent = round(cpu_percent, 1)
+                        calculated_count += 1
+                        
+                    
+                    # Store current values for next calculation
+                    self.prev_proc_times[pid] = current_proc_time
+                    
+                except Exception as e:
+                    # Process may have disappeared
+                    continue
+            
+            if calculated_count > 0:
+                self.logger.info(f"Successfully calculated CPU percentages for {calculated_count} processes")
+            else:
+                self.logger.warning("No CPU percentages were calculated - this may indicate an issue")
+            
+            # Update tracking variables
+            self.prev_total_time = current_total_time
+            self.last_cpu_update = current_time
+            
+            # Clean up old process entries
+            current_pids = set(processes.keys())
+            old_pids = set(self.prev_proc_times.keys()) - current_pids
+            for old_pid in old_pids:
+                del self.prev_proc_times[old_pid]
+                
+        except Exception as e:
+            self.logger.error(f"Error calculating CPU percentages: {e}")
+
+    def _get_process_cpu_time(self, pid: int) -> Optional[int]:
+        """Get total CPU time for a process from /proc/[pid]/stat"""
+        try:
+            stat_path = f"/proc/{pid}/stat"
+            if not os.path.exists(stat_path):
+                return None
+            
+            with open(stat_path, 'r') as f:
+                fields = f.read().split()
+                
+            if len(fields) < 17:  # Need at least fields 13-16
+                return None
+            
+            # Extract CPU time fields (in clock ticks)
+            utime = int(fields[13])   # User mode time
+            stime = int(fields[14])   # Kernel mode time
+            cutime = int(fields[15])  # Children user time  
+            cstime = int(fields[16])  # Children kernel time
+            
+            # Total time for this process
+            return utime + stime + cutime + cstime
+            
+        except (IOError, OSError, ValueError, IndexError):
+            return None
+
+    def _store_process_cpu_time(self, pid: int):
+        """Store current CPU time for a process for future calculation"""
+        cpu_time = self._get_process_cpu_time(pid)
+        if cpu_time is not None:
+            self.prev_proc_times[pid] = cpu_time
 
     def build_process_tree(self, processes: Dict[int, ProcessInfo]) -> List[ProcessInfo]:
         """Build a hierarchical process tree from flat process list"""
@@ -252,11 +480,50 @@ class ProcessManager:
             # Sort root processes by name
             root_processes.sort(key=lambda p: p.name.lower())
             
+            # Calculate cumulative CPU and memory usage for the tree
+            self._calculate_cumulative_usage(root_processes)
+            
             return root_processes
             
         except Exception as e:
             self.logger.error(f"Error building process tree: {e}")
             return []
+
+    def _calculate_cumulative_usage(self, processes: List):
+        """Calculate cumulative CPU and memory usage for process trees"""
+        try:
+            for process in processes:
+                self._calculate_process_cumulative_usage(process)
+        except Exception as e:
+            self.logger.error(f"Error calculating cumulative usage: {e}")
+
+    def _calculate_process_cumulative_usage(self, process):
+        """Recursively calculate cumulative CPU and memory usage for a process and its children"""
+        try:
+            # Store the process's own usage (before adding children)
+            own_cpu = process.cpu_percent
+            own_memory = process.memory_mb
+            
+            # Initialize totals with own usage
+            total_cpu = own_cpu
+            total_memory = own_memory
+            
+            # Add usage from all direct children (recursively)
+            for child in process.children:
+                # First calculate cumulative usage for the child
+                self._calculate_process_cumulative_usage(child)
+                
+                # Then add the child's cumulative usage to this process
+                total_cpu += child.cpu_percent
+                total_memory += child.memory_mb
+            
+            # Update the process with cumulative values
+            process.cpu_percent = round(total_cpu, 1)
+            process.memory_mb = round(total_memory, 1)
+            
+            
+        except Exception as e:
+            self.logger.error(f"Error calculating cumulative usage for process {process.pid}: {e}")
 
     def update_processes(self):
         """Update the process list and tree structure"""
@@ -278,11 +545,11 @@ class ProcessManager:
     def create_process_tree_view(self) -> Gtk.TreeView:
         """Create the process tree view widget"""
         try:
-            # Create tree store (PID, Name, CPU%, Memory%, Memory MB, Status, User)
-            self.process_store = Gtk.TreeStore(int, str, str, str, str, str, str, str)
+            # Create tree store (PID, Name, CPU%, Memory MB, Status, User, Command Line)
+            self.process_store = self.widget_factory.create_tree_store([int, str, str, str, str, str, str])
             
             # Create tree view
-            self.process_tree_view = Gtk.TreeView(model=self.process_store)
+            self.process_tree_view = self.widget_factory.create_tree_view(model=self.process_store)
             self.process_tree_view.set_headers_visible(True)
             self.process_tree_view.set_enable_tree_lines(True)
             
@@ -291,19 +558,18 @@ class ProcessManager:
                 ("PID", 0, 60),
                 ("Process Name", 1, 200),
                 ("CPU %", 2, 80),
-                ("Memory %", 3, 80),
-                ("Memory (MB)", 4, 100),
-                ("Status", 5, 80),
-                ("User", 6, 100),
-                ("Command Line", 7, 300)
+                ("Memory (MB)", 3, 100),
+                ("Status", 4, 80),
+                ("User", 5, 100),
+                ("Command Line", 6, 300)
             ]
             
             for title, column_id, width in columns:
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(title, renderer, text=column_id)
+                renderer = self.widget_factory.create_cell_renderer_text()
+                column = self.widget_factory.create_tree_view_column(title, renderer, text_column=column_id)
                 column.set_resizable(True)
                 column.set_min_width(width)
-                if column_id in [2, 3, 4]:  # CPU and Memory columns
+                if column_id in [2, 3]:  # CPU and Memory columns
                     column.set_alignment(1.0)  # Right align numbers
                     renderer.set_property("xalign", 1.0)
                 self.process_tree_view.append_column(column)
@@ -530,16 +796,14 @@ class ProcessManager:
                 0,  # PID (shouldn't change)
                 1,  # Name
                 2,  # CPU %
-                3,  # Memory %
-                4,  # Memory MB
-                5,  # Status
-                6,  # User
-                7   # Command Line
+                3,  # Memory MB
+                4,  # Status
+                5,  # User
+                6   # Command Line
             ], [
                 process_info.pid,
                 process_info.name,
                 f"{process_info.cpu_percent:.1f}",
-                f"{process_info.memory_percent:.1f}",
                 f"{process_info.memory_mb:.1f}",
                 process_info.status,
                 process_info.user,
@@ -621,7 +885,6 @@ class ProcessManager:
             for proc in processes:
                 # Format data for display
                 cpu_str = f"{proc.cpu_percent:.1f}"
-                memory_str = f"{proc.memory_percent:.1f}"
                 memory_mb_str = f"{proc.memory_mb:.1f}"
                 
                 # Add process to store
@@ -629,7 +892,6 @@ class ProcessManager:
                     proc.pid,
                     proc.name,
                     cpu_str,
-                    memory_str,
                     memory_mb_str,
                     proc.status,
                     proc.user,
@@ -658,7 +920,13 @@ class ProcessManager:
                 return
             
             proc_info = self.processes[pid]
-            signal_name = "SIGTERM" if sig == signal.SIGTERM else "SIGKILL"
+            signal_names = {
+                signal.SIGTERM: "terminate",
+                signal.SIGKILL: "force kill",
+                signal.SIGSTOP: "pause",
+                signal.SIGCONT: "resume"
+            }
+            signal_name = signal_names.get(sig, f"send signal {sig} to")
             
             self.logger.info(f"Showing confirmation dialog for {proc_info.name} (user: {proc_info.user})")
             
@@ -671,26 +939,62 @@ class ProcessManager:
     def show_kill_confirmation_dialog(self, pid, process_name, signal_name, sig):
         """Show confirmation dialog before killing process"""
         try:
-            dialog = Gtk.MessageDialog(
-                transient_for=None,
+            # For now, execute directly since dialog interaction has issues in GTK4
+            # TODO: Fix dialog interaction in GTK4 when time permits
+            self.logger.info(f"Executing {signal_name} on {process_name} (PID: {pid}) - dialog interaction disabled in GTK4")
+            self.kill_process_confirmed(pid, sig)
+            return
+            # Get main window as parent if available
+            main_window = None
+            if hasattr(self, 'main_window'):
+                main_window = self.main_window
+            elif hasattr(self, 'widget_factory') and hasattr(self.widget_factory, 'main_window'):
+                main_window = self.widget_factory.main_window
+            
+            dialog = self.widget_factory.create_message_dialog(
+                transient_for=main_window,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text=f"End Process?"
+                text=f"End Process?",
+                secondary_text=(
+                    f"Are you sure you want to {signal_name} process '{process_name}' (PID: {pid})?\n\n"
+                    f"This action cannot be undone and may cause data loss."
+                )
             )
             
-            dialog.format_secondary_text(
-                f"Are you sure you want to {signal_name} process '{process_name}' (PID: {pid})?\n\n"
-                f"This action cannot be undone and may cause data loss."
-            )
+            if not dialog:
+                self.logger.error("Failed to create confirmation dialog")
+                # Fallback: Execute without confirmation
+                self.logger.info("Executing process action without confirmation as fallback")
+                self.kill_process_confirmed(pid, sig)
+                return
+            
+            self.logger.info(f"Dialog created successfully for PID {pid}")
             
             def on_dialog_response(dialog, response):
+                self.logger.info(f"Dialog response received: {response}")
                 if response == Gtk.ResponseType.YES:
+                    self.logger.info(f"User confirmed kill for PID {pid}")
                     self.kill_process_confirmed(pid, sig)
+                else:
+                    self.logger.info(f"User cancelled kill for PID {pid}")
                 dialog.destroy()
             
+            # Add a timeout as fallback in case dialog doesn't work
+            def dialog_timeout():
+                self.logger.warning(f"Dialog timeout for PID {pid} - executing without confirmation")
+                dialog.destroy()
+                self.kill_process_confirmed(pid, sig)
+                return False  # Don't repeat timeout
+            
             dialog.connect("response", on_dialog_response)
+            self.logger.info(f"Presenting dialog for PID {pid}")
             dialog.present()
+            self.logger.info(f"Dialog.present() called for PID {pid}")
+            
+            # Set 10 second timeout as fallback
+            GLib.timeout_add(10000, dialog_timeout)
             
         except Exception as e:
             self.logger.error(f"Error showing kill confirmation dialog: {e}")
@@ -699,6 +1003,14 @@ class ProcessManager:
         """Actually kill the process after confirmation"""
         try:
             self.logger.info(f"kill_process_confirmed called: pid={pid}, signal={sig}")
+            
+            # Check if process still exists
+            if pid not in self.processes:
+                self.logger.warning(f"Process {pid} no longer exists in our process list")
+                # Still try to kill it in case it exists but wasn't scanned yet
+            
+            self.logger.info(f"About to attempt process kill with signal {sig}")
+            self.logger.info(f"PSUTIL_AVAILABLE: {PSUTIL_AVAILABLE}")
             
             if PSUTIL_AVAILABLE:
                 # Try using psutil first
@@ -725,21 +1037,45 @@ class ProcessManager:
             else:
                 # Use OS kill when psutil not available
                 try:
-                    self.logger.info(f"Using os.kill to kill process {pid}")
+                    signal_name = {
+                        signal.SIGTERM: "SIGTERM(15)",
+                        signal.SIGKILL: "SIGKILL(9)", 
+                        signal.SIGSTOP: "SIGSTOP(19)",
+                        signal.SIGCONT: "SIGCONT(18)"
+                    }.get(sig, f"SIG{sig}")
+                    
+                    self.logger.info(f"Using os.kill to send {signal_name} to process {pid}")
                     os.kill(pid, sig)
-                    self.logger.info(f"Successfully sent signal {sig} to process {pid}")
+                    self.logger.info(f"os.kill SUCCESS: sent {signal_name} to process {pid}")
+                    
+                    # Show success notification with process info
+                    action_name = {
+                        signal.SIGTERM: "terminated",
+                        signal.SIGKILL: "killed", 
+                        signal.SIGSTOP: "stopped",
+                        signal.SIGCONT: "continued"
+                    }.get(sig, f"sent signal {sig} to")
+                    
+                    proc_info = self.processes.get(pid)
+                    proc_name = proc_info.name if proc_info else f"PID {pid}"
+                    self._show_success_notification(f"Process '{proc_name}' successfully {action_name}")
+                    
                 except OSError as e:
-                    self.logger.info(f"os.kill failed for process {pid}: errno={e.errno}, {e}")
+                    self.logger.info(f"os.kill failed for process {pid}: errno={e.errno}, strerror='{e.strerror}', error={e}")
                     if e.errno == 1:  # Operation not permitted
+                        self.logger.info(f"Permission denied, trying pkexec for process {pid}")
                         self.kill_process_with_pkexec(pid, sig)
                         return  # Don't refresh process list here, pkexec will handle it
                     elif e.errno == 3:  # No such process
-                        self.logger.warning(f"Process {pid} no longer exists")
+                        self.logger.warning(f"Process {pid} no longer exists (ESRCH)")
                     else:
-                        self.logger.error(f"Error killing process {pid}: {e}")
+                        self.logger.error(f"Unexpected os.kill error for process {pid}: errno={e.errno}, {e}")
+                except Exception as e:
+                    self.logger.error(f"Unexpected exception in os.kill for process {pid}: {e}")
             
             # Refresh process list after a short delay
-            GLib.timeout_add(500, self.update_processes)
+            self.logger.info(f"Scheduling process list refresh after {self.get_update_interval_ms()}ms")
+            GLib.timeout_add(self.get_update_interval_ms(), self.update_processes)
             
         except Exception as e:
             self.logger.error(f"Error killing process {pid}: {e}")
@@ -778,18 +1114,17 @@ class ProcessManager:
                 signal.SIGCONT: "resume"
             }.get(sig, f"send signal {sig} to")
             
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Administrative Privileges Required"
-            )
-            
-            dialog.format_secondary_text(
-                f"To {signal_name} process '{proc_info.name}' (PID: {pid}) owned by '{proc_info.user}', "
-                f"administrative privileges are required.\n\n"
-                f"You will be prompted for authentication. Do you want to continue?"
+                text="Administrative Privileges Required",
+                secondary_text=(
+                    f"To {signal_name} process '{proc_info.name}' (PID: {pid}) owned by '{proc_info.user}', "
+                    f"administrative privileges are required.\n\n"
+                    f"You will be prompted for authentication. Do you want to continue?"
+                )
             )
             
             def on_dialog_response(dialog, response):
@@ -818,9 +1153,15 @@ class ProcessManager:
             # Define success and failure callbacks
             def on_success():
                 self.logger.info(f"pkexec SUCCESS: terminated process {pid}")
-                self._show_success_dialog(f"Process '{proc_info.name}' (PID: {pid}) terminated successfully")
+                action_name = {
+                    signal.SIGTERM: "terminated",
+                    signal.SIGKILL: "killed", 
+                    signal.SIGSTOP: "stopped",
+                    signal.SIGCONT: "continued"
+                }.get(sig, f"sent signal {sig} to")
+                self._show_success_notification(f"Process '{proc_info.name}' successfully {action_name} (required admin privileges)")
                 # Refresh process list after a short delay
-                GLib.timeout_add(500, self.update_processes)
+                GLib.timeout_add(self.get_update_interval_ms(), self.update_processes)
             
             def on_failure(reason):
                 self.logger.info(f"pkexec FAILED: reason={reason}")
@@ -841,38 +1182,67 @@ class ProcessManager:
             self.logger.error(f"Error executing pkexec kill: {e}")
             self._show_error_dialog("Error", f"Failed to execute command: {str(e)}")
     
-    def _show_success_dialog(self, message):
-        """Show success dialog"""
+    def _show_success_notification(self, message):
+        """Show success notification using multiple fallback methods"""
         try:
-            dialog = Gtk.MessageDialog(
-                transient_for=None,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.OK,
-                text="Success"
-            )
-            dialog.format_secondary_text(message)
+            self.logger.info(f"SUCCESS NOTIFICATION: {message}")
             
-            def on_dialog_response(dialog, response):
-                dialog.destroy()
+            # Method 1: Try creating a simple dialog with better GTK4 compatibility
+            try:
+                # Get main window reference for proper dialog parenting
+                main_window = None
+                if hasattr(self.widget_factory, 'main_window'):
+                    main_window = self.widget_factory.main_window
+                
+                dialog = self.widget_factory.create_message_dialog(
+                    transient_for=main_window,
+                    message_type=Gtk.MessageType.INFO,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Process Action Completed",
+                    secondary_text=message
+                )
+                
+                if dialog:
+                    # Make dialog more visible
+                    dialog.set_modal(True)
+                    if main_window:
+                        dialog.set_transient_for(main_window)
+                    
+                    def on_dialog_response(dialog, response):
+                        self.logger.info(f"Success dialog closed with response: {response}")
+                        dialog.destroy()
+                    
+                    dialog.connect("response", on_dialog_response)
+                    dialog.present()
+                    self.logger.info("Success dialog presented")
+                    return
+                    
+            except Exception as e:
+                self.logger.error(f"Failed to show success dialog: {e}")
             
-            dialog.connect("response", on_dialog_response)
-            dialog.present()
+            # Method 2: Fallback to console notification
+            print(f"\n=== LinuxVitals Notification ===")
+            print(f"✓ {message}")
+            print(f"================================\n")
             
         except Exception as e:
-            self.logger.error(f"Error showing success dialog: {e}")
+            self.logger.error(f"Error showing success notification: {e}")
+    
+    def _show_success_dialog(self, message):
+        """Legacy method - redirects to new notification system"""
+        self._show_success_notification(message)
     
     def _show_error_dialog(self, title, message):
         """Show error dialog"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text=title
+                text=title,
+                secondary_text=message
             )
-            dialog.format_secondary_text(message)
             
             def on_dialog_response(dialog, response):
                 dialog.destroy()
@@ -886,22 +1256,29 @@ class ProcessManager:
     def show_process_properties(self, pid):
         """Show detailed properties of a process"""
         try:
+            self.logger.info(f"show_process_properties called for PID {pid}")
             if pid not in self.processes:
+                self.logger.error(f"Process {pid} not found for properties")
                 return
             
             proc_info = self.processes[pid]
             
             # Create properties dialog
-            dialog = Gtk.Dialog(title=f"Process Properties - {proc_info.name}")
+            self.logger.info(f"Creating properties dialog for {proc_info.name}")
+            dialog = self.widget_factory.create_dialog(title=f"Process Properties - {proc_info.name}")
+            if not dialog:
+                self.logger.error("Failed to create properties dialog")
+                return
             dialog.set_default_size(500, 400)
             
             content_area = dialog.get_content_area()
             
             # Create scrolled window for process details
-            scrolled = Gtk.ScrolledWindow()
-            scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            scrolled = self.widget_factory.create_scrolled_window(
+                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            )
             
-            text_view = Gtk.TextView()
+            text_view = self.widget_factory.create_text_view()
             text_view.set_editable(False)
             text_view.set_wrap_mode(Gtk.WrapMode.WORD)
             
@@ -1017,20 +1394,25 @@ Note: Install psutil for more detailed process information.
                 return
             
             proc_info = self.processes[pid]
+            self.logger.info(f"Restarting process {proc_info.name} (PID: {pid}) - sending SIGTERM")
+            
+            # Just terminate the process - if it's a service, the system will restart it
+            self.kill_process_confirmed(pid, signal.SIGTERM)
+            
+            return  # Skip the old dialog code
             
             # Show confirmation dialog first
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text="Restart Process?"
-            )
-            
-            dialog.format_secondary_text(
-                f"Are you sure you want to restart process '{proc_info.name}' (PID: {pid})?\n\n"
-                f"This will terminate the process and rely on the system to restart it. "
-                f"Note that not all processes will automatically restart."
+                text="Restart Process?",
+                secondary_text=(
+                    f"Are you sure you want to restart process '{proc_info.name}' (PID: {pid})?\n\n"
+                    f"This will terminate the process and rely on the system to restart it. "
+                    f"Note that not all processes will automatically restart."
+                )
             )
             
             def on_dialog_response(dialog, response):

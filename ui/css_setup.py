@@ -176,13 +176,17 @@ class CssManager:
         }
     """
 
-    def __init__(self, config_manager, logger):
+    def __init__(self, config_manager, logger, widget_factory=None):
         # References to instances
         self.config_manager = config_manager
         self.logger = logger
+        self.widget_factory = widget_factory
 
         # Create a CSS provider for applying styles
-        self.css_provider = Gtk.CssProvider()
+        if widget_factory:
+            self.css_provider = widget_factory.create_css_provider()
+        else:
+            self.css_provider = Gtk.CssProvider()
 
         # Apply the default system CSS on startup
         self.apply_css(self.CSS_SYSTEM)

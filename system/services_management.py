@@ -39,8 +39,9 @@ class ServicesManagerConfig:
     BYTES_TO_MB = 1024 * 1024
 
 class ServicesManager:
-    def __init__(self, logger):
+    def __init__(self, logger, widget_factory=None):
         self.logger = logger
+        self.widget_factory = widget_factory
         self.services = []  # List of ServiceInfo objects
         self.autostart_apps = []  # List of autostart applications
         
@@ -53,11 +54,24 @@ class ServicesManager:
         self.show_systemd_services = True
         self.show_autostart_apps = True
         self.show_only_running = False
+        
+    def _is_systemctl_available(self) -> bool:
+        """Check if systemctl command is available"""
+        try:
+            subprocess.run(['systemctl', '--version'], capture_output=True, timeout=5)
+            return True
+        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+            return False
 
     def scan_systemd_services(self) -> List[ServiceInfo]:
         """Scan systemd services"""
         services = []
         try:
+            # Check if systemctl is available
+            if not self._is_systemctl_available():
+                self.logger.info("systemctl not available, skipping systemd services scan")
+                return services
+                
             # Get list of all systemd services
             result = subprocess.run(
                 ['systemctl', 'list-units', '--type=service', '--all', '--no-pager', '--plain'],
@@ -137,6 +151,8 @@ class ServicesManager:
                         
                         services.append(service_info)
             
+        except FileNotFoundError:
+            self.logger.info("systemctl command not found, skipping systemd services")
         except Exception as e:
             self.logger.error(f"Error scanning systemd services: {e}")
         
@@ -260,6 +276,8 @@ class ServicesManager:
             if self.services_store:
                 self.update_services_tree_view()
                 
+        except FileNotFoundError:
+            self.logger.info("systemctl command not found, skipping systemd services scan")
         except Exception as e:
             self.logger.error(f"Error updating services: {e}")
 
@@ -267,10 +285,10 @@ class ServicesManager:
         """Create the services tree view widget"""
         try:
             # Create list store (Name, Type, Status, Enabled, Description, PID, Memory)
-            self.services_store = Gtk.ListStore(str, str, str, str, str, str, str)
+            self.services_store = self.widget_factory.create_list_store([str, str, str, str, str, str, str])
             
             # Create tree view
-            self.services_tree_view = Gtk.TreeView(model=self.services_store)
+            self.services_tree_view = self.widget_factory.create_tree_view(model=self.services_store)
             self.services_tree_view.set_headers_visible(True)
             
             # Create columns
@@ -285,8 +303,8 @@ class ServicesManager:
             ]
             
             for title, column_id, width in columns:
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(title, renderer, text=column_id)
+                renderer = self.widget_factory.create_cell_renderer_text()
+                column = self.widget_factory.create_tree_view_column(title, renderer, text_column=column_id)
                 column.set_resizable(True)
                 column.set_min_width(width)
                 if column_id in [5, 6]:  # PID and Memory columns
@@ -384,48 +402,48 @@ class ServicesManager:
     def show_service_context_menu(self, gesture, service_name, service_type, service_status):
         """Show context menu for service management"""
         try:
-            context_menu = Gtk.PopoverMenu()
-            menu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            context_menu = self.widget_factory.create_popover_menu()
+            menu_box = self.widget_factory.create_vertical_box()
             
             if service_type == "systemd":
                 if service_status == "active":
                     # Stop service
-                    stop_button = Gtk.Button(label="Stop Service")
+                    stop_button = self.widget_factory.create_button(None, "Stop Service")
                     stop_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "stop"))
                     menu_box.append(stop_button)
                     
                     # Restart service
-                    restart_button = Gtk.Button(label="Restart Service")
+                    restart_button = self.widget_factory.create_button(None, "Restart Service")
                     restart_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "restart"))
                     menu_box.append(restart_button)
                 else:
                     # Start service
-                    start_button = Gtk.Button(label="Start Service")
+                    start_button = self.widget_factory.create_button(None, "Start Service")
                     start_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "start"))
                     menu_box.append(start_button)
                 
                 # Enable/Disable service
-                enable_button = Gtk.Button(label="Enable Service")
+                enable_button = self.widget_factory.create_button(None, "Enable Service")
                 enable_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "enable"))
                 menu_box.append(enable_button)
                 
-                disable_button = Gtk.Button(label="Disable Service")
+                disable_button = self.widget_factory.create_button(None, "Disable Service")
                 disable_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "disable"))
                 menu_box.append(disable_button)
             
             elif service_type == "autostart":
                 # For autostart apps, we can enable/disable
                 if service_status == "enabled":
-                    disable_autostart_button = Gtk.Button(label="Disable Autostart")
+                    disable_autostart_button = self.widget_factory.create_button(None, "Disable Autostart")
                     disable_autostart_button.connect("clicked", lambda w: self.toggle_autostart_app(service_name, False))
                     menu_box.append(disable_autostart_button)
                 else:
-                    enable_autostart_button = Gtk.Button(label="Enable Autostart")
+                    enable_autostart_button = self.widget_factory.create_button(None, "Enable Autostart")
                     enable_autostart_button.connect("clicked", lambda w: self.toggle_autostart_app(service_name, True))
                     menu_box.append(enable_autostart_button)
             
             # Service Properties
-            props_button = Gtk.Button(label="Properties")
+            props_button = self.widget_factory.create_button(None, "Properties")
             props_button.connect("clicked", lambda w: self.show_service_properties(service_name, service_type))
             menu_box.append(props_button)
             
@@ -433,7 +451,7 @@ class ServicesManager:
             context_menu.set_parent(self.services_tree_view)
             
             # Position the popover
-            rect = Gtk.Rectangle()
+            rect = self.widget_factory.create_rectangle()
             point = gesture.get_point(None)
             if point[0]:
                 rect.x, rect.y = int(point[1]), int(point[2])
@@ -459,17 +477,16 @@ class ServicesManager:
     def show_service_action_confirmation(self, service_name, action):
         """Show confirmation dialog for service actions"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text=f"{action.title()} Service?"
-            )
-            
-            dialog.format_secondary_text(
-                f"Are you sure you want to {action} the service '{service_name}'?\n\n"
-                f"This action may affect system functionality."
+                text=f"{action.title()} Service?",
+                secondary_text=(
+                    f"Are you sure you want to {action} the service '{service_name}'?\n\n"
+                    f"This action may affect system functionality."
+                )
             )
             
             def on_dialog_response(dialog, response):
@@ -486,6 +503,10 @@ class ServicesManager:
     def execute_systemd_action(self, service_name, action):
         """Execute a systemd action"""
         try:
+            if not self._is_systemctl_available():
+                self.logger.warning(f"Cannot execute systemctl {action} - systemctl not available")
+                return
+                
             service_unit = f"{service_name}.service"
             cmd = ["sudo", "systemctl", action, service_unit]
             
@@ -578,16 +599,17 @@ class ServicesManager:
         """Show detailed properties of a service"""
         try:
             # Create properties dialog
-            dialog = Gtk.Dialog(title=f"Service Properties - {service_name}")
+            dialog = self.widget_factory.create_dialog(title=f"Service Properties - {service_name}")
             dialog.set_default_size(600, 400)
             
             content_area = dialog.get_content_area()
             
             # Create scrolled window for service details
-            scrolled = Gtk.ScrolledWindow()
-            scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            scrolled = self.widget_factory.create_scrolled_window(
+                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            )
             
-            text_view = Gtk.TextView()
+            text_view = self.widget_factory.create_text_view()
             text_view.set_editable(False)
             text_view.set_wrap_mode(Gtk.WrapMode.WORD)
             
@@ -701,14 +723,14 @@ Desktop File Contents:
     def show_error_dialog(self, title: str, message: str):
         """Show an error dialog"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text=title
+                text=title,
+                secondary_text=message
             )
-            dialog.format_secondary_text(message)
             dialog.connect("response", lambda d, r: d.destroy())
             dialog.present()
         except Exception as e:

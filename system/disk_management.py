@@ -286,7 +286,7 @@ class DiskManager:
                     bytes_size = sectors * DiskManagerConfig.SECTOR_SIZE
                     # Skip devices smaller than 100MB (likely virtual)
                     if bytes_size < 100 * 1024 * 1024:
-                        self.logger.debug(f"Skipping {device}: too small ({bytes_size} bytes)")
+                        self.logger.info(f"Skipping {device}: too small ({bytes_size} bytes)")
                         return False
             
             # Check if it's removable (USB drives, etc.) - we want to include these
@@ -319,7 +319,7 @@ class DiskManager:
                                 self.logger.info(f"Including large virtual disk: {device} ({bytes_size // (1024**3)}GB)")
                                 return True
                             else:
-                                self.logger.debug(f"Skipping small virtual disk: {device} ({bytes_size // (1024**2)}MB)")
+                                self.logger.info(f"Skipping small virtual disk: {device} ({bytes_size // (1024**2)}MB)")
                                 return False
                     else:
                         return False

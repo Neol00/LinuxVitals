@@ -351,7 +351,7 @@ class CPUFileSearch:
                     if not self.cpu_files[file_key].get(thread_index):
                         # Only log boost file as warning in debug mode, it's normal for it to be missing on ARM
                         if file_name == "boost":
-                            self.logger.debug(f'File {file_name} for thread {thread_index} does not exist at {thread_cpufreq_directory}.')
+                            self.logger.info(f'File {file_name} for thread {thread_index} does not exist at {thread_cpufreq_directory}.')
                         else:
                             self.logger.warning(f'File {file_name} for thread {thread_index} does not exist at {thread_cpufreq_directory}.')
 
@@ -492,7 +492,7 @@ class CPUFileSearch:
                             continue
         
         except Exception as e:
-            self.logger.debug(f"Error searching thermal zones: {e}")
+            self.logger.info(f"Error searching thermal zones: {e}")
         
         return None
 
@@ -527,7 +527,7 @@ class CPUFileSearch:
                                     continue
         
         except Exception as e:
-            self.logger.debug(f"Error searching temperature files in {base_path}: {e}")
+            self.logger.info(f"Error searching temperature files in {base_path}: {e}")
         
         return temp_files
 

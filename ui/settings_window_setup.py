@@ -74,7 +74,7 @@ class SettingsWindow:
         # Setup the settings GUI components directly in the main box
         try:
             # Create a fixed layout container for precise positioning
-            settings_fixed = Gtk.Fixed()
+            settings_fixed = self.widget_factory.create_fixed()
             self.main_settings_box.append(settings_fixed)
 
             # Add some margin around the settings

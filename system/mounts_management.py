@@ -46,8 +46,9 @@ class MountsManagerConfig:
     BYTES_TO_MB = 1024 * 1024
 
 class MountsManager:
-    def __init__(self, logger):
+    def __init__(self, logger, widget_factory=None):
         self.logger = logger
+        self.widget_factory = widget_factory
         self.mounts = []  # List of MountInfo objects
         
         # GUI components
@@ -154,10 +155,10 @@ class MountsManager:
         """Create the mounts tree view widget"""
         try:
             # Create list store (Device, Mount Point, Filesystem, Size, Used, Available, Usage%)
-            self.mounts_store = Gtk.ListStore(str, str, str, str, str, str, str, str)
+            self.mounts_store = self.widget_factory.create_list_store([str, str, str, str, str, str, str, str])
             
             # Create tree view
-            self.mounts_tree_view = Gtk.TreeView(model=self.mounts_store)
+            self.mounts_tree_view = self.widget_factory.create_tree_view(model=self.mounts_store)
             self.mounts_tree_view.set_headers_visible(True)
             
             # Create columns
@@ -173,8 +174,8 @@ class MountsManager:
             ]
             
             for title, column_id, width in columns:
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(title, renderer, text=column_id)
+                renderer = self.widget_factory.create_cell_renderer_text()
+                column = self.widget_factory.create_tree_view_column(title, renderer, text_column=column_id)
                 column.set_resizable(True)
                 column.set_min_width(width)
                 if column_id in [3, 4, 5, 6]:  # Size and percentage columns
@@ -288,19 +289,18 @@ class MountsManager:
     def show_unmount_confirmation_dialog(self, mount_info: MountInfo):
         """Show confirmation dialog before unmounting"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
-                text=f"Unmount Filesystem?"
-            )
-            
-            dialog.format_secondary_text(
-                f"Are you sure you want to unmount '{mount_info.mountpoint}'?\n\n"
-                f"Device: {mount_info.device}\n"
-                f"Filesystem: {mount_info.filesystem}\n\n"
-                f"This may cause data loss if files are currently being accessed."
+                text=f"Unmount Filesystem?",
+                secondary_text=(
+                    f"Are you sure you want to unmount '{mount_info.mountpoint}'?\n\n"
+                    f"Device: {mount_info.device}\n"
+                    f"Filesystem: {mount_info.filesystem}\n\n"
+                    f"This may cause data loss if files are currently being accessed."
+                )
             )
             
             def on_dialog_response(dialog, response):
@@ -337,14 +337,14 @@ class MountsManager:
     def show_error_dialog(self, title: str, message: str):
         """Show an error dialog"""
         try:
-            dialog = Gtk.MessageDialog(
+            dialog = self.widget_factory.create_message_dialog(
                 transient_for=None,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
-                text=title
+                text=title,
+                secondary_text=message
             )
-            dialog.format_secondary_text(message)
             dialog.connect("response", lambda d, r: d.destroy())
             dialog.present()
         except Exception as e:
@@ -354,16 +354,17 @@ class MountsManager:
         """Show detailed properties of a mount"""
         try:
             # Create properties dialog
-            dialog = Gtk.Dialog(title=f"Mount Properties - {mount_info.mountpoint}")
+            dialog = self.widget_factory.create_dialog(title=f"Mount Properties - {mount_info.mountpoint}")
             dialog.set_default_size(500, 400)
             
             content_area = dialog.get_content_area()
             
             # Create scrolled window for mount details
-            scrolled = Gtk.ScrolledWindow()
-            scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            scrolled = self.widget_factory.create_scrolled_window(
+                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            )
             
-            text_view = Gtk.TextView()
+            text_view = self.widget_factory.create_text_view()
             text_view.set_editable(False)
             text_view.set_wrap_mode(Gtk.WrapMode.WORD)
             

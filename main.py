@@ -18,6 +18,7 @@
 
 import os
 import signal
+import subprocess
 import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib, Gdk
@@ -87,14 +88,15 @@ class LinuxVitalsApp(Gtk.Application):
         self.memory_manager = MemoryManager(self.logger)
         self.disk_manager = DiskManager(self.logger)
         self.process_manager = ProcessManager(self.logger, self.config_manager, self.privileged_actions, self.widget_factory)
-        self.mounts_manager = MountsManager(self.logger)
-        self.services_manager = ServicesManager(self.logger)
+        self.process_manager.initialize_cpu_tracking()  # Initialize CPU tracking for accurate percentages
+        self.mounts_manager = MountsManager(self.logger, self.widget_factory)
+        self.services_manager = ServicesManager(self.logger, self.widget_factory)
         
         self.scale_manager = ScaleManager(
             self.config_manager, self.logger, self.global_state, self.gui_components,
             self.widget_factory, self.cpu_file_search, self.cpu_manager)
         
-        self.css_manager = CssManager(self.config_manager, self.logger)
+        self.css_manager = CssManager(self.config_manager, self.logger, self.widget_factory)
 
     def _init_ui_components(self):
         """Initialize UI-related components"""
@@ -133,8 +135,11 @@ class LinuxVitalsApp(Gtk.Application):
     def setup_main_window(self):
         """Set up the main application window"""
         try:
-            self.window = Gtk.ApplicationWindow(application=self)
+            self.window = self.widget_factory.create_application_window(application=self)
             self.window.set_title("LinuxVitals")
+            
+            # Make window reference available to widget factory for dialogs
+            self.widget_factory.main_window = self.window
             
             # Apply saved window size if enabled
             self.apply_saved_window_size()
@@ -332,7 +337,7 @@ class LinuxVitalsApp(Gtk.Application):
     def setup_theme_preference(self):
         """Setup theme preference based on GNOME settings"""
         try:
-            print("Setting up theme preference...")  # Debug output
+            self.logger.info("Setting up theme preference...")
             
             # Get the default GTK settings
             settings = Gtk.Settings.get_default()
@@ -347,7 +352,6 @@ class LinuxVitalsApp(Gtk.Application):
                 # User has explicitly set a preference, use that
                 prefer_dark = user_preference.lower() == 'true'
                 self.logger.info(f"Using user theme preference: dark={prefer_dark}")
-                print(f"Using user theme preference: dark={prefer_dark}")
             else:
                 # Try to detect system preference first
                 prefer_dark = self._detect_system_theme_preference()
@@ -355,28 +359,23 @@ class LinuxVitalsApp(Gtk.Application):
                     # No system preference detected, default to dark theme since user prefers it
                     prefer_dark = True
                     self.logger.info("No system preference detected, defaulting to dark theme")
-                    print("No system preference detected, defaulting to dark theme")
                 else:
                     self.logger.info(f"Detected system theme preference: dark={prefer_dark}")
-                    print(f"Detected system theme preference: dark={prefer_dark}")
             
             # Apply the theme preference
             current_value = settings.get_property("gtk-application-prefer-dark-theme")
             self.logger.info(f"Current GTK dark theme setting: {current_value}")
-            print(f"Current GTK dark theme setting: {current_value}")
             
             settings.set_property("gtk-application-prefer-dark-theme", prefer_dark)
             
             # Verify the setting was applied
             new_value = settings.get_property("gtk-application-prefer-dark-theme")
             self.logger.info(f"Applied theme preference: dark={prefer_dark}, verified: {new_value}")
-            print(f"Applied theme preference: dark={prefer_dark}, verified: {new_value}")
             
             # Force a style refresh (GTK4 handles this automatically)
             
         except Exception as e:
             self.logger.error(f"Error setting up theme preference: {e}")
-            print(f"Error setting up theme preference: {e}")
             
     def _detect_system_theme_preference(self):
         """Detect system theme preference using multiple methods"""
@@ -452,7 +451,7 @@ class LinuxVitalsApp(Gtk.Application):
                 if width > 0 and height > 0:
                     self.config_manager.set_setting("UI", "window_width", str(width))
                     self.config_manager.set_setting("UI", "window_height", str(height))
-                    self.logger.debug(f"Saved window size: {width}x{height}")
+                    self.logger.info(f"Saved window size: {width}x{height}")
                     
         except Exception as e:
             self.logger.warning(f"Error saving window size: {e}")
@@ -491,13 +490,13 @@ class LinuxVitalsApp(Gtk.Application):
     def create_processes_widgets(self):
         """Create widgets for the processes tab"""
         try:
-            # Process tree view
+            # Process menu bar (at top)
+            self.create_process_menu_bar()
+            
+            # Process tree view (below menu bar)
             process_tree = self.process_manager.create_process_tree_view()
             if process_tree:
-                self.processes_grid.attach(process_tree, 0, 0, 1, 1)
-                
-                # Process menu bar
-                self.create_process_menu_bar()
+                self.processes_grid.attach(process_tree, 0, 1, 1, 1)
                 
         except Exception as e:
             self.logger.error(f"Error creating processes widgets: {e}")
@@ -515,7 +514,7 @@ class LinuxVitalsApp(Gtk.Application):
             self.restart_button = self.widget_factory.create_button(menu_bar, "Restart", self.restart_selected_process)
             self.properties_button = self.widget_factory.create_button(menu_bar, "Properties", self.show_selected_process_properties)
             
-            self.processes_grid.attach(menu_bar, 0, 1, 1, 1)
+            self.processes_grid.attach(menu_bar, 0, 0, 1, 1)
             
         except Exception as e:
             self.logger.error(f"Error creating process menu bar: {e}")
@@ -685,8 +684,8 @@ class LinuxVitalsApp(Gtk.Application):
                 self.min_freq_labels[i] = min_freq_label  # Store reference
                 
                 # Min frequency scale - create without dynamic label
-                adjustment = Gtk.Adjustment(lower=min_freq, upper=max_freq, step_increment=1)
-                scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
+                adjustment = self.widget_factory.create_adjustment(lower=min_freq, upper=max_freq, step_increment=1)
+                scale = self.widget_factory.create_scale_widget(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
                 scale.set_draw_value(False)
                 scale.set_name(f"cpu_min_scale_{i}")
                 scale.set_value(min_freq)
@@ -737,8 +736,8 @@ class LinuxVitalsApp(Gtk.Application):
                 self.max_freq_labels[i] = max_freq_label  # Store reference
                 
                 # Max frequency scale - create without dynamic label
-                adjustment = Gtk.Adjustment(lower=min_freq, upper=max_freq, step_increment=1)
-                scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
+                adjustment = self.widget_factory.create_adjustment(lower=min_freq, upper=max_freq, step_increment=1)
+                scale = self.widget_factory.create_scale_widget(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
                 scale.set_draw_value(False)
                 scale.set_name(f"cpu_max_scale_{i}")
                 scale.set_value(max_freq)
@@ -990,7 +989,8 @@ class LinuxVitalsApp(Gtk.Application):
             
             # Start appropriate tasks based on selected tab
             if tab_name == "Monitor":
-                self.content_stack.set_visible_child_name("monitor")
+                if self.content_stack and hasattr(self.content_stack, 'set_visible_child_name'):
+                    self.content_stack.set_visible_child_name("monitor")
                 self.cpu_manager.schedule_monitor_tasks()
                 self.schedule_memory_tasks()
                 self.schedule_disk_tasks()
@@ -1000,20 +1000,24 @@ class LinuxVitalsApp(Gtk.Application):
                 self.disk_manager.update_disk_stats()
                 self.disk_manager.update_disk_gui()
             elif tab_name == "Control":
-                self.content_stack.set_visible_child_name("control")
+                if self.content_stack and hasattr(self.content_stack, 'set_visible_child_name'):
+                    self.content_stack.set_visible_child_name("control")
                 self.cpu_manager.schedule_control_tasks()
             elif tab_name == "Processes":
-                self.content_stack.set_visible_child_name("processes")
+                if self.content_stack and hasattr(self.content_stack, 'set_visible_child_name'):
+                    self.content_stack.set_visible_child_name("processes")
                 # Immediate update for processes
                 self.process_manager.update_processes()
                 self.schedule_process_tasks()
             elif tab_name == "Mounts":
-                self.content_stack.set_visible_child_name("mounts")
+                if self.content_stack and hasattr(self.content_stack, 'set_visible_child_name'):
+                    self.content_stack.set_visible_child_name("mounts")
                 # Immediate update for mounts
                 self.mounts_manager.update_mounts()
                 self.schedule_mounts_tasks()
             elif tab_name == "Services":
-                self.content_stack.set_visible_child_name("services")
+                if self.content_stack and hasattr(self.content_stack, 'set_visible_child_name'):
+                    self.content_stack.set_visible_child_name("services")
                 # Immediate update for services
                 self.services_manager.update_services()
                 self.schedule_services_tasks()
@@ -1167,9 +1171,65 @@ class LinuxVitalsApp(Gtk.Application):
             self.logger.error(f"Error adding widgets to GUI components: {e}")
 
     def is_tdp_installed(self):
-        """Check if TDP control is available (placeholder)"""
-        # This would contain TDP detection logic
-        pass
+        """Check if TDP control is available"""
+        try:
+            # Check for AMD RyzenAdj
+            if self._check_command_available("ryzenadj"):
+                self.logger.info("AMD RyzenAdj TDP control detected")
+                return True
+            
+            # Check for Intel undervolt tools
+            if self._check_command_available("intel-undervolt"):
+                self.logger.info("Intel Undervolt TDP control detected")
+                return True
+            
+            # Check for MSR access (required for most TDP tools)
+            if os.path.exists("/dev/cpu/0/msr"):
+                self.logger.info("MSR access available for TDP control")
+                return True
+            
+            # Check for RAPL (Running Average Power Limit) interface
+            rapl_paths = [
+                "/sys/class/powercap/intel-rapl",
+                "/sys/devices/virtual/powercap/intel-rapl"
+            ]
+            
+            for rapl_path in rapl_paths:
+                if os.path.exists(rapl_path):
+                    # Check if we have writeable RAPL controls
+                    for item in os.listdir(rapl_path):
+                        item_path = os.path.join(rapl_path, item)
+                        if os.path.isdir(item_path):
+                            power_limit_file = os.path.join(item_path, "constraint_0_power_limit_uw")
+                            if os.path.exists(power_limit_file) and os.access(power_limit_file, os.W_OK):
+                                self.logger.info("RAPL TDP control interface detected")
+                                return True
+            
+            # Check for AMD P-State driver which supports some TDP features
+            amd_pstate_path = "/sys/devices/system/cpu/amd_pstate"
+            if os.path.exists(amd_pstate_path):
+                self.logger.info("AMD P-State driver detected (limited TDP support)")
+                return True
+            
+            self.logger.info("No TDP control mechanisms detected")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Error checking TDP availability: {e}")
+            return False
+    
+    def _check_command_available(self, command):
+        """Check if a command is available in PATH"""
+        try:
+            result = subprocess.run(
+                ["which", command], 
+                capture_output=True, 
+                text=True, 
+                timeout=5
+            )
+            return result.returncode == 0
+        except (subprocess.TimeoutExpired, subprocess.SubprocessError, FileNotFoundError):
+            return False
     
     def update_frequency_display_units(self):
         """Update all frequency labels when MHz/GHz preference changes"""

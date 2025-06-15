@@ -18,7 +18,8 @@
 
 import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, GLib
+gi.require_version('Gdk', '4.0')
+from gi.repository import Gtk, GLib, Gdk
 
 class WidgetFactory:
     def __init__(self, logger, global_state):
@@ -372,7 +373,7 @@ class WidgetFactory:
             elif isinstance(container, (Gtk.ApplicationWindow, Gtk.Popover, Gtk.Window)):
                 container.set_child(widget)
             elif isinstance(container, Gtk.Frame):
-                if container.get_child() is None:
+                if hasattr(container, 'get_child') and container.get_child() is None:
                     container.set_child(widget)
                 else:
                     self.logger.warning("Frame already has a child. Cannot attach another widget.")
@@ -466,10 +467,12 @@ class WidgetFactory:
             self.logger.error(f"Failed to create listbox row: {e}")
             return None
 
-    def create_image(self, icon_name=None, **kwargs):
+    def create_image(self, icon_name=None, file_path=None, **kwargs):
         # Create a new Gtk.Image
         try:
-            if icon_name:
+            if file_path:
+                image = Gtk.Image.new_from_file(file_path)
+            elif icon_name:
                 image = Gtk.Image.new_from_icon_name(icon_name)
             else:
                 image = Gtk.Image()
@@ -551,6 +554,185 @@ class WidgetFactory:
             return fixed
         except Exception as e:
             self.logger.error(f"Failed to create fixed: {e}")
+            return None
+
+    def create_application_window(self, application=None, **kwargs):
+        # Create a new Gtk.ApplicationWindow
+        try:
+            window = Gtk.ApplicationWindow(application=application)
+            self._set_margins(window, **kwargs)
+            return window
+        except Exception as e:
+            self.logger.error(f"Failed to create application window: {e}")
+            return None
+
+    def create_adjustment(self, lower=0, upper=100, step_increment=1, **kwargs):
+        # Create a new Gtk.Adjustment
+        try:
+            adjustment = Gtk.Adjustment(lower=lower, upper=upper, step_increment=step_increment)
+            return adjustment
+        except Exception as e:
+            self.logger.error(f"Failed to create adjustment: {e}")
+            return None
+
+    def create_scale_widget(self, orientation=Gtk.Orientation.HORIZONTAL, adjustment=None, **kwargs):
+        # Create a new Gtk.Scale widget (different from the overlay scale in create_scale)
+        try:
+            if adjustment:
+                scale = Gtk.Scale(orientation=orientation, adjustment=adjustment)
+            else:
+                scale = Gtk.Scale(orientation=orientation)
+            scale.set_draw_value(False)
+            self._set_margins(scale, **kwargs)
+            return scale
+        except Exception as e:
+            self.logger.error(f"Failed to create scale widget: {e}")
+            return None
+
+    def create_string_list(self, items=None, **kwargs):
+        # Create a new Gtk.StringList
+        try:
+            string_list = Gtk.StringList()
+            if items:
+                for item in items:
+                    string_list.append(item)
+            return string_list
+        except Exception as e:
+            self.logger.error(f"Failed to create string list: {e}")
+            return None
+
+    def create_tree_store(self, column_types, **kwargs):
+        # Create a new Gtk.TreeStore
+        try:
+            tree_store = Gtk.TreeStore(*column_types)
+            return tree_store
+        except Exception as e:
+            self.logger.error(f"Failed to create tree store: {e}")
+            return None
+
+    def create_list_store(self, column_types, **kwargs):
+        # Create a new Gtk.ListStore
+        try:
+            list_store = Gtk.ListStore(*column_types)
+            return list_store
+        except Exception as e:
+            self.logger.error(f"Failed to create list store: {e}")
+            return None
+
+    def create_tree_view(self, model=None, **kwargs):
+        # Create a new Gtk.TreeView
+        try:
+            if model:
+                tree_view = Gtk.TreeView(model=model)
+            else:
+                tree_view = Gtk.TreeView()
+            self._set_margins(tree_view, **kwargs)
+            return tree_view
+        except Exception as e:
+            self.logger.error(f"Failed to create tree view: {e}")
+            return None
+
+    def create_cell_renderer_text(self, **kwargs):
+        # Create a new Gtk.CellRendererText
+        try:
+            renderer = Gtk.CellRendererText()
+            return renderer
+        except Exception as e:
+            self.logger.error(f"Failed to create cell renderer text: {e}")
+            return None
+
+    def create_tree_view_column(self, title, renderer, text_column=None, **kwargs):
+        # Create a new Gtk.TreeViewColumn
+        try:
+            if text_column is not None:
+                column = Gtk.TreeViewColumn(title, renderer, text=text_column)
+            else:
+                column = Gtk.TreeViewColumn(title, renderer)
+            return column
+        except Exception as e:
+            self.logger.error(f"Failed to create tree view column: {e}")
+            return None
+
+    def create_popover_menu(self, **kwargs):
+        # Create a new Gtk.PopoverMenu
+        try:
+            popover_menu = Gtk.PopoverMenu()
+            self._set_margins(popover_menu, **kwargs)
+            return popover_menu
+        except Exception as e:
+            self.logger.error(f"Failed to create popover menu: {e}")
+            return None
+
+    def create_message_dialog(self, transient_for=None, flags=0, message_type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, text="", secondary_text=None, **kwargs):
+        # Create a new Gtk.MessageDialog
+        try:
+            # In GTK4, combine primary and secondary text
+            combined_text = text
+            if secondary_text:
+                combined_text = f"{text}\n\n{secondary_text}"
+            
+            dialog = Gtk.MessageDialog(
+                transient_for=transient_for,
+                message_type=message_type,
+                buttons=buttons,
+                text=combined_text
+            )
+            
+            # Set dialog as modal for proper interaction
+            if transient_for:
+                dialog.set_modal(True)
+            
+            return dialog
+        except Exception as e:
+            self.logger.error(f"Failed to create message dialog: {e}")
+            return None
+
+    def create_dialog(self, title="", transient_for=None, **kwargs):
+        # Create a new Gtk.Dialog
+        try:
+            dialog = Gtk.Dialog(title=title)
+            if transient_for:
+                dialog.set_transient_for(transient_for)
+            return dialog
+        except Exception as e:
+            self.logger.error(f"Failed to create dialog: {e}")
+            return None
+
+    def create_text_view(self, **kwargs):
+        # Create a new Gtk.TextView
+        try:
+            text_view = Gtk.TextView()
+            self._set_margins(text_view, **kwargs)
+            return text_view
+        except Exception as e:
+            self.logger.error(f"Failed to create text view: {e}")
+            return None
+
+    def create_css_provider(self, **kwargs):
+        # Create a new Gtk.CssProvider
+        try:
+            css_provider = Gtk.CssProvider()
+            return css_provider
+        except Exception as e:
+            self.logger.error(f"Failed to create CSS provider: {e}")
+            return None
+
+    def create_rectangle(self, **kwargs):
+        # Create a new Gdk.Rectangle
+        try:
+            rectangle = Gdk.Rectangle()
+            return rectangle
+        except Exception as e:
+            self.logger.error(f"Failed to create rectangle: {e}")
+            return None
+
+    def create_gesture_click(self, **kwargs):
+        # Create a new Gtk.GestureClick
+        try:
+            gesture = Gtk.GestureClick.new()
+            return gesture
+        except Exception as e:
+            self.logger.error(f"Failed to create gesture click: {e}")
             return None
 
     def _set_margins(self, widget, **kwargs):
