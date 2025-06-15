@@ -326,19 +326,22 @@ class ProcessManager:
             if not self.process_store:
                 return
             
-            # Save current expansion and selection state
+            # Save current expansion, selection, and scroll state
             expanded_paths = self._save_expansion_state()
             selected_pid = self._save_selection_state()
+            scroll_position = self._save_scroll_position()
             
-            # Clear existing data
-            self.process_store.clear()
+            # For debugging, let's temporarily disable in-place updates and add logging
+            # to see if the problem is elsewhere
+            self.logger.info("Process tree view update starting...")
             
-            # Add processes to tree store
-            self._add_processes_to_store(None, self.process_tree)
+            # Try just updating without clearing first
+            self._update_tree_store_without_flashing()
             
-            # Restore expansion and selection state
+            # Restore expansion, selection, and scroll state
             self._restore_expansion_state(expanded_paths)
             self._restore_selection_state(selected_pid)
+            self._restore_scroll_position(scroll_position)
             
         except Exception as e:
             self.logger.error(f"Error updating process tree view: {e}")
@@ -415,6 +418,202 @@ class ProcessManager:
             
         except Exception as e:
             self.logger.error(f"Error restoring selection state: {e}")
+    
+    def _save_scroll_position(self):
+        """Save the current scroll position of the tree view"""
+        try:
+            if not self.process_tree_view or not self.process_tree_view.get_parent():
+                return None
+            
+            # Get the scrolled window that contains the tree view
+            scrolled_window = self.process_tree_view.get_parent()
+            if hasattr(scrolled_window, 'get_vadjustment'):
+                vadj = scrolled_window.get_vadjustment()
+                return vadj.get_value()
+            return None
+        except Exception as e:
+            self.logger.error(f"Error saving scroll position: {e}")
+            return None
+    
+    def _restore_scroll_position(self, scroll_position):
+        """Restore the scroll position of the tree view"""
+        try:
+            if scroll_position is None or not self.process_tree_view or not self.process_tree_view.get_parent():
+                return
+            
+            # Get the scrolled window that contains the tree view
+            scrolled_window = self.process_tree_view.get_parent()
+            if hasattr(scrolled_window, 'get_vadjustment'):
+                vadj = scrolled_window.get_vadjustment()
+                # Use GLib.idle_add to ensure the tree is fully updated before scrolling
+                GLib.idle_add(lambda: vadj.set_value(scroll_position))
+                
+        except Exception as e:
+            self.logger.error(f"Error restoring scroll position: {e}")
+    
+    def _update_tree_store_in_place(self):
+        """Update the tree store in-place to prevent flashing"""
+        try:
+            # For now, let's try a simpler approach - just update existing rows without adding/removing
+            # This should prevent most flashing while we debug the full implementation
+            
+            # Create a mapping of existing PIDs to their tree iters and data
+            existing_pids = {}
+            
+            def collect_existing_pids(model, path, iter, data):
+                pid = model.get_value(iter, 0)
+                existing_pids[pid] = iter
+                return False
+            
+            self.process_store.foreach(collect_existing_pids, None)
+            
+            # Get current process data
+            current_processes = {}
+            self._flatten_process_tree(self.process_tree, current_processes)
+            
+            # Count how many new processes we have
+            new_processes = 0
+            removed_processes = 0
+            
+            for pid in current_processes:
+                if pid not in existing_pids:
+                    new_processes += 1
+            
+            for pid in existing_pids:
+                if pid not in current_processes:
+                    removed_processes += 1
+            
+            # If there are significant changes in process count, fall back to full rebuild
+            # Otherwise, just update existing processes
+            if new_processes > 5 or removed_processes > 5:
+                self.logger.info(f"Too many process changes (new: {new_processes}, removed: {removed_processes}), falling back to full rebuild")
+                self._fallback_to_full_rebuild()
+                return
+            
+            # Update existing processes only
+            for pid, process_info in current_processes.items():
+                if pid in existing_pids:
+                    tree_iter = existing_pids[pid]
+                    self._update_process_row(tree_iter, process_info)
+            
+            # Only remove a few processes if needed
+            pids_to_remove = []
+            for pid in existing_pids:
+                if pid not in current_processes:
+                    pids_to_remove.append(pid)
+            
+            for pid in pids_to_remove:
+                if pid in existing_pids:
+                    self.process_store.remove(existing_pids[pid])
+            
+            # Add new processes if there are only a few
+            for pid, process_info in current_processes.items():
+                if pid not in existing_pids:
+                    self._add_single_process_to_store(process_info)
+            
+        except Exception as e:
+            self.logger.error(f"Error updating tree store in-place: {e}")
+            self._fallback_to_full_rebuild()
+    
+    def _flatten_process_tree(self, process_list, result_dict, parent_pid=None):
+        """Flatten the process tree into a simple PID -> ProcessInfo mapping"""
+        for process_info in process_list:
+            result_dict[process_info.pid] = process_info
+            if process_info.children:
+                self._flatten_process_tree(process_info.children, result_dict, process_info.pid)
+    
+    def _update_process_row(self, tree_iter, process_info):
+        """Update a single process row in the tree store"""
+        try:
+            # Update all columns with new data
+            self.process_store.set(tree_iter, [
+                0,  # PID (shouldn't change)
+                1,  # Name
+                2,  # CPU %
+                3,  # Memory %
+                4,  # Memory MB
+                5,  # Status
+                6,  # User
+                7   # Command Line
+            ], [
+                process_info.pid,
+                process_info.name,
+                f"{process_info.cpu_percent:.1f}",
+                f"{process_info.memory_percent:.1f}",
+                f"{process_info.memory_mb:.1f}",
+                process_info.status,
+                process_info.user,
+                process_info.cmdline[:100] + "..." if len(process_info.cmdline) > 100 else process_info.cmdline
+            ])
+        except Exception as e:
+            self.logger.error(f"Error updating process row: {e}")
+    
+    def _fallback_to_full_rebuild(self):
+        """Fallback to the original clear-and-rebuild method"""
+        try:
+            # Clear existing data
+            self.process_store.clear()
+            
+            # Add processes to tree store
+            self._add_processes_to_store(None, self.process_tree)
+            
+        except Exception as e:
+            self.logger.error(f"Error in fallback rebuild: {e}")
+    
+    def _add_single_process_to_store(self, process_info):
+        """Add a single process to the tree store (without hierarchy for now)"""
+        try:
+            # For simplicity, add as top-level process (could enhance to maintain hierarchy later)
+            self.process_store.append(None, [
+                process_info.pid,
+                process_info.name,
+                f"{process_info.cpu_percent:.1f}",
+                f"{process_info.memory_percent:.1f}",
+                f"{process_info.memory_mb:.1f}",
+                process_info.status,
+                process_info.user,
+                process_info.cmdline[:100] + "..." if len(process_info.cmdline) > 100 else process_info.cmdline
+            ])
+        except Exception as e:
+            self.logger.error(f"Error adding single process to store: {e}")
+    
+    def _update_tree_store_without_flashing(self):
+        """Simple approach: just update existing data without clearing"""
+        try:
+            # Create a mapping of existing PIDs to their tree iters
+            existing_pids = {}
+            
+            def collect_existing_pids(model, path, iter, data):
+                pid = model.get_value(iter, 0)
+                existing_pids[pid] = iter
+                return False
+            
+            self.process_store.foreach(collect_existing_pids, None)
+            self.logger.info(f"Found {len(existing_pids)} existing processes in tree view")
+            
+            # Get current process data
+            current_processes = {}
+            self._flatten_process_tree(self.process_tree, current_processes)
+            self.logger.info(f"Current scan found {len(current_processes)} processes")
+            
+            # Update existing processes with new data
+            updated_count = 0
+            for pid, process_info in current_processes.items():
+                if pid in existing_pids:
+                    tree_iter = existing_pids[pid]
+                    self._update_process_row(tree_iter, process_info)
+                    updated_count += 1
+            
+            self.logger.info(f"Updated {updated_count} existing processes")
+            
+            # If we have significantly different process counts, fall back to full rebuild
+            if abs(len(current_processes) - len(existing_pids)) > 10:
+                self.logger.info("Process count changed significantly, doing full rebuild")
+                self._fallback_to_full_rebuild()
+            
+        except Exception as e:
+            self.logger.error(f"Error in simplified update: {e}")
+            self._fallback_to_full_rebuild()
 
     def _add_processes_to_store(self, parent_iter, processes):
         """Recursively add processes to the tree store"""

@@ -21,7 +21,7 @@ gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib
 
 class SettingsWindow:
-    def __init__(self, config_manager, logger, global_state, gui_components, widget_factory, settings_applier, cpu_manager, scale_manager, process_manager):
+    def __init__(self, config_manager, logger, global_state, gui_components, widget_factory, settings_applier, cpu_manager, scale_manager, process_manager, main_app):
         # References to instances
         self.config_manager = config_manager
         self.logger = logger
@@ -32,6 +32,7 @@ class SettingsWindow:
         self.cpu_manager = cpu_manager
         self.scale_manager = scale_manager
         self.process_manager = process_manager
+        self.main_app = main_app
 
         # Call methods on startup
         self.setup_main_settings_window()
@@ -231,6 +232,11 @@ class SettingsWindow:
         self.global_state.display_ghz = checkbutton.get_active()
         self.cpu_manager.update_clock_speeds()
         self.widget_factory.update_frequency_scale_labels()
+        
+        # Update control tab frequency labels if they exist
+        if hasattr(self.main_app, 'update_frequency_display_units'):
+            self.main_app.update_frequency_display_units()
+            
         self.config_manager.set_setting('Settings', 'display_ghz', str(self.global_state.display_ghz))
 
     def init_display_ghz_setting(self):

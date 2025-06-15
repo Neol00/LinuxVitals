@@ -235,7 +235,7 @@ class WidgetFactory:
             label_x = max(min(label_x, scale_width - label_width), 0)
 
             label.set_margin_start(int(label_x))
-            label.set_margin_top(42)  # Position the label below the slider
+            label.set_margin_top(25)  # Position the label below the slider with less margin
         except Exception as e:
             self.logger.error(f"Failed to calculate scales position: {e}")
 
@@ -337,6 +337,7 @@ class WidgetFactory:
             checkbutton = Gtk.CheckButton()
             label = Gtk.Label(label=text)
             checkbutton.set_child(label)
+            checkbutton.set_active(variable)  # Set the initial state
             if command is not None:
                 checkbutton.connect("toggled", command)
 

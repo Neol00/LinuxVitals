@@ -934,26 +934,101 @@ class CPUManager:
         try:
             # Gather all unique governors from available governor files
             self.global_state.unique_governors.clear()
+            self.logger.info(f"Searching for governor files across {self.cpu_file_search.thread_count} threads")
+            
             for i in range(self.cpu_file_search.thread_count):
                 available_governors_file = self.cpu_file_search.cpu_files['available_governors_files'].get(i)
+                self.logger.info(f"Thread {i}: Governor file path: {available_governors_file}")
+                
                 if available_governors_file and os.path.exists(available_governors_file):
                     try:
                         with open(available_governors_file, 'r') as file:
                             governors = file.read().strip().split()
+                            self.logger.info(f"Thread {i}: Found governors: {governors}")
                             self.global_state.unique_governors.update(governors)
                     except Exception as e:
                         self.logger.error(f"Error reading available governors from {available_governors_file}: {e}")
+                else:
+                    self.logger.warning(f"Thread {i}: Governor file not found or doesn't exist: {available_governors_file}")
 
+            self.logger.info(f"Total unique governors found: {self.global_state.unique_governors}")
+            
             # Create the list of governors with the placeholder at the beginning
             governors_list = ["Select Governor"] + sorted(self.global_state.unique_governors)
 
             # Update the Gtk.StringList model for the dropdown
             if hasattr(self, 'governor_dropdown') and self.governor_dropdown:
-                new_store = Gtk.StringList.new(governors_list)
-                self.governor_dropdown.set_model(new_store)
-                self.governor_dropdown.set_selected(0)
+                self.logger.info(f"Updating dropdown with governors: {governors_list}")
+                try:
+                    # Create new StringList and populate it
+                    new_store = Gtk.StringList()
+                    for governor in governors_list:
+                        new_store.append(governor)
+                        self.logger.info(f"Added governor to dropdown: {governor}")
+                    
+                    # Set the model and selection
+                    self.governor_dropdown.set_model(new_store)
+                    self.governor_dropdown.set_selected(0)
+                    
+                    # Make sure the dropdown is sensitive (not greyed out)
+                    self.governor_dropdown.set_sensitive(True)
+                    
+                    self.logger.info(f"Governor dropdown updated successfully with {len(governors_list)} items")
+                except Exception as e:
+                    self.logger.error(f"Error updating dropdown model: {e}")
+            else:
+                self.logger.error(f"Governor dropdown not available: hasattr={hasattr(self, 'governor_dropdown')}, dropdown={getattr(self, 'governor_dropdown', None)}")
         except Exception as e:
             self.logger.error("Failed to update governor dropdown: %s", e)
+
+    def is_boost_supported(self):
+        """Check if CPU boost is supported and functional on this system"""
+        try:
+            # Check Intel boost path
+            if self.cpu_file_search.cpu_type == "Intel" and self.cpu_file_search.intel_boost_path and os.path.exists(self.cpu_file_search.intel_boost_path):
+                return self._test_boost_functionality(self.cpu_file_search.intel_boost_path)
+            
+            # Check generic boost files
+            for boost_file in self.cpu_file_search.cpu_files['boost_files'].values():
+                if os.path.exists(boost_file):
+                    return self._test_boost_functionality(boost_file)
+                    
+            self.logger.info("No valid boost control files found - boost not supported")
+            return False
+        except Exception as e:
+            self.logger.error(f"Error checking boost support: {e}")
+            return False
+
+    def _test_boost_functionality(self, boost_file):
+        """Test if boost file is actually functional (not just present)"""
+        try:
+            # Read current value
+            with open(boost_file, 'r') as f:
+                current_value = f.read().strip()
+            
+            # Check if boost frequencies are available (indicates real boost support)
+            boost_freq_file = boost_file.replace('boost', 'scaling_boost_frequencies')
+            if os.path.exists(boost_freq_file):
+                with open(boost_freq_file, 'r') as f:
+                    boost_freqs = f.read().strip()
+                    if not boost_freqs:
+                        self.logger.info(f"Boost file exists but no boost frequencies available - boost not functional")
+                        return False
+            
+            # For ARM64 systems, boost files often exist but don't work
+            # Try a simple test write (if current value is 0, we could try writing 0 again)
+            try:
+                with open(boost_file, 'w') as f:
+                    f.write(current_value)  # Write the same value back
+                self.logger.info(f"Boost functionality test passed for {boost_file}")
+                return True
+            except (OSError, IOError, PermissionError):
+                self.logger.info(f"Boost file exists but is not writable - boost not functional: {boost_file}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Error testing boost functionality for {boost_file}: {e}")
+            return False
 
     def find_boost_type(self):
         # Determine which boost files are correct for your CPU type
@@ -964,7 +1039,8 @@ class CPUManager:
                 if os.path.exists(boost_file):
                     return self.read_boost_file(boost_file)
             self.logger.info("No valid boost control files found.")
-            self.boost_checkbutton.hide()
+            if hasattr(self, 'boost_checkbutton') and self.boost_checkbutton:
+                self.boost_checkbutton.hide()
             return None
 
     def read_boost_file(self, file_path, intel=False):
@@ -1179,7 +1255,7 @@ class CPUManager:
         for i in range(self.cpu_file_search.thread_count):
             governor_file = self.cpu_file_search.cpu_files['governor_files'].get(i)
             if governor_file:
-                command_list.append(f'echo "{governor}" | sudo tee {governor_file} > /dev/null')
+                command_list.append(f'echo "{governor}" | tee {governor_file} > /dev/null')
         return command_list
 
     def _governor_success_callback(self, governor, dropdown):

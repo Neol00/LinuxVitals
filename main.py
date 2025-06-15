@@ -101,7 +101,7 @@ class LinuxVitalsApp(Gtk.Application):
         self.settings_window = SettingsWindow(
             self.config_manager, self.logger, self.global_state, self.gui_components,
             self.widget_factory, self.settings_applier, self.cpu_manager, 
-            self.scale_manager, self.process_manager)
+            self.scale_manager, self.process_manager, self)
 
         self.task_scheduler = TaskScheduler(self.logger)
         
@@ -574,8 +574,9 @@ class LinuxVitalsApp(Gtk.Application):
             # Create CPU governor control section
             self.create_governor_control_section()
             
-            # Create CPU boost control section
-            self.create_boost_control_section()
+            # Create CPU boost control section (only if boost is supported)
+            if self.cpu_manager.is_boost_supported():
+                self.create_boost_control_section()
             
             # Create TDP control section (Intel/AMD)
             self.create_tdp_control_section()
@@ -605,7 +606,7 @@ class LinuxVitalsApp(Gtk.Application):
             freq_box.append(select_all_box)
             
             self.select_all_threads_checkbutton = self.widget_factory.create_checkbutton(
-                select_all_box, "Select All Threads", False, self.on_select_all_threads_toggled)
+                select_all_box, "Select All Threads", True, self.on_select_all_threads_toggled)
             
             # Apply button in the same row
             self.apply_max_min_button = self.widget_factory.create_button(
@@ -627,6 +628,8 @@ class LinuxVitalsApp(Gtk.Application):
             self.cpu_max_min_checkbuttons = {}
             self.min_scales = {}
             self.max_scales = {}
+            self.min_freq_labels = {}  # Store min frequency labels
+            self.max_freq_labels = {}  # Store max frequency labels
             
             # Get cached frequency limits from scale manager
             min_freqs, max_freqs = self.scale_manager._cached_freqs or ([1000] * self.cpu_file_search.thread_count, [3000] * self.cpu_file_search.thread_count)
@@ -635,10 +638,10 @@ class LinuxVitalsApp(Gtk.Application):
             for i in range(self.cpu_file_search.thread_count):
                 # Create frame for each thread
                 thread_frame = self.widget_factory.create_frame()
-                thread_frame.set_size_request(200, 160)  # Compact size
+                thread_frame.set_size_request(200, 180)  # Slightly larger to accommodate labels
                 threads_flow.append(thread_frame)
                 
-                thread_box = self.widget_factory.create_vertical_box(margin_start=8, margin_end=8, margin_top=5, margin_bottom=5, spacing=5)
+                thread_box = self.widget_factory.create_vertical_box(margin_start=8, margin_end=8, margin_top=5, margin_bottom=5, spacing=8)
                 thread_frame.set_child(thread_box)
                 
                 # Thread header with enable checkbox
@@ -646,8 +649,11 @@ class LinuxVitalsApp(Gtk.Application):
                 thread_box.append(header_box)
                 
                 self.cpu_max_min_checkbuttons[i] = self.widget_factory.create_checkbutton(
-                    header_box, f"CPU {i}", False)
+                    header_box, f"CPU {i}", True)
                 self.cpu_max_min_checkbuttons[i].get_style_context().add_class('small-label')
+                
+                # Connect signal to sync with "Select All Threads" checkbox
+                self.cpu_max_min_checkbuttons[i].connect("toggled", self.on_individual_thread_toggled)
                 
                 # Get frequency limits for this thread
                 min_freq = min_freqs[i] if i < len(min_freqs) else 1000
@@ -660,7 +666,7 @@ class LinuxVitalsApp(Gtk.Application):
                 min_header = self.widget_factory.create_horizontal_box()
                 min_section.append(min_header)
                 
-                min_title = self.widget_factory.create_label(min_header, "Min:")
+                min_title = self.widget_factory.create_label(min_header, "Minimum:")
                 min_title.set_halign(Gtk.Align.START)
                 min_title.get_style_context().add_class('small-label')
                 
@@ -668,29 +674,42 @@ class LinuxVitalsApp(Gtk.Application):
                 min_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
                 min_header.append(min_spacer)
                 
-                min_freq_label = self.widget_factory.create_label(min_header, f"{min_freq:.0f} MHz")
+                # Create label with proper MHz/GHz display
+                if self.global_state.display_ghz:
+                    min_freq_label = self.widget_factory.create_label(min_header, f"{min_freq/1000:.2f} GHz")
+                else:
+                    min_freq_label = self.widget_factory.create_label(min_header, f"{min_freq:.0f} MHz")
                 min_freq_label.set_halign(Gtk.Align.END)
                 min_freq_label.get_style_context().add_class('small-label')
+                min_freq_label.set_name(f"min_freq_label_{i}")  # Add name for later reference
+                self.min_freq_labels[i] = min_freq_label  # Store reference
                 
-                # Min frequency scale
-                self.min_scales[i] = self.widget_factory.create_scale(
-                    min_section, 
-                    self.scale_manager.update_min_max_labels,
-                    min_freq, 
-                    max_freq, 
-                    Frequency=True
-                )
-                if self.min_scales[i]:
-                    self.min_scales[i].set_value(min_freq)
-                    self.min_scales[i].set_name(f"cpu_min_scale_{i}")
-                    self.min_scales[i].set_size_request(180, 30)  # Compact scale
-                    
-                    # Connect to update frequency label (use closure to capture variables)
-                    def make_min_freq_updater(label):
-                        def update_min_freq_label(scale):
-                            label.set_text(f"{scale.get_value():.0f} MHz")
-                        return update_min_freq_label
-                    self.min_scales[i].connect("value-changed", make_min_freq_updater(min_freq_label))
+                # Min frequency scale - create without dynamic label
+                adjustment = Gtk.Adjustment(lower=min_freq, upper=max_freq, step_increment=1)
+                scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
+                scale.set_draw_value(False)
+                scale.set_name(f"cpu_min_scale_{i}")
+                scale.set_value(min_freq)
+                scale.set_size_request(180, 30)  # Compact scale
+                scale.connect("value-changed", self.scale_manager.update_min_max_labels)
+                min_section.append(scale)
+                self.min_scales[i] = scale
+                
+                # Connect to update frequency label with MHz/GHz support
+                def make_min_freq_updater(label, global_state):
+                    def update_min_freq_label(scale):
+                        value = scale.get_value()
+                        if global_state.display_ghz:
+                            label.set_text(f"{value/1000:.2f} GHz")
+                        else:
+                            label.set_text(f"{value:.0f} MHz")
+                    return update_min_freq_label
+                scale.connect("value-changed", make_min_freq_updater(min_freq_label, self.global_state))
+                
+                # Add some spacing between min and max sections
+                spacer = self.widget_factory.create_vertical_box()
+                spacer.set_size_request(-1, 10)  # 10px vertical space
+                thread_box.append(spacer)
                 
                 # Max frequency section
                 max_section = self.widget_factory.create_vertical_box(spacing=2)
@@ -699,7 +718,7 @@ class LinuxVitalsApp(Gtk.Application):
                 max_header = self.widget_factory.create_horizontal_box()
                 max_section.append(max_header)
                 
-                max_title = self.widget_factory.create_label(max_header, "Max:")
+                max_title = self.widget_factory.create_label(max_header, "Maximum:")
                 max_title.set_halign(Gtk.Align.START)
                 max_title.get_style_context().add_class('small-label')
                 
@@ -707,29 +726,37 @@ class LinuxVitalsApp(Gtk.Application):
                 max_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
                 max_header.append(max_spacer)
                 
-                max_freq_label = self.widget_factory.create_label(max_header, f"{max_freq:.0f} MHz")
+                # Create label with proper MHz/GHz display
+                if self.global_state.display_ghz:
+                    max_freq_label = self.widget_factory.create_label(max_header, f"{max_freq/1000:.2f} GHz")
+                else:
+                    max_freq_label = self.widget_factory.create_label(max_header, f"{max_freq:.0f} MHz")
                 max_freq_label.set_halign(Gtk.Align.END)
                 max_freq_label.get_style_context().add_class('small-label')
+                max_freq_label.set_name(f"max_freq_label_{i}")  # Add name for later reference
+                self.max_freq_labels[i] = max_freq_label  # Store reference
                 
-                # Max frequency scale
-                self.max_scales[i] = self.widget_factory.create_scale(
-                    max_section, 
-                    self.scale_manager.update_min_max_labels,
-                    min_freq, 
-                    max_freq, 
-                    Frequency=True
-                )
-                if self.max_scales[i]:
-                    self.max_scales[i].set_value(max_freq)
-                    self.max_scales[i].set_name(f"cpu_max_scale_{i}")
-                    self.max_scales[i].set_size_request(180, 30)  # Compact scale
-                    
-                    # Connect to update frequency label (use closure to capture variables)
-                    def make_max_freq_updater(label):
-                        def update_max_freq_label(scale):
-                            label.set_text(f"{scale.get_value():.0f} MHz")
-                        return update_max_freq_label
-                    self.max_scales[i].connect("value-changed", make_max_freq_updater(max_freq_label))
+                # Max frequency scale - create without dynamic label
+                adjustment = Gtk.Adjustment(lower=min_freq, upper=max_freq, step_increment=1)
+                scale = Gtk.Scale(orientation=Gtk.Orientation.HORIZONTAL, adjustment=adjustment)
+                scale.set_draw_value(False)
+                scale.set_name(f"cpu_max_scale_{i}")
+                scale.set_value(max_freq)
+                scale.set_size_request(180, 30)  # Compact scale
+                scale.connect("value-changed", self.scale_manager.update_min_max_labels)
+                max_section.append(scale)
+                self.max_scales[i] = scale
+                
+                # Connect to update frequency label with MHz/GHz support
+                def make_max_freq_updater(label, global_state):
+                    def update_max_freq_label(scale):
+                        value = scale.get_value()
+                        if global_state.display_ghz:
+                            label.set_text(f"{value/1000:.2f} GHz")
+                        else:
+                            label.set_text(f"{value:.0f} MHz")
+                    return update_max_freq_label
+                scale.connect("value-changed", make_max_freq_updater(max_freq_label, self.global_state))
             
         except Exception as e:
             self.logger.error(f"Error creating frequency control section: {e}")
@@ -738,11 +765,34 @@ class LinuxVitalsApp(Gtk.Application):
         """Handle select all threads checkbox toggle"""
         try:
             select_all = checkbutton.get_active()
+            # Temporarily block individual thread signals to avoid infinite loop
             for i in range(self.cpu_file_search.thread_count):
                 if i in self.cpu_max_min_checkbuttons:
+                    self.cpu_max_min_checkbuttons[i].handler_block_by_func(self.on_individual_thread_toggled)
                     self.cpu_max_min_checkbuttons[i].set_active(select_all)
+                    self.cpu_max_min_checkbuttons[i].handler_unblock_by_func(self.on_individual_thread_toggled)
         except Exception as e:
             self.logger.error(f"Error toggling select all threads: {e}")
+
+    def on_individual_thread_toggled(self, checkbutton):
+        """Handle individual thread checkbox toggle - sync with Select All checkbox"""
+        try:
+            # Check if all individual thread checkboxes are active
+            all_active = True
+            for i in range(self.cpu_file_search.thread_count):
+                if i in self.cpu_max_min_checkbuttons:
+                    if not self.cpu_max_min_checkbuttons[i].get_active():
+                        all_active = False
+                        break
+            
+            # Update "Select All Threads" checkbox to match
+            # Block the signal to avoid infinite loop
+            self.select_all_threads_checkbutton.handler_block_by_func(self.on_select_all_threads_toggled)
+            self.select_all_threads_checkbutton.set_active(all_active)
+            self.select_all_threads_checkbutton.handler_unblock_by_func(self.on_select_all_threads_toggled)
+            
+        except Exception as e:
+            self.logger.error(f"Error syncing individual thread toggle: {e}")
 
     def create_governor_control_section(self):
         """Create CPU governor control widgets"""
@@ -762,8 +812,11 @@ class LinuxVitalsApp(Gtk.Application):
             governors_list = ["Select Governor"]
             self.governor_dropdown = self.widget_factory.create_dropdown(gov_box, governors_list, self.cpu_manager.set_cpu_governor)
             
-            # Update with available governors
-            self.cpu_manager.update_governor_dropdown()
+            # Assign dropdown to CPU manager before updating
+            self.cpu_manager.governor_dropdown = self.governor_dropdown
+            
+            # Update with available governors - schedule it to run after the UI is fully created
+            GLib.idle_add(self.cpu_manager.update_governor_dropdown)
             
         except Exception as e:
             self.logger.error(f"Error creating governor control section: {e}")
@@ -1117,6 +1170,30 @@ class LinuxVitalsApp(Gtk.Application):
         """Check if TDP control is available (placeholder)"""
         # This would contain TDP detection logic
         pass
+    
+    def update_frequency_display_units(self):
+        """Update all frequency labels when MHz/GHz preference changes"""
+        try:
+            # Update min frequency labels
+            for i, label in self.min_freq_labels.items():
+                if i in self.min_scales:
+                    value = self.min_scales[i].get_value()
+                    if self.global_state.display_ghz:
+                        label.set_text(f"{value/1000:.2f} GHz")
+                    else:
+                        label.set_text(f"{value:.0f} MHz")
+            
+            # Update max frequency labels
+            for i, label in self.max_freq_labels.items():
+                if i in self.max_scales:
+                    value = self.max_scales[i].get_value()
+                    if self.global_state.display_ghz:
+                        label.set_text(f"{value/1000:.2f} GHz")
+                    else:
+                        label.set_text(f"{value:.0f} MHz")
+                        
+        except Exception as e:
+            self.logger.error(f"Error updating frequency display units: {e}")
 
 def main():
     """Main application entry point"""

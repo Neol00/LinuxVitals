@@ -21,7 +21,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 # Valid log levels
-valid_log_levels = frozenset(['ERROR', 'INFO', 'WARNING'])
+valid_log_levels = frozenset(['DEBUG', 'ERROR', 'INFO', 'WARNING'])
 
 class DeduplicationFilter(logging.Filter):
     # A logging filter that avoids logging duplicate messages, except for INFO messages.
@@ -30,8 +30,12 @@ class DeduplicationFilter(logging.Filter):
         self.logged_messages = set()
 
     def filter(self, record):
-        # Allow INFO messages to be logged regardless of duplication
-        if record.levelno == logging.INFO:
+        # Allow INFO and DEBUG messages to be logged regardless of duplication
+        if record.levelno == logging.INFO or record.levelno == logging.DEBUG:
+            return True
+            
+        # Allow governor-related messages through
+        if 'governor' in str(record.msg).lower():
             return True
 
         # Generate a unique key for the log record
@@ -63,9 +67,10 @@ class LogSetup:
             self.logger = logging.getLogger()  # Get the already configured logger
 
     def default_log_file_path(self):
-        # Use the script's directory as the base for the log file path
+        # Use the project root directory as the base for the log file path
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        return os.path.join(script_dir, 'logs', 'linuxvitals.log')
+        project_root = os.path.dirname(script_dir)  # Go up one level from core/ to LinuxVitals/
+        return os.path.join(project_root, 'logs', 'linuxvitals.log')
 
     def setup_logging(self):
         # Setup the logging configuration with rotation and deduplication filter.
@@ -75,8 +80,8 @@ class LogSetup:
             os.makedirs(log_dir, exist_ok=True)
 
             # Retrieve the logging level from configuration
-            config_log_level = self.config_manager.get_setting('Settings', 'logging_level', default='WARNING').upper()
-            log_level = {'ERROR': logging.ERROR, 'INFO': logging.INFO, 'WARNING': logging.WARNING}.get(config_log_level, logging.ERROR)
+            config_log_level = self.config_manager.get_setting('Settings', 'logging_level', default='INFO').upper()
+            log_level = {'DEBUG': logging.DEBUG, 'ERROR': logging.ERROR, 'INFO': logging.INFO, 'WARNING': logging.WARNING}.get(config_log_level, logging.INFO)
             logger = logging.getLogger()
             logger.setLevel(log_level)
 
