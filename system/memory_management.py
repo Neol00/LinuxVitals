@@ -51,6 +51,7 @@ class MemoryManager:
         self.memory_usage_label = None
         self.swap_usage_label = None
         self.memory_details_label = None
+        self.swap_details_label = None
 
     def read_memory_info(self) -> Dict[str, int]:
         """Read memory information from /proc/meminfo"""
@@ -145,13 +146,16 @@ class MemoryManager:
                 available_gb = self.available_memory / MemoryManagerConfig.BYTES_TO_GB
                 
                 details_text = f"Used: {used_gb:.1f} GB / {total_gb:.1f} GB\nAvailable: {available_gb:.1f} GB"
-                
+                self.memory_details_label.set_text(details_text)
+            
+            # Update separate swap details label
+            if self.swap_details_label:
                 if self.total_swap > 0:
                     swap_used_gb = self.used_swap / MemoryManagerConfig.BYTES_TO_GB
                     swap_total_gb = self.total_swap / MemoryManagerConfig.BYTES_TO_GB
-                    details_text += f"\nSwap: {swap_used_gb:.1f} GB / {swap_total_gb:.1f} GB"
-                
-                self.memory_details_label.set_text(details_text)
+                    self.swap_details_label.set_text(f"Swap: {swap_used_gb:.1f} GB / {swap_total_gb:.1f} GB")
+                else:
+                    self.swap_details_label.set_text("Swap: Not available")
                 
         except Exception as e:
             self.logger.error(f"Error updating memory GUI: {e}")

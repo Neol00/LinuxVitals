@@ -193,8 +193,17 @@ class DiskManager:
     def __init__(self, logger):
         self.logger = logger or self._create_dummy_logger()
         self.disks = {}  # Dict of device_name -> DiskInfo
+        
+        # GUI components (initialized by UI setup)
         self.disk_graphs = {}  # Dict of device_name -> DiskGraphArea
+        self.disk_usage_labels = {}  # Dict of device_name -> usage label
+        self.disk_details_labels = {}  # Dict of device_name -> details label
+        
+        # Legacy attributes for compatibility
         self.disk_labels = {}  # Dict of device_name -> labels dict
+        self.disk_graph = None  # Single graph reference (legacy)
+        self.disk_usage_label = None  # Single usage label (legacy)
+        self.disk_details_label = None  # Single details label (legacy)
         
         # Task management
         self.update_task_id = None
@@ -203,6 +212,7 @@ class DiskManager:
         self.is_virtualized = self._detect_virtualization()
         
         # Discover physical disks
+        self.logger.info("DiskManager initializing - discovering disks")
         self.discover_disks()
     
     def _create_dummy_logger(self):
@@ -240,7 +250,7 @@ class DiskManager:
             return False
 
     def discover_disks(self):
-        """Discover all physical disk drives (not partitions or virtual devices)"""
+        """Discover all physical disk drives and mounted zram devices (not partitions or virtual devices)"""
         try:
             self.disks.clear()
             
@@ -248,8 +258,14 @@ class DiskManager:
             physical_devices = []
             if os.path.exists('/sys/block'):
                 for device in os.listdir('/sys/block'):
-                    # Skip loop devices, ram disks, and other virtual devices
-                    if device.startswith(('loop', 'ram', 'dm-', 'sr', 'fd', 'zram')):
+                    # Handle zram devices specially - only include if mounted as filesystem (not swap)
+                    if device.startswith('zram'):
+                        if self._is_zram_filesystem(device):
+                            physical_devices.append(device)
+                        continue
+                    
+                    # Skip other virtual devices
+                    if device.startswith(('loop', 'ram', 'dm-', 'sr', 'fd')):
                         continue
                     
                     device_path = f'/sys/block/{device}'
@@ -270,10 +286,40 @@ class DiskManager:
                 disk_info = DiskInfo(device, model, size)
                 self.disks[device] = disk_info
                 
-                self.logger.info(f"Discovered physical disk: {device} ({model}, {size})")
+                if device.startswith('zram'):
+                    self.logger.info(f"Discovered mounted zram device: {device} ({model}, {size})")
+                else:
+                    self.logger.info(f"Discovered physical disk: {device} ({model}, {size})")
                 
         except Exception as e:
             self.logger.error(f"Error discovering disks: {e}")
+    
+    def _is_zram_filesystem(self, device):
+        """Check if a zram device is mounted as a filesystem (not swap)"""
+        try:
+            device_path = f'/dev/{device}'
+            
+            # Read /proc/mounts to check if zram device is mounted
+            with open('/proc/mounts', 'r') as f:
+                for line in f:
+                    fields = line.strip().split()
+                    if len(fields) >= 3:
+                        mount_device = fields[0]
+                        mount_point = fields[1]
+                        filesystem_type = fields[2]
+                        
+                        # Check if this is our zram device
+                        if mount_device == device_path:
+                            # Exclude swap filesystems
+                            if filesystem_type.lower() != 'swap':
+                                self.logger.info(f"Found zram device {device} mounted as {filesystem_type} on {mount_point}")
+                                return True
+            
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Error checking zram device {device}: {e}")
+            return False
     
     def _is_physical_disk(self, device, device_path):
         """Check if a device is a real physical disk"""
@@ -342,6 +388,10 @@ class DiskManager:
     def _get_disk_model(self, device):
         """Get disk model from sysfs"""
         try:
+            # Handle zram devices specially
+            if device.startswith('zram'):
+                return "zram Compressed RAM Device"
+            
             model_path = f'/sys/block/{device}/device/model'
             if os.path.exists(model_path):
                 with open(model_path, 'r') as f:
@@ -377,9 +427,11 @@ class DiskManager:
         try:
             # Read /proc/diskstats
             if not os.path.exists('/proc/diskstats'):
+                self.logger.warning("'/proc/diskstats' not found")
                 return
                 
             current_time = time.time()
+            processed_devices = []
             
             with open('/proc/diskstats', 'r') as f:
                 for line in f:
@@ -394,56 +446,80 @@ class DiskManager:
                         continue
                         
                     disk_info = self.disks[device_name]
+                    processed_devices.append(device_name)
                     
-                    # Parse diskstats fields
-                    read_ios = int(fields[3])
-                    read_sectors = int(fields[5])
-                    write_ios = int(fields[7])
-                    write_sectors = int(fields[9])
-                    io_time_ms = int(fields[12])
-                    
-                    # Convert sectors to bytes
-                    read_bytes = read_sectors * DiskManagerConfig.SECTOR_SIZE
-                    write_bytes = write_sectors * DiskManagerConfig.SECTOR_SIZE
-                    
-                    # Calculate rates if we have previous data
-                    time_delta = current_time - disk_info.prev_timestamp
-                    if time_delta > 0 and disk_info.prev_timestamp > 0:
-                        # Calculate bytes per second
-                        read_bytes_delta = read_bytes - disk_info.prev_read_bytes
-                        write_bytes_delta = write_bytes - disk_info.prev_write_bytes
+                    try:
+                        # Parse diskstats fields with error handling
+                        read_ios = int(fields[3])
+                        read_sectors = int(fields[5])
+                        write_ios = int(fields[7])
+                        write_sectors = int(fields[9])
+                        io_time_ms = int(fields[12])
                         
-                        disk_info.read_bytes_per_sec = max(0, read_bytes_delta / time_delta)
-                        disk_info.write_bytes_per_sec = max(0, write_bytes_delta / time_delta)
+                        # Convert sectors to bytes
+                        read_bytes = read_sectors * DiskManagerConfig.SECTOR_SIZE
+                        write_bytes = write_sectors * DiskManagerConfig.SECTOR_SIZE
                         
-                        # Calculate IOPS
-                        read_ios_delta = read_ios - disk_info.prev_read_ios
-                        write_ios_delta = write_ios - disk_info.prev_write_ios
+                        # Calculate rates if we have previous data
+                        time_delta = current_time - disk_info.prev_timestamp
+                        if time_delta > 0 and disk_info.prev_timestamp > 0 and time_delta < 300:  # Skip if delta > 5 minutes (likely first measurement)
+                            # Calculate bytes per second
+                            read_bytes_delta = read_bytes - disk_info.prev_read_bytes
+                            write_bytes_delta = write_bytes - disk_info.prev_write_bytes
+                            
+                            # Handle counter rollover (unlikely but possible)
+                            if read_bytes_delta < 0:
+                                read_bytes_delta = read_bytes
+                            if write_bytes_delta < 0:
+                                write_bytes_delta = write_bytes
+                            
+                            disk_info.read_bytes_per_sec = read_bytes_delta / time_delta
+                            disk_info.write_bytes_per_sec = write_bytes_delta / time_delta
+                            
+                            # Calculate IOPS
+                            read_ios_delta = read_ios - disk_info.prev_read_ios
+                            write_ios_delta = write_ios - disk_info.prev_write_ios
+                            
+                            # Handle counter rollover
+                            if read_ios_delta < 0:
+                                read_ios_delta = read_ios
+                            if write_ios_delta < 0:
+                                write_ios_delta = write_ios
+                            
+                            disk_info.read_iops = read_ios_delta / time_delta
+                            disk_info.write_iops = write_ios_delta / time_delta
+                            
+                            # Calculate utilization percentage
+                            io_time_delta = io_time_ms - disk_info.prev_io_time
+                            if io_time_delta < 0:
+                                io_time_delta = io_time_ms
+                            
+                            disk_info.utilization = min(100.0, max(0, (io_time_delta / (time_delta * 1000)) * 100))
+                            
+                            # Update history (convert bytes/sec to MB/sec for display)
+                            disk_info.read_history.pop(0)
+                            disk_info.read_history.append(disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
+                            
+                            disk_info.write_history.pop(0)
+                            disk_info.write_history.append(disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
+                            
+                            disk_info.utilization_history.pop(0)
+                            disk_info.utilization_history.append(disk_info.utilization)
                         
-                        disk_info.read_iops = max(0, read_ios_delta / time_delta)
-                        disk_info.write_iops = max(0, write_ios_delta / time_delta)
+                        # Store current values for next iteration
+                        disk_info.prev_read_bytes = read_bytes
+                        disk_info.prev_write_bytes = write_bytes
+                        disk_info.prev_read_ios = read_ios
+                        disk_info.prev_write_ios = write_ios
+                        disk_info.prev_io_time = io_time_ms
+                        disk_info.prev_timestamp = current_time
                         
-                        # Calculate utilization percentage
-                        io_time_delta = io_time_ms - disk_info.prev_io_time
-                        disk_info.utilization = min(100.0, max(0, (io_time_delta / (time_delta * 1000)) * 100))
-                        
-                        # Update history (convert bytes/sec to MB/sec for display)
-                        disk_info.read_history.pop(0)
-                        disk_info.read_history.append(disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
-                        
-                        disk_info.write_history.pop(0)
-                        disk_info.write_history.append(disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
-                        
-                        disk_info.utilization_history.pop(0)
-                        disk_info.utilization_history.append(disk_info.utilization)
-                    
-                    # Store current values for next iteration
-                    disk_info.prev_read_bytes = read_bytes
-                    disk_info.prev_write_bytes = write_bytes
-                    disk_info.prev_read_ios = read_ios
-                    disk_info.prev_write_ios = write_ios
-                    disk_info.prev_io_time = io_time_ms
-                    disk_info.prev_timestamp = current_time
+                    except (ValueError, IndexError) as e:
+                        self.logger.error(f"Error parsing diskstats for {device_name}: {e}")
+                        continue
+            
+            if not processed_devices:
+                self.logger.warning("No disk devices were processed from /proc/diskstats")
                     
         except Exception as e:
             self.logger.error(f"Error updating disk stats: {e}")
@@ -453,26 +529,20 @@ class DiskManager:
         try:
             for device_name, disk_info in self.disks.items():
                 # Update graph
-                if device_name in self.disk_graphs:
+                if hasattr(self, 'disk_graphs') and device_name in self.disk_graphs:
                     self.disk_graphs[device_name].queue_draw()
                 
-                # Update labels
-                if device_name in self.disk_labels:
-                    labels = self.disk_labels[device_name]
-                    
-                    # Update utilization label
-                    if 'utilization' in labels:
-                        labels['utilization'].set_text(f"{disk_info.utilization:.1f}%")
-                    
-                    # Update read speed label
-                    if 'read_speed' in labels:
-                        read_speed_mb = disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
-                        labels['read_speed'].set_markup(f'<span color="#4CAF50">R: {read_speed_mb:.1f} MB/s</span>')
-                    
-                    # Update write speed label
-                    if 'write_speed' in labels:
-                        write_speed_mb = disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
-                        labels['write_speed'].set_markup(f'<span color="#E91E63">W: {write_speed_mb:.1f} MB/s</span>')
+                # Update usage labels (total throughput)
+                if hasattr(self, 'disk_usage_labels') and device_name in self.disk_usage_labels:
+                    total_throughput = (disk_info.read_bytes_per_sec + disk_info.write_bytes_per_sec) / DiskManagerConfig.BYTES_TO_MB
+                    self.disk_usage_labels[device_name].set_text(f"{total_throughput:.1f} MB/s")
+                
+                # Update details labels (read/write breakdown)
+                if hasattr(self, 'disk_details_labels') and device_name in self.disk_details_labels:
+                    read_speed_mb = disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
+                    write_speed_mb = disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
+                    details_text = f"Size: {disk_info.size} | Read: {read_speed_mb:.1f} MB/s | Write: {write_speed_mb:.1f} MB/s"
+                    self.disk_details_labels[device_name].set_text(details_text)
                         
         except Exception as e:
             self.logger.error(f"Error updating disk GUI: {e}")

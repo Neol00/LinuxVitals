@@ -453,7 +453,7 @@ class MonitorTabManager:
             swap_details_label = self.widget_factory.create_label(swap_bottom_row, text="Swap: 0.0 GB / 0.0 GB")
             swap_details_label.set_halign(Gtk.Align.START)
             swap_details_label.get_style_context().add_class('medium-label')
-            # Note: swap_details_label should be stored but the memory_manager doesn't have this attribute
+            self.memory_manager.swap_details_label = swap_details_label
             
             swap_labels_box.append(swap_bottom_row)
             swap_overlay.add_overlay(swap_labels_box)
@@ -462,7 +462,7 @@ class MonitorTabManager:
             self.logger.error(f"Error creating memory graphs section: {e}")
     
     def _create_disk_graphs_section(self, monitor_box):
-        """Create the disk monitoring section"""
+        """Create the disk monitoring section with individual graphs per disk"""
         try:
             # Disk section header  
             disk_header = self.widget_factory.create_label(monitor_box, text="Disk Usage")
@@ -471,7 +471,33 @@ class MonitorTabManager:
             disk_header.set_margin_bottom(10)
             disk_header.set_halign(Gtk.Align.START)
             
-            # Create disk graph
+            # Initialize disk manager's graph storage if not already done
+            if not hasattr(self.disk_manager, 'disk_graphs'):
+                self.disk_manager.disk_graphs = {}
+            if not hasattr(self.disk_manager, 'disk_usage_labels'):
+                self.disk_manager.disk_usage_labels = {}
+            if not hasattr(self.disk_manager, 'disk_details_labels'):
+                self.disk_manager.disk_details_labels = {}
+            
+            # Discover disks first to know what we're working with
+            self.disk_manager.discover_disks()
+            
+            self.logger.info(f"Creating disk graphs for {len(self.disk_manager.disks)} discovered disks: {list(self.disk_manager.disks.keys())}")
+            
+            # Create a graph for each discovered disk
+            for device_name, disk_info in self.disk_manager.disks.items():
+                self.logger.info(f"Creating disk graph for {device_name}")
+                self._create_single_disk_graph(monitor_box, device_name, disk_info)
+                
+        except Exception as e:
+            self.logger.error(f"Error creating disk graphs section: {e}")
+    
+    def _create_single_disk_graph(self, monitor_box, device_name, disk_info):
+        """Create a single disk graph for the specified device"""
+        try:
+            from system.disk_management import DiskGraphArea
+            
+            # Create disk graph frame
             disk_frame = self.widget_factory.create_frame()
             disk_frame.set_size_request(400, 120)
             monitor_box.append(disk_frame)
@@ -481,16 +507,13 @@ class MonitorTabManager:
             disk_frame.set_child(disk_overlay)
             
             # Create disk graph area
-            from system.disk_management import DiskGraphArea, DiskInfo
-            # Create a generic disk info for the overview graph
-            disk_info = DiskInfo("overview", "System Disk", "N/A")
             disk_graph = DiskGraphArea(disk_info)
             disk_graph.set_content_width(400)
             disk_graph.set_content_height(120)
             disk_overlay.set_child(disk_graph)
             
             # Store reference for updates
-            self.disk_manager.disk_graph = disk_graph
+            self.disk_manager.disk_graphs[device_name] = disk_graph
             
             # Disk labels overlay
             disk_labels_box = self.widget_factory.create_vertical_box()
@@ -501,7 +524,12 @@ class MonitorTabManager:
             disk_top_row = self.widget_factory.create_horizontal_box(
                 margin_start=5, margin_end=5, margin_top=5)
             
-            disk_header = self.widget_factory.create_label(disk_top_row, text="Disk I/O")
+            # Display device name and model
+            disk_title = f"{device_name} ({disk_info.model})"
+            if len(disk_title) > 40:  # Truncate if too long
+                disk_title = disk_title[:37] + "..."
+            
+            disk_header = self.widget_factory.create_label(disk_top_row, text=disk_title)
             disk_header.set_halign(Gtk.Align.START)
             disk_header.get_style_context().add_class('medium-header')
             
@@ -522,16 +550,16 @@ class MonitorTabManager:
             disk_bottom_row = self.widget_factory.create_horizontal_box(
                 margin_start=5, margin_bottom=5)
             
-            disk_details_label = self.widget_factory.create_label(disk_bottom_row, text="Read: 0 MB/s | Write: 0 MB/s")
+            disk_details_label = self.widget_factory.create_label(disk_bottom_row, text=f"Size: {disk_info.size} | Read: 0 MB/s | Write: 0 MB/s")
             disk_details_label.set_halign(Gtk.Align.START)
             disk_details_label.get_style_context().add_class('medium-label')
             
             # Store references for updates
-            self.disk_manager.disk_usage_label = disk_usage_label
-            self.disk_manager.disk_details_label = disk_details_label
+            self.disk_manager.disk_usage_labels[device_name] = disk_usage_label
+            self.disk_manager.disk_details_labels[device_name] = disk_details_label
             
             disk_labels_box.append(disk_bottom_row)
             disk_overlay.add_overlay(disk_labels_box)
                 
         except Exception as e:
-            self.logger.error(f"Error creating disk graphs section: {e}")
+            self.logger.error(f"Error creating disk graph for {device_name}: {e}")
