@@ -194,7 +194,7 @@ class LinuxVitalsApp(Gtk.Application):
             # Tab information
             self.tabs_info = [
                 ("Monitor", "computer-symbolic"),
-                ("Processes", "applications-system-symbolic"),
+                ("Processes", "system-run-symbolic"),
                 ("Mounts", "drive-harddisk-symbolic"),
                 ("Services", "preferences-system-symbolic")
             ]

@@ -1269,56 +1269,31 @@ class ProcessManager:
             if not dialog:
                 self.logger.error("Failed to create properties dialog")
                 return
-            dialog.set_default_size(500, 400)
+            dialog.set_default_size(700, 600)
             
             content_area = dialog.get_content_area()
             
             # Create scrolled window for process details
-            scrolled = self.widget_factory.create_scrolled_window(
-                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-            )
+            scrolled = Gtk.ScrolledWindow()
+            scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+            scrolled.set_vexpand(True)
+            scrolled.set_hexpand(True)
+            scrolled.set_margin_top(10)
+            scrolled.set_margin_bottom(10)
+            scrolled.set_margin_start(10)
+            scrolled.set_margin_end(10)
             
-            text_view = self.widget_factory.create_text_view()
+            text_view = Gtk.TextView()
             text_view.set_editable(False)
             text_view.set_wrap_mode(Gtk.WrapMode.WORD)
+            text_view.set_margin_top(10)
+            text_view.set_margin_bottom(10)
+            text_view.set_margin_start(10)
+            text_view.set_margin_end(10)
             
             # Get detailed process information
             try:
-                if PSUTIL_AVAILABLE:
-                    proc = psutil.Process(pid)
-                    details = f"""Process Details:
-
-PID: {proc_info.pid}
-Name: {proc_info.name}
-Status: {proc_info.status}
-User: {proc_info.user}
-CPU Usage: {proc_info.cpu_percent:.1f}%
-Memory Usage: {proc_info.memory_percent:.1f}% ({proc_info.memory_mb:.1f} MB)
-Parent PID: {proc_info.ppid or 'None'}
-
-Command Line:
-{proc_info.cmdline}
-
-Working Directory: {proc.cwd() if hasattr(proc, 'cwd') else 'N/A'}
-Create Time: {proc.create_time() if hasattr(proc, 'create_time') else 'N/A'}
-"""
-                else:
-                    # Basic details when psutil not available
-                    details = f"""Process Details:
-
-PID: {proc_info.pid}
-Name: {proc_info.name}
-Status: {proc_info.status}
-User: {proc_info.user}
-CPU Usage: {proc_info.cpu_percent:.1f}%
-Memory Usage: {proc_info.memory_percent:.1f}% ({proc_info.memory_mb:.1f} MB)
-Parent PID: {proc_info.ppid or 'None'}
-
-Command Line:
-{proc_info.cmdline}
-
-Note: Install psutil for more detailed process information.
-"""
+                details = self._get_detailed_process_info(pid, proc_info)
             except Exception as e:
                 details = f"Error getting detailed process information: {e}"
             
@@ -1336,6 +1311,192 @@ Note: Install psutil for more detailed process information.
             
         except Exception as e:
             self.logger.error(f"Error showing process properties: {e}")
+
+    def _get_detailed_process_info(self, pid, proc_info):
+        """Get comprehensive process information from /proc filesystem"""
+        try:
+            # Start with basic information
+            details = """Process Information
+==================================================
+
+Basic Details:
+  PID: {}
+  Name: {}
+  Status: {}
+  User: {}
+  Parent PID: {}
+
+Performance:
+  CPU Usage: {:.1f}%
+  Memory Usage: {:.1f} MB
+  Command Line: {}
+
+""".format(
+                proc_info.pid,
+                proc_info.name,
+                proc_info.status,
+                proc_info.user,
+                proc_info.ppid or 'None',
+                proc_info.cpu_percent,
+                proc_info.memory_mb,
+                proc_info.cmdline
+            )
+
+            # Read additional information from /proc filesystem
+            proc_dir = '/proc/{}'.format(pid)
+            
+            # Get status information
+            try:
+                with open('{}/status'.format(proc_dir), 'r') as f:
+                    status_info = {}
+                    for line in f:
+                        if ':' in line:
+                            key, value = line.strip().split(':', 1)
+                            status_info[key.strip()] = value.strip()
+                
+                details += "Process Status Details:\n"
+                
+                # Priority and scheduling
+                if 'State' in status_info:
+                    details += "  State: {}\n".format(status_info['State'])
+                if 'Tgid' in status_info:
+                    details += "  Thread Group ID: {}\n".format(status_info['Tgid'])
+                if 'Ngid' in status_info:
+                    details += "  NUMA Group ID: {}\n".format(status_info['Ngid'])
+                
+                # Memory details
+                details += "\nMemory Information:\n"
+                if 'VmPeak' in status_info:
+                    details += "  Virtual Memory Peak: {}\n".format(status_info['VmPeak'])
+                if 'VmSize' in status_info:
+                    details += "  Virtual Memory Size: {}\n".format(status_info['VmSize'])
+                if 'VmRSS' in status_info:
+                    details += "  Physical Memory (RSS): {}\n".format(status_info['VmRSS'])
+                if 'VmSwap' in status_info:
+                    details += "  Swap Usage: {}\n".format(status_info['VmSwap'])
+                
+                # Thread information
+                if 'Threads' in status_info:
+                    details += "\nThread Count: {}\n".format(status_info['Threads'])
+                
+                # User/Group IDs
+                details += "\nProcess Ownership:\n"
+                if 'Uid' in status_info:
+                    uids = status_info['Uid'].split()
+                    details += "  Real UID: {} | Effective UID: {}\n".format(uids[0], uids[1])
+                if 'Gid' in status_info:
+                    gids = status_info['Gid'].split()
+                    details += "  Real GID: {} | Effective GID: {}\n".format(gids[0], gids[1])
+                
+            except Exception as e:
+                details += "  Status info unavailable: {}\n".format(e)
+            
+            # Get command line arguments
+            try:
+                with open('{}/cmdline'.format(proc_dir), 'r') as f:
+                    cmdline_raw = f.read()
+                    if cmdline_raw:
+                        # Split on null bytes and filter empty strings
+                        args = [arg for arg in cmdline_raw.split('\0') if arg]
+                        details += "\nCommand Line Arguments:\n"
+                        for i, arg in enumerate(args):
+                            details += "  [{}]: {}\n".format(i, arg)
+                    else:
+                        details += "\nCommand Line: [kernel thread]\n"
+            except Exception as e:
+                details += "\nCommand line unavailable: {}\n".format(e)
+            
+            # Get environment variables (limited for security)
+            try:
+                with open('{}/environ'.format(proc_dir), 'r') as f:
+                    environ_raw = f.read()
+                    if environ_raw:
+                        env_vars = [env for env in environ_raw.split('\0') if env and not any(secret in env.upper() for secret in ['PASSWORD', 'TOKEN', 'KEY', 'SECRET'])]
+                        details += "\nEnvironment Variables (filtered):\n"
+                        for env in env_vars[:10]:  # Limit to first 10 to avoid clutter
+                            if '=' in env:
+                                key, value = env.split('=', 1)
+                                # Truncate very long values
+                                if len(value) > 100:
+                                    value = value[:97] + "..."
+                                details += "  {}={}\n".format(key, value)
+                        if len(env_vars) > 10:
+                            details += "  ... and {} more variables\n".format(len(env_vars) - 10)
+            except Exception as e:
+                details += "\nEnvironment variables unavailable: {}\n".format(e)
+            
+            # Get file descriptor information
+            try:
+                fd_dir = '{}/fd'.format(proc_dir)
+                if os.path.exists(fd_dir):
+                    fds = os.listdir(fd_dir)
+                    details += "\nFile Descriptors: {} open\n".format(len(fds))
+                    
+                    # Show first few file descriptors
+                    for fd in sorted(fds, key=int)[:5]:
+                        try:
+                            target = os.readlink('{}/{}'.format(fd_dir, fd))
+                            details += "  {}: {}\n".format(fd, target)
+                        except:
+                            details += "  {}: [access denied]\n".format(fd)
+                    if len(fds) > 5:
+                        details += "  ... and {} more file descriptors\n".format(len(fds) - 5)
+            except Exception as e:
+                details += "\nFile descriptor info unavailable: {}\n".format(e)
+            
+            # Get working directory
+            try:
+                cwd = os.readlink('{}/cwd'.format(proc_dir))
+                details += "\nWorking Directory: {}\n".format(cwd)
+            except Exception as e:
+                details += "\nWorking directory unavailable: {}\n".format(e)
+            
+            # Get executable path
+            try:
+                exe = os.readlink('{}/exe'.format(proc_dir))
+                details += "Executable: {}\n".format(exe)
+            except Exception as e:
+                details += "Executable path unavailable: {}\n".format(e)
+            
+            # Get process timing information
+            try:
+                with open('{}/stat'.format(proc_dir), 'r') as f:
+                    stat_line = f.read().strip()
+                    fields = stat_line.split()
+                    if len(fields) >= 22:
+                        # Calculate process start time
+                        starttime_ticks = int(fields[21])
+                        boot_time = self._get_boot_time()
+                        if boot_time:
+                            clock_ticks = os.sysconf(os.sysconf_names.get('SC_CLK_TCK', 100))
+                            start_time = boot_time + (starttime_ticks / clock_ticks)
+                            import datetime
+                            start_dt = datetime.datetime.fromtimestamp(start_time)
+                            details += "Start Time: {}\n".format(start_dt.strftime('%Y-%m-%d %H:%M:%S'))
+                        
+                        # Priority and nice values
+                        priority = int(fields[17])
+                        nice = int(fields[18])
+                        details += "Priority: {} | Nice: {}\n".format(priority, nice)
+                        
+            except Exception as e:
+                details += "Timing information unavailable: {}\n".format(e)
+            
+            return details
+            
+        except Exception as e:
+            return "Error gathering process details: {}".format(e)
+    
+    def _get_boot_time(self):
+        """Get system boot time from /proc/stat"""
+        try:
+            with open('/proc/stat', 'r') as f:
+                for line in f:
+                    if line.startswith('btime '):
+                        return float(line.split()[1])
+        except:
+            pass
+        return None
 
     def set_update_interval(self, interval: float) -> None:
         """Set the update interval for process monitoring"""
