@@ -43,7 +43,7 @@ class SettingsWindow:
     def setup_main_settings_window(self):
         # Create the settings window
         try:
-            self.settings_window = self.widget_factory.create_window("Settings", None, 210, 170)
+            self.settings_window = self.widget_factory.create_window("Settings", None, 510, 370)
             self.settings_window.connect("close-request", self.close_settings_window)
         except Exception as e:
             self.logger.error(f"Error setting up settings window: {e}")
@@ -89,7 +89,7 @@ class SettingsWindow:
 
             # Create the info button for the Disable Scale Limits checkbutton
             info_button_scale = self.widget_factory.create_info_button(
-                settings_fixed, self.scale_info_window, x=160, y=10)
+                settings_fixed, self.scale_info_window, x=200, y=10)
 
             # Create the MHz to GHz toggle checkbutton
             self.mhz_to_ghz_checkbutton = self.widget_factory.create_checkbutton(
@@ -97,7 +97,7 @@ class SettingsWindow:
 
             # Create the info button for the MHz to GHz checkbutton
             info_button_mhz_to_ghz = self.widget_factory.create_info_button(
-                settings_fixed, self.mhz_to_ghz_info_window, x=160, y=40)
+                settings_fixed, self.mhz_to_ghz_info_window, x=200, y=40)
 
             # Create the Apply On Boot checkbutton (initially disabled)
             self.apply_on_boot_checkbutton = self.widget_factory.create_checkbutton(
@@ -106,7 +106,7 @@ class SettingsWindow:
 
             # Create the info button for the Apply On Boot checkbutton
             info_button_apply_boot = self.widget_factory.create_info_button(
-                settings_fixed, self.apply_boot_info_window, x=160, y=70)
+                settings_fixed, self.apply_boot_info_window, x=200, y=70)
 
             # Create the Dark Mode toggle checkbutton
             self.dark_mode_checkbutton = self.widget_factory.create_checkbutton(
@@ -114,24 +114,24 @@ class SettingsWindow:
 
             # Create the info button for the Dark Mode checkbutton
             info_button_dark_mode = self.widget_factory.create_info_button(
-                settings_fixed, self.dark_mode_info_window, x=160, y=100)
+                settings_fixed, self.dark_mode_info_window, x=200, y=100)
 
             # Create the Remember Window Size toggle checkbutton
             self.remember_window_size_checkbutton = self.widget_factory.create_checkbutton(
-                settings_fixed, "Remember Window Size", self.get_current_window_size_preference(), self.on_remember_window_size_toggle, x=5, y=130)
+                settings_fixed, "Remember Window Size", self.get_current_window_size_preference(), self.on_remember_window_size_toggle, x=5, y=130, margin_end=5)
 
             # Create the info button for the Remember Window Size checkbutton
             info_button_window_size = self.widget_factory.create_info_button(
-                settings_fixed, self.window_size_info_window, x=160, y=130)
+                settings_fixed, self.window_size_info_window, x=200, y=130)
 
             # Create the update interval label and spinbutton
             interval_label = self.widget_factory.create_label(
-                settings_fixed, "Update Interval Seconds:", x=23, y=160)
+                settings_fixed, "Update Interval Seconds:", x=23, y=200)
             interval_spinbutton = self.widget_factory.create_spinbutton(
-                settings_fixed, self.cpu_manager.update_interval, 0.1, 20.0, 0.1, 1, 0.1, 1, self.on_interval_changed, x=40, y=185, margin_bottom=10)
+                settings_fixed, self.cpu_manager.update_interval, 0.1, 20.0, 0.1, 1, 0.1, 1, self.on_interval_changed, x=50, y=165, margin_bottom=10)
 
             # Adjust window size to fit content properly
-            self.settings_window.set_default_size(210, 230)
+            self.settings_window.set_default_size(230, 230)
 
         except Exception as e:
             self.logger.error(f"Error setting up settings window GUI: {e}")

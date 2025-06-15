@@ -275,8 +275,9 @@ class ScaleManager:
     def on_sync_scales_change(self, checkbutton):
         # Handle changes to the sync scales setting
         try:
-            self.global_state.sync_scales = self.sync_scales_checkbutton.get_active()
+            self.global_state.sync_scales = checkbutton.get_active()
             self.config_manager.set_setting('Settings', 'sync_scales', str(self.global_state.sync_scales))
+            self.logger.info(f"Sync scales {'enabled' if self.global_state.sync_scales else 'disabled'}")
         except Exception as e:
             self.logger.error(f"Error changing sync scales setting: {e}")
 

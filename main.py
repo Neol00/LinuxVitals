@@ -607,6 +607,10 @@ class LinuxVitalsApp(Gtk.Application):
             self.select_all_threads_checkbutton = self.widget_factory.create_checkbutton(
                 select_all_box, "Select All Threads", True, self.on_select_all_threads_toggled)
             
+            # Sync scales checkbutton in the same row
+            self.sync_scales_checkbutton = self.widget_factory.create_checkbutton(
+                select_all_box, "Sync Scales", self.global_state.sync_scales, self.scale_manager.on_sync_scales_change)
+            
             # Apply button in the same row
             self.apply_max_min_button = self.widget_factory.create_button(
                 select_all_box, "Apply Frequency Limits", self.cpu_manager.apply_cpu_clock_speed_limits)
@@ -1145,6 +1149,8 @@ class LinuxVitalsApp(Gtk.Application):
                 self.gui_components.add_widget("cpu_max_scales", self.max_scales)
             if hasattr(self, 'apply_max_min_button'):
                 self.gui_components.add_widget("apply_max_min_button", self.apply_max_min_button)
+            if hasattr(self, 'sync_scales_checkbutton'):
+                self.gui_components.add_widget("sync_scales_checkbutton", self.sync_scales_checkbutton)
             if hasattr(self, 'governor_dropdown'):
                 self.gui_components.add_widget("governor_dropdown", self.governor_dropdown)
             if hasattr(self, 'boost_checkbutton'):
