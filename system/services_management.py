@@ -316,11 +316,7 @@ class ServicesManager:
             self.services_selection = self.services_tree_view.get_selection()
             self.services_selection.set_mode(Gtk.SelectionMode.SINGLE)
             
-            # Set up right-click context menu
-            gesture = Gtk.GestureClick.new()
-            gesture.set_button(3)  # Right mouse button
-            gesture.connect("pressed", self.on_service_right_click)
-            self.services_tree_view.add_controller(gesture)
+            # Right-click context menu removed - using static buttons instead
             
             return self.services_tree_view
             
@@ -372,96 +368,19 @@ class ServicesManager:
         except Exception as e:
             self.logger.error(f"Error updating services tree view: {e}")
 
-    def on_service_right_click(self, gesture, n_press, x, y):
-        """Handle right-click on services tree"""
+    def get_selected_service_info(self):
+        """Get information about the currently selected service"""
         try:
-            # Get the clicked path
-            path_info = self.services_tree_view.get_path_at_pos(int(x), int(y))
-            if not path_info:
-                return
-            
-            path = path_info[0]
-            if not path:
-                return
-            
-            # Select the clicked row
-            self.services_selection.select_path(path)
-            
-            # Get the service info
-            iter = self.services_store.get_iter(path)
-            service_name = self.services_store.get_value(iter, 0)
-            service_type = self.services_store.get_value(iter, 1)
-            service_status = self.services_store.get_value(iter, 2)
-            
-            # Show context menu
-            self.show_service_context_menu(gesture, service_name, service_type, service_status)
-            
+            model, iter = self.services_selection.get_selected()
+            if iter:
+                service_name = model.get_value(iter, 0)
+                service_type = model.get_value(iter, 1)
+                service_status = model.get_value(iter, 2)
+                return service_name, service_type, service_status
+            return None, None, None
         except Exception as e:
-            self.logger.error(f"Error handling service right-click: {e}")
-
-    def show_service_context_menu(self, gesture, service_name, service_type, service_status):
-        """Show context menu for service management"""
-        try:
-            context_menu = self.widget_factory.create_popover_menu()
-            menu_box = self.widget_factory.create_vertical_box()
-            
-            if service_type == "systemd":
-                if service_status == "active":
-                    # Stop service
-                    stop_button = self.widget_factory.create_button(None, "Stop Service")
-                    stop_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "stop"))
-                    menu_box.append(stop_button)
-                    
-                    # Restart service
-                    restart_button = self.widget_factory.create_button(None, "Restart Service")
-                    restart_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "restart"))
-                    menu_box.append(restart_button)
-                else:
-                    # Start service
-                    start_button = self.widget_factory.create_button(None, "Start Service")
-                    start_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "start"))
-                    menu_box.append(start_button)
-                
-                # Enable/Disable service
-                enable_button = self.widget_factory.create_button(None, "Enable Service")
-                enable_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "enable"))
-                menu_box.append(enable_button)
-                
-                disable_button = self.widget_factory.create_button(None, "Disable Service")
-                disable_button.connect("clicked", lambda w: self.control_systemd_service(service_name, "disable"))
-                menu_box.append(disable_button)
-            
-            elif service_type == "autostart":
-                # For autostart apps, we can enable/disable
-                if service_status == "enabled":
-                    disable_autostart_button = self.widget_factory.create_button(None, "Disable Autostart")
-                    disable_autostart_button.connect("clicked", lambda w: self.toggle_autostart_app(service_name, False))
-                    menu_box.append(disable_autostart_button)
-                else:
-                    enable_autostart_button = self.widget_factory.create_button(None, "Enable Autostart")
-                    enable_autostart_button.connect("clicked", lambda w: self.toggle_autostart_app(service_name, True))
-                    menu_box.append(enable_autostart_button)
-            
-            # Service Properties
-            props_button = self.widget_factory.create_button(None, "Properties")
-            props_button.connect("clicked", lambda w: self.show_service_properties(service_name, service_type))
-            menu_box.append(props_button)
-            
-            context_menu.set_child(menu_box)
-            context_menu.set_parent(self.services_tree_view)
-            
-            # Position the popover
-            rect = self.widget_factory.create_rectangle()
-            point = gesture.get_point(None)
-            if point[0]:
-                rect.x, rect.y = int(point[1]), int(point[2])
-                rect.width = rect.height = 1
-                context_menu.set_pointing_to(rect)
-            
-            context_menu.popup()
-            
-        except Exception as e:
-            self.logger.error(f"Error showing service context menu: {e}")
+            self.logger.error(f"Error getting selected service info: {e}")
+            return None, None, None
 
     def control_systemd_service(self, service_name, action):
         """Control a systemd service (start, stop, restart, enable, disable)"""

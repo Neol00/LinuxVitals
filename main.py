@@ -533,12 +533,15 @@ class LinuxVitalsApp(Gtk.Application):
     def create_services_widgets(self):
         """Create widgets for the services tab"""
         try:
-            # Services tree view
+            # Services menu bar (at top)
+            self.create_services_menu_bar()
+            
+            # Services tree view (below menu bar)
             services_tree = self.services_manager.create_services_tree_view()
             if services_tree:
-                self.services_grid.attach(services_tree, 0, 0, 1, 1)
+                self.services_grid.attach(services_tree, 0, 1, 1, 1)
                 
-                # Services filter controls
+                # Services filter controls (at bottom)
                 self.create_services_filter_controls()
                 
         except Exception as e:
@@ -559,10 +562,28 @@ class LinuxVitalsApp(Gtk.Application):
             self.autostart_check.connect("toggled", self.on_filter_changed)
             self.running_only_check.connect("toggled", self.on_filter_changed)
             
-            self.services_grid.attach(filter_box, 0, 1, 1, 1)
+            self.services_grid.attach(filter_box, 0, 2, 1, 1)
             
         except Exception as e:
             self.logger.error(f"Error creating services filter controls: {e}")
+
+    def create_services_menu_bar(self):
+        """Create the services management menu bar"""
+        try:
+            menu_bar = self.widget_factory.create_horizontal_box(spacing=5, margin_start=5, margin_top=5)
+            
+            # Service action buttons
+            self.service_start_button = self.widget_factory.create_button(menu_bar, "Start", self.start_selected_service)
+            self.service_stop_button = self.widget_factory.create_button(menu_bar, "Stop", self.stop_selected_service)
+            self.service_restart_button = self.widget_factory.create_button(menu_bar, "Restart", self.restart_selected_service)
+            self.service_enable_button = self.widget_factory.create_button(menu_bar, "Enable", self.enable_selected_service)
+            self.service_disable_button = self.widget_factory.create_button(menu_bar, "Disable", self.disable_selected_service)
+            self.service_properties_button = self.widget_factory.create_button(menu_bar, "Properties", self.show_selected_service_properties)
+            
+            self.services_grid.attach(menu_bar, 0, 0, 1, 1)
+            
+        except Exception as e:
+            self.logger.error(f"Error creating services menu bar: {e}")
 
     def create_control_widgets(self):
         """Create widgets for the control tab"""
@@ -1093,6 +1114,49 @@ class LinuxVitalsApp(Gtk.Application):
         """Show properties of the selected process"""
         selected_pid = self.process_manager.get_selected_process_pid()
         self.process_manager.execute_process_action('properties', selected_pid)
+
+    # Service Management Actions
+    def start_selected_service(self, widget):
+        """Start the selected service"""
+        service_name, service_type, _ = self.services_manager.get_selected_service_info()
+        if service_name and service_type == "systemd":
+            self.services_manager.control_systemd_service(service_name, "start")
+
+    def stop_selected_service(self, widget):
+        """Stop the selected service"""
+        service_name, service_type, _ = self.services_manager.get_selected_service_info()
+        if service_name and service_type == "systemd":
+            self.services_manager.control_systemd_service(service_name, "stop")
+
+    def restart_selected_service(self, widget):
+        """Restart the selected service"""
+        service_name, service_type, _ = self.services_manager.get_selected_service_info()
+        if service_name and service_type == "systemd":
+            self.services_manager.control_systemd_service(service_name, "restart")
+
+    def enable_selected_service(self, widget):
+        """Enable the selected service"""
+        service_name, service_type, service_status = self.services_manager.get_selected_service_info()
+        if service_name:
+            if service_type == "systemd":
+                self.services_manager.control_systemd_service(service_name, "enable")
+            elif service_type == "autostart" and service_status != "enabled":
+                self.services_manager.toggle_autostart_app(service_name, True)
+
+    def disable_selected_service(self, widget):
+        """Disable the selected service"""
+        service_name, service_type, service_status = self.services_manager.get_selected_service_info()
+        if service_name:
+            if service_type == "systemd":
+                self.services_manager.control_systemd_service(service_name, "disable")
+            elif service_type == "autostart" and service_status == "enabled":
+                self.services_manager.toggle_autostart_app(service_name, False)
+
+    def show_selected_service_properties(self, widget):
+        """Show properties of the selected service"""
+        service_name, service_type, _ = self.services_manager.get_selected_service_info()
+        if service_name:
+            self.services_manager.show_service_properties(service_name, service_type)
 
     # Filter and Menu Event Handlers
     def on_filter_changed(self, widget):
