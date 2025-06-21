@@ -55,7 +55,7 @@ class MonitorTabManager:
                 model_label.set_justify(Gtk.Justification.CENTER)
                 model_label.set_wrap(True)
                 model_label.set_halign(Gtk.Align.CENTER)
-                model_label.get_style_context().add_class('medium-label')
+                model_label.add_css_class('medium-label')
                 model_label.set_margin_bottom(10)
 
             # Create CPU graphs section
@@ -79,8 +79,8 @@ class MonitorTabManager:
             # Create a flow box for CPU graphs that will wrap based on available space
             cpu_graphs_flow = self.widget_factory.create_flowbox(
                 valign=Gtk.Align.START,
-                max_children_per_line=6,
-                min_children_per_line=1,
+                max_children_per_line=10,
+                min_children_per_line=2,
                 row_spacing=10,
                 column_spacing=10,
                 homogeneous=True,
@@ -94,7 +94,7 @@ class MonitorTabManager:
             for i in range(threads):
                 # Create frame for CPU graph
                 cpu_frame = self.widget_factory.create_frame()
-                cpu_frame.set_size_request(100, 80)
+                cpu_frame.set_size_request(120, 90)
                 cpu_graphs_flow.append(cpu_frame)
                 
                 # Create overlay for positioning labels over the graph
@@ -120,7 +120,7 @@ class MonitorTabManager:
                 
                 thread_label = self.widget_factory.create_label(top_row, text=f"CPU {i}")
                 thread_label.set_halign(Gtk.Align.START)
-                thread_label.get_style_context().add_class('small-label')
+                thread_label.add_css_class('small-label')
                 
                 cpu_labels_box.append(top_row)
                 
@@ -135,7 +135,7 @@ class MonitorTabManager:
                 # Clock frequency label (left side)
                 clock_label = self.widget_factory.create_label(bottom_row, text="0 MHz")
                 clock_label.set_halign(Gtk.Align.START)
-                clock_label.get_style_context().add_class('small-label')
+                clock_label.add_css_class('small-label')
                 self.clock_labels[i] = clock_label  # Use integer index
                 
                 # Spacer to push usage label to the right
@@ -145,7 +145,7 @@ class MonitorTabManager:
                 # Usage percentage label (right side)
                 usage_label = self.widget_factory.create_label(bottom_row, text="0%")
                 usage_label.set_halign(Gtk.Align.END)
-                usage_label.get_style_context().add_class('medium-header')
+                usage_label.add_css_class('medium-header')
                 self.usage_labels[i] = usage_label  # Use integer index
                 
                 cpu_labels_box.append(bottom_row)
@@ -180,7 +180,7 @@ class MonitorTabManager:
             
             avg_label = self.widget_factory.create_label(avg_top_row, text="Average")
             avg_label.set_halign(Gtk.Align.START)
-            avg_label.get_style_context().add_class('small-label')
+            avg_label.add_css_class('small-label')
             
             avg_labels_box.append(avg_top_row)
             
@@ -195,7 +195,7 @@ class MonitorTabManager:
             # Average clock frequency label (left side)
             avg_clock_label = self.widget_factory.create_label(avg_bottom_row, text="0 MHz")
             avg_clock_label.set_halign(Gtk.Align.START)
-            avg_clock_label.get_style_context().add_class('small-label')
+            avg_clock_label.add_css_class('small-label')
             self.avg_clock_label = avg_clock_label
             
             # Spacer to push usage label to the right
@@ -205,7 +205,7 @@ class MonitorTabManager:
             # Average usage percentage label (right side)
             avg_usage_label = self.widget_factory.create_label(avg_bottom_row, text="0%")
             avg_usage_label.set_halign(Gtk.Align.END)
-            avg_usage_label.get_style_context().add_class('medium-header')
+            avg_usage_label.add_css_class('medium-header')
             self.avg_usage_label = avg_usage_label
             
             avg_labels_box.append(avg_bottom_row)
@@ -246,12 +246,12 @@ class MonitorTabManager:
                     label = self.widget_factory.create_label(
                         cpu_info_grid, text=f"{label_text}:", x=0, y=row)
                     label.set_halign(Gtk.Align.START)
-                    label.get_style_context().add_class('small-label')
+                    label.add_css_class('small-label')
 
                     value_label = self.widget_factory.create_label(
                         cpu_info_grid, text=value_text, x=1, y=row)
                     value_label.set_halign(Gtk.Align.START)
-                    value_label.get_style_context().add_class('small-label')
+                    value_label.add_css_class('small-label')
                     row += 1
             
             # Initialize dynamic label references (will be created conditionally)
@@ -273,12 +273,12 @@ class MonitorTabManager:
                 temp_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text="Temperature:", x=0, y=self.current_grid_row)
                 temp_label.set_halign(Gtk.Align.START)
-                temp_label.get_style_context().add_class('small-label')
+                temp_label.add_css_class('small-label')
                 
                 self.package_temp_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text=temp_value, x=1, y=self.current_grid_row)
                 self.package_temp_label.set_halign(Gtk.Align.START)
-                self.package_temp_label.get_style_context().add_class('small-label')
+                self.package_temp_label.add_css_class('small-label')
                 self.current_grid_row += 1
             else:
                 self.package_temp_label.set_text(temp_value)
@@ -293,12 +293,12 @@ class MonitorTabManager:
                 governor_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text="Governor:", x=0, y=self.current_grid_row)
                 governor_label.set_halign(Gtk.Align.START)
-                governor_label.get_style_context().add_class('small-label')
+                governor_label.add_css_class('small-label')
                 
                 self.current_governor_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text=governor_value, x=1, y=self.current_grid_row)
                 self.current_governor_label.set_halign(Gtk.Align.START)
-                self.current_governor_label.get_style_context().add_class('small-label')
+                self.current_governor_label.add_css_class('small-label')
                 self.current_grid_row += 1
             else:
                 self.current_governor_label.set_text(governor_value)
@@ -314,12 +314,12 @@ class MonitorTabManager:
                 throttle_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text="Thermal Status:", x=0, y=self.current_grid_row)
                 throttle_label.set_halign(Gtk.Align.START)
-                throttle_label.get_style_context().add_class('small-label')
+                throttle_label.add_css_class('small-label')
                 
                 self.thermal_throttle_label = self.widget_factory.create_label(
                     self.cpu_info_grid, text="Throttling", x=1, y=self.current_grid_row)
                 self.thermal_throttle_label.set_halign(Gtk.Align.START)
-                self.thermal_throttle_label.get_style_context().add_class('small-label')
+                self.thermal_throttle_label.add_css_class('small-label')
                 self.thermal_throttle_label.set_markup('<span foreground="red">Throttling</span>')
                 self.current_grid_row += 1
             else:
@@ -334,7 +334,7 @@ class MonitorTabManager:
         try:
             # Memory section header
             memory_header = self.widget_factory.create_label(monitor_box, text="System Memory")
-            memory_header.get_style_context().add_class('medium-header')
+            memory_header.add_css_class('medium-header')
             memory_header.set_margin_top(20)
             memory_header.set_margin_bottom(10)
             memory_header.set_halign(Gtk.Align.START)
@@ -373,14 +373,14 @@ class MonitorTabManager:
             
             memory_header = self.widget_factory.create_label(memory_top_row, text="Memory")
             memory_header.set_halign(Gtk.Align.START)
-            memory_header.get_style_context().add_class('medium-header')
+            memory_header.add_css_class('medium-header')
             
             memory_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
             memory_top_row.append(memory_spacer)
             
             memory_usage_label = self.widget_factory.create_label(memory_top_row, text="0.0%")
             memory_usage_label.set_halign(Gtk.Align.END)
-            memory_usage_label.get_style_context().add_class('thick-header')
+            memory_usage_label.add_css_class('thick-header')
             self.memory_manager.memory_usage_label = memory_usage_label
             
             memory_labels_box.append(memory_top_row)
@@ -395,7 +395,7 @@ class MonitorTabManager:
             
             memory_details_label = self.widget_factory.create_label(memory_bottom_row, text="Memory: 0.0 GB / 0.0 GB")
             memory_details_label.set_halign(Gtk.Align.START)
-            memory_details_label.get_style_context().add_class('medium-label')
+            memory_details_label.add_css_class('medium-label')
             self.memory_manager.memory_details_label = memory_details_label
             
             memory_labels_box.append(memory_bottom_row)
@@ -430,14 +430,14 @@ class MonitorTabManager:
             
             swap_header = self.widget_factory.create_label(swap_top_row, text="Swap")
             swap_header.set_halign(Gtk.Align.START)
-            swap_header.get_style_context().add_class('medium-header')
+            swap_header.add_css_class('medium-header')
             
             swap_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
             swap_top_row.append(swap_spacer)
             
             swap_usage_label = self.widget_factory.create_label(swap_top_row, text="0.0%")
             swap_usage_label.set_halign(Gtk.Align.END)
-            swap_usage_label.get_style_context().add_class('thick-header')
+            swap_usage_label.add_css_class('thick-header')
             self.memory_manager.swap_usage_label = swap_usage_label
             
             swap_labels_box.append(swap_top_row)
@@ -452,7 +452,7 @@ class MonitorTabManager:
             
             swap_details_label = self.widget_factory.create_label(swap_bottom_row, text="Swap: 0.0 GB / 0.0 GB")
             swap_details_label.set_halign(Gtk.Align.START)
-            swap_details_label.get_style_context().add_class('medium-label')
+            swap_details_label.add_css_class('medium-label')
             self.memory_manager.swap_details_label = swap_details_label
             
             swap_labels_box.append(swap_bottom_row)
@@ -466,7 +466,7 @@ class MonitorTabManager:
         try:
             # Disk section header  
             disk_header = self.widget_factory.create_label(monitor_box, text="Disk Usage")
-            disk_header.get_style_context().add_class('medium-header')
+            disk_header.add_css_class('medium-header')
             disk_header.set_margin_top(20)
             disk_header.set_margin_bottom(10)
             disk_header.set_halign(Gtk.Align.START)
@@ -531,14 +531,14 @@ class MonitorTabManager:
             
             disk_header = self.widget_factory.create_label(disk_top_row, text=disk_title)
             disk_header.set_halign(Gtk.Align.START)
-            disk_header.get_style_context().add_class('medium-header')
+            disk_header.add_css_class('medium-header')
             
             disk_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
             disk_top_row.append(disk_spacer)
             
             disk_usage_label = self.widget_factory.create_label(disk_top_row, text="0 MB/s")
             disk_usage_label.set_halign(Gtk.Align.END)
-            disk_usage_label.get_style_context().add_class('thick-header')
+            disk_usage_label.add_css_class('thick-header')
             
             disk_labels_box.append(disk_top_row)
             
@@ -552,7 +552,7 @@ class MonitorTabManager:
             
             disk_details_label = self.widget_factory.create_label(disk_bottom_row, text=f"Size: {disk_info.size} | Read: 0 MB/s | Write: 0 MB/s")
             disk_details_label.set_halign(Gtk.Align.START)
-            disk_details_label.get_style_context().add_class('medium-label')
+            disk_details_label.add_css_class('medium-label')
             
             # Store references for updates
             self.disk_manager.disk_usage_labels[device_name] = disk_usage_label

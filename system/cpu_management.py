@@ -1289,14 +1289,14 @@ class CPUManager:
                 if self.cpu_file_search.cpu_type == "Intel" and self.cpu_file_search.intel_boost_path:
                     # For Intel CPUs, set the boost value based on the new status
                     value = '0' if is_enabled else '1'
-                    command_list.append(f'echo {value} | sudo tee {self.cpu_file_search.intel_boost_path} > /dev/null')
+                    command_list.append(f'echo {value} | tee {self.cpu_file_search.intel_boost_path} > /dev/null')
                 else:
                     # For non-Intel CPUs, toggle the boost for each thread
                     for i in range(self.cpu_file_search.thread_count):
                         boost_file = self.cpu_file_search.cpu_files['boost_files'].get(i)
                         if boost_file:
                             value = '1' if is_enabled else '0'
-                            command_list.append(f'echo {value} | sudo tee {boost_file} > /dev/null')
+                            command_list.append(f'echo {value} | tee {boost_file} > /dev/null')
                 return command_list
 
             def success_callback():
@@ -1367,7 +1367,7 @@ class CPUManager:
                 # Create the command to set the TDP value
                 tdp_value_watts = self.tdp_scale.get_value()
                 tdp_value_microwatts = int(tdp_value_watts * CPUManagerConfig.MICROWATTS_TO_WATTS)
-                command = f'echo {tdp_value_microwatts} | sudo tee {tdp_file} > /dev/null'
+                command = f'echo {tdp_value_microwatts} | tee {tdp_file} > /dev/null'
                 return command, tdp_value_microwatts
 
             def success_callback():
@@ -1423,7 +1423,7 @@ class CPUManager:
                 # Create the command to set the TDP value
                 tdp_value_watts = self.tdp_scale.get_value()
                 tdp_value_milliwatts = int(tdp_value_watts * CPUManagerConfig.WATTS_TO_MILLIWATTS)
-                command = f"printf '%0*x' 48 {tdp_value_milliwatts} | fold -w 2 | tac | tr -d '\\n' | xxd -r -p | sudo tee /sys/kernel/ryzen_smu_drv/smu_args && printf '\\x53' | sudo tee /sys/kernel/ryzen_smu_drv/rsmu_cmd"
+                command = f"printf '%0*x' 48 {tdp_value_milliwatts} | fold -w 2 | tac | tr -d '\\n' | xxd -r -p | tee /sys/kernel/ryzen_smu_drv/smu_args && printf '\\x53' | tee /sys/kernel/ryzen_smu_drv/rsmu_cmd"
                 return command, tdp_value_milliwatts
 
             def success_callback():
@@ -1489,8 +1489,8 @@ class CPUManager:
                 for core_id in range(physical_cores):
                     # Calculate smu_args_value for each core
                     smu_args_value = ((core_id & 8) << 5 | core_id & 7) << 20 | (offset_value & CPUManagerConfig.TWO_COMPLEMENT_MASK)
-                    commands.append(f"echo {smu_args_value} | sudo tee /sys/kernel/ryzen_smu_drv/smu_args > /dev/null")
-                    commands.append(f"echo '0x35' | sudo tee /sys/kernel/ryzen_smu_drv/mp1_smu_cmd > /dev/null")
+                    commands.append(f"echo {smu_args_value} | tee /sys/kernel/ryzen_smu_drv/smu_args > /dev/null")
+                    commands.append(f"echo '0x35' | tee /sys/kernel/ryzen_smu_drv/mp1_smu_cmd > /dev/null")
                 return " && ".join(commands)
 
             def success_callback():
@@ -1550,7 +1550,7 @@ class CPUManager:
                 for i in range(self.cpu_file_search.thread_count):
                     bias_file = epb_files.get(i)
                     if bias_file:
-                        command_list.append(f'echo "{bias_value}" | sudo tee {bias_file} > /dev/null')
+                        command_list.append(f'echo "{bias_value}" | tee {bias_file} > /dev/null')
                 return command_list
 
             def success_callback():

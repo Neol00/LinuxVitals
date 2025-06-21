@@ -578,6 +578,9 @@ class ProcessManager:
             self.process_selection = self.process_tree_view.get_selection()
             self.process_selection.set_mode(Gtk.SelectionMode.SINGLE)
             
+            # Store reference to callback for later connection
+            self.selection_changed_callback = None
+            
             # Note: Context menu now handled by selection-based menu bar in main UI
             
             return self.process_tree_view
@@ -585,6 +588,15 @@ class ProcessManager:
         except Exception as e:
             self.logger.error(f"Error creating process tree view: {e}")
             return None
+
+    def set_selection_changed_callback(self, callback):
+        """Set the callback for selection changes"""
+        try:
+            if self.process_selection and callback:
+                self.selection_changed_callback = callback
+                self.process_selection.connect("changed", callback)
+        except Exception as e:
+            self.logger.error(f"Error setting selection callback: {e}")
 
     def update_process_tree_view(self):
         """Update the process tree view with current process data"""
@@ -1115,7 +1127,7 @@ class ProcessManager:
             }.get(sig, f"send signal {sig} to")
             
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
@@ -1236,7 +1248,7 @@ class ProcessManager:
         """Show error dialog"""
         try:
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,
@@ -1564,7 +1576,7 @@ Performance:
             
             # Show confirmation dialog first
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.QUESTION,
                 buttons=Gtk.ButtonsType.YES_NO,

@@ -85,12 +85,12 @@ class LinuxVitalsApp(Gtk.Application):
             self.config_manager, self.logger, self.global_state, self.gui_components,
             self.widget_factory, self.cpu_file_search, self.privileged_actions, self.settings_applier)
         
-        self.memory_manager = MemoryManager(self.logger)
-        self.disk_manager = DiskManager(self.logger)
+        self.memory_manager = MemoryManager(self.logger, self.config_manager)
+        self.disk_manager = DiskManager(self.logger, self.config_manager)
         self.process_manager = ProcessManager(self.logger, self.config_manager, self.privileged_actions, self.widget_factory)
         self.process_manager.initialize_cpu_tracking()  # Initialize CPU tracking for accurate percentages
-        self.mounts_manager = MountsManager(self.logger, self.widget_factory)
-        self.services_manager = ServicesManager(self.logger, self.widget_factory)
+        self.mounts_manager = MountsManager(self.logger, self.widget_factory, self.privileged_actions)
+        self.services_manager = ServicesManager(self.logger, self.widget_factory, self.privileged_actions)
         
         self.scale_manager = ScaleManager(
             self.config_manager, self.logger, self.global_state, self.gui_components,
@@ -144,6 +144,9 @@ class LinuxVitalsApp(Gtk.Application):
             # Apply saved window size if enabled
             self.apply_saved_window_size()
             
+            # Set minimum window size to prevent widget clipping
+            self.window.set_size_request(800, 500)
+            
             # Set application icon
             if os.path.exists(self.icon_path):
                 self.window.set_icon_name("LinuxVitals")
@@ -183,12 +186,12 @@ class LinuxVitalsApp(Gtk.Application):
             
             # Navigation sidebar
             nav_frame = self.widget_factory.create_frame()
-            nav_frame.set_size_request(200, -1)
+            nav_frame.set_size_request(150, -1)
             nav_content_box.append(nav_frame)
             
             # Navigation list
             self.navigation_listbox = self.widget_factory.create_listbox()
-            self.navigation_listbox.get_style_context().add_class('navigation-sidebar')
+            self.navigation_listbox.add_css_class('navigation-sidebar')
             nav_frame.set_child(self.navigation_listbox)
             
             # Tab information
@@ -207,7 +210,7 @@ class LinuxVitalsApp(Gtk.Application):
             for tab_name, icon_name in self.tabs_info:
                 row = self.widget_factory.create_listbox_row()
                 content_box = self.widget_factory.create_horizontal_box(
-                    spacing=12, margin_start=12, margin_end=12, margin_top=8, margin_bottom=8)
+                    spacing=8, margin_start=8, margin_end=8, margin_top=6, margin_bottom=6)
                 
                 # Add icon
                 try:
@@ -241,6 +244,11 @@ class LinuxVitalsApp(Gtk.Application):
                 policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC),
                 hexpand=True, vexpand=True)
             
+            # Create container boxes for processes and services tabs (button bar + scrolled content)
+            self.processes_container = self.widget_factory.create_vertical_box(hexpand=True, vexpand=True)
+            self.services_container = self.widget_factory.create_vertical_box(hexpand=True, vexpand=True)
+            
+            # Create scrolled windows that will go inside the containers
             self.processes_scrolled = self.widget_factory.create_scrolled_window(
                 policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC),
                 hexpand=True, vexpand=True)
@@ -255,24 +263,18 @@ class LinuxVitalsApp(Gtk.Application):
             
             # Create content boxes
             self.monitor_box = self.widget_factory.create_vertical_box(
-                margin_start=10, margin_end=10, margin_top=10, margin_bottom=10)
+                margin_start=5, margin_end=5, margin_top=5, margin_bottom=5)
             self.monitor_scrolled.set_child(self.monitor_box)
             
-            # Create grids for other tabs
-            self.processes_grid = self.widget_factory.create_grid()
-            self.processes_scrolled.set_child(self.processes_grid)
-            
+            # Create grid for mounts tab (processes and services grids created in their widget methods)
             self.mounts_grid = self.widget_factory.create_grid()
             self.mounts_scrolled.set_child(self.mounts_grid)
             
-            self.services_grid = self.widget_factory.create_grid()
-            self.services_scrolled.set_child(self.services_grid)
-            
             # Add to stack
             self.content_stack.add_named(self.monitor_scrolled, "monitor")
-            self.content_stack.add_named(self.processes_scrolled, "processes")
+            self.content_stack.add_named(self.processes_container, "processes")
             self.content_stack.add_named(self.mounts_scrolled, "mounts")
-            self.content_stack.add_named(self.services_scrolled, "services")
+            self.content_stack.add_named(self.services_container, "services")
             
             # Add control tab if supported
             if self.hardware_detector.show_control_tab:
@@ -280,7 +282,7 @@ class LinuxVitalsApp(Gtk.Application):
                     policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC),
                     hexpand=True, vexpand=True)
                 self.control_box = self.widget_factory.create_vertical_box(
-                    margin_start=10, margin_end=10, margin_top=10, margin_bottom=10)
+                    margin_start=5, margin_end=5, margin_top=5, margin_bottom=5)
                 self.control_scrolled.set_child(self.control_box)
                 self.content_stack.add_named(self.control_scrolled, "control")
             
@@ -296,7 +298,7 @@ class LinuxVitalsApp(Gtk.Application):
         try:
             # Header for content area with menu button
             content_header = self.widget_factory.create_horizontal_box(
-                margin_start=10, margin_end=10, margin_top=5, margin_bottom=5)
+                margin_start=5, margin_end=5, margin_top=3, margin_bottom=3)
             
             # Spacer to push menu button to the right
             spacer = self.widget_factory.create_horizontal_box(hexpand=True)
@@ -423,23 +425,23 @@ class LinuxVitalsApp(Gtk.Application):
             remember_size = self.config_manager.get_setting("UI", "remember_window_size", "true").lower() == "true"
             
             if remember_size:
-                saved_width = int(self.config_manager.get_setting("UI", "window_width", "1200"))
-                saved_height = int(self.config_manager.get_setting("UI", "window_height", "700"))
+                saved_width = int(self.config_manager.get_setting("UI", "window_width", "850"))
+                saved_height = int(self.config_manager.get_setting("UI", "window_height", "550"))
                 
                 # Ensure reasonable minimum sizes
                 width = max(800, saved_width)
-                height = max(600, saved_height)
+                height = max(500, saved_height)
                 
                 self.window.set_default_size(width, height)
                 self.logger.info(f"Applied saved window size: {width}x{height}")
             else:
                 # Use default size
-                self.window.set_default_size(1200, 700)
-                self.logger.info("Using default window size: 1200x700")
+                self.window.set_default_size(850, 550)
+                self.logger.info("Using default window size: 850x550")
                 
         except (ValueError, Exception) as e:
             self.logger.warning(f"Error applying saved window size, using defaults: {e}")
-            self.window.set_default_size(1200, 700)
+            self.window.set_default_size(850, 550)
 
     def on_window_size_changed(self, window, param):
         """Handle window size changes and save if enabled"""
@@ -490,13 +492,22 @@ class LinuxVitalsApp(Gtk.Application):
     def create_processes_widgets(self):
         """Create widgets for the processes tab"""
         try:
-            # Process menu bar (at top)
+            # Process menu bar (at top of container, outside scrolled window)
             self.create_process_menu_bar()
             
-            # Process tree view (below menu bar)
+            # Add scrolled window to container
+            self.processes_container.append(self.processes_scrolled)
+            
+            # Create grid inside scrolled window for tree view
+            self.processes_grid = self.widget_factory.create_grid()
+            self.processes_scrolled.set_child(self.processes_grid)
+            
+            # Process tree view (inside scrolled window)
             process_tree = self.process_manager.create_process_tree_view()
             if process_tree:
-                self.processes_grid.attach(process_tree, 0, 1, 1, 1)
+                self.processes_grid.attach(process_tree, 0, 0, 1, 1)
+                # Connect selection change handler
+                self.process_manager.set_selection_changed_callback(self.on_process_selection_changed)
                 
         except Exception as e:
             self.logger.error(f"Error creating processes widgets: {e}")
@@ -504,7 +515,7 @@ class LinuxVitalsApp(Gtk.Application):
     def create_process_menu_bar(self):
         """Create the process management menu bar"""
         try:
-            menu_bar = self.widget_factory.create_horizontal_box(spacing=5, margin_start=5, margin_top=5)
+            menu_bar = self.widget_factory.create_horizontal_box(spacing=5, margin_start=5, margin_top=5, margin_bottom=5)
             
             # Process action buttons
             self.end_button = self.widget_factory.create_button(menu_bar, "End", self.end_selected_process)
@@ -514,7 +525,11 @@ class LinuxVitalsApp(Gtk.Application):
             self.restart_button = self.widget_factory.create_button(menu_bar, "Restart", self.restart_selected_process)
             self.properties_button = self.widget_factory.create_button(menu_bar, "Properties", self.show_selected_process_properties)
             
-            self.processes_grid.attach(menu_bar, 0, 0, 1, 1)
+            # Initially hide all process buttons
+            self.set_process_buttons_visible(False)
+            
+            # Add menu bar to container (outside scrolled window)
+            self.processes_container.append(menu_bar)
             
         except Exception as e:
             self.logger.error(f"Error creating process menu bar: {e}")
@@ -533,15 +548,24 @@ class LinuxVitalsApp(Gtk.Application):
     def create_services_widgets(self):
         """Create widgets for the services tab"""
         try:
-            # Services menu bar (at top)
+            # Services menu bar (at top of container, outside scrolled window)
             self.create_services_menu_bar()
             
-            # Services tree view (below menu bar)
+            # Add scrolled window to container
+            self.services_container.append(self.services_scrolled)
+            
+            # Create grid inside scrolled window for tree view and filter controls
+            self.services_grid = self.widget_factory.create_grid()
+            self.services_scrolled.set_child(self.services_grid)
+            
+            # Services tree view (inside scrolled window)
             services_tree = self.services_manager.create_services_tree_view()
             if services_tree:
-                self.services_grid.attach(services_tree, 0, 1, 1, 1)
+                self.services_grid.attach(services_tree, 0, 0, 1, 1)
+                # Connect selection change handler
+                self.services_manager.set_selection_changed_callback(self.on_service_selection_changed)
                 
-                # Services filter controls (at bottom)
+                # Services filter controls (at bottom, inside scrolled window)
                 self.create_services_filter_controls()
                 
         except Exception as e:
@@ -562,7 +586,7 @@ class LinuxVitalsApp(Gtk.Application):
             self.autostart_check.connect("toggled", self.on_filter_changed)
             self.running_only_check.connect("toggled", self.on_filter_changed)
             
-            self.services_grid.attach(filter_box, 0, 2, 1, 1)
+            self.services_grid.attach(filter_box, 0, 1, 1, 1)
             
         except Exception as e:
             self.logger.error(f"Error creating services filter controls: {e}")
@@ -570,7 +594,7 @@ class LinuxVitalsApp(Gtk.Application):
     def create_services_menu_bar(self):
         """Create the services management menu bar"""
         try:
-            menu_bar = self.widget_factory.create_horizontal_box(spacing=5, margin_start=5, margin_top=5)
+            menu_bar = self.widget_factory.create_horizontal_box(spacing=5, margin_start=5, margin_top=5, margin_bottom=5)
             
             # Service action buttons
             self.service_start_button = self.widget_factory.create_button(menu_bar, "Start", self.start_selected_service)
@@ -580,7 +604,11 @@ class LinuxVitalsApp(Gtk.Application):
             self.service_disable_button = self.widget_factory.create_button(menu_bar, "Disable", self.disable_selected_service)
             self.service_properties_button = self.widget_factory.create_button(menu_bar, "Properties", self.show_selected_service_properties)
             
-            self.services_grid.attach(menu_bar, 0, 0, 1, 1)
+            # Initially hide all service buttons
+            self.set_service_buttons_visible(False)
+            
+            # Add menu bar to container (outside scrolled window)
+            self.services_container.append(menu_bar)
             
         except Exception as e:
             self.logger.error(f"Error creating services menu bar: {e}")
@@ -640,8 +668,8 @@ class LinuxVitalsApp(Gtk.Application):
             # Create a flow box for thread controls (similar to monitor tab)
             threads_flow = self.widget_factory.create_flowbox(
                 valign=Gtk.Align.START,
-                max_children_per_line=3,  # 3 threads per row for better space usage
-                min_children_per_line=1,
+                max_children_per_line=6,  # More flexible layout
+                min_children_per_line=2,
                 row_spacing=10,
                 column_spacing=10,
                 homogeneous=True,
@@ -662,7 +690,8 @@ class LinuxVitalsApp(Gtk.Application):
             for i in range(self.cpu_file_search.thread_count):
                 # Create frame for each thread
                 thread_frame = self.widget_factory.create_frame()
-                thread_frame.set_size_request(200, 180)  # Slightly larger to accommodate labels
+                # Restore size constraints to prevent label corruption
+                thread_frame.set_size_request(180, 160)
                 threads_flow.append(thread_frame)
                 
                 thread_box = self.widget_factory.create_vertical_box(margin_start=8, margin_end=8, margin_top=5, margin_bottom=5, spacing=8)
@@ -674,7 +703,7 @@ class LinuxVitalsApp(Gtk.Application):
                 
                 self.cpu_max_min_checkbuttons[i] = self.widget_factory.create_checkbutton(
                     header_box, f"CPU {i}", True)
-                self.cpu_max_min_checkbuttons[i].get_style_context().add_class('small-label')
+                self.cpu_max_min_checkbuttons[i].add_css_class('small-label')
                 
                 # Connect signal to sync with "Select All Threads" checkbox
                 self.cpu_max_min_checkbuttons[i].connect("toggled", self.on_individual_thread_toggled)
@@ -692,7 +721,7 @@ class LinuxVitalsApp(Gtk.Application):
                 
                 min_title = self.widget_factory.create_label(min_header, "Minimum:")
                 min_title.set_halign(Gtk.Align.START)
-                min_title.get_style_context().add_class('small-label')
+                min_title.add_css_class('small-label')
                 
                 # Spacer to push frequency label to the right
                 min_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
@@ -704,7 +733,9 @@ class LinuxVitalsApp(Gtk.Application):
                 else:
                     min_freq_label = self.widget_factory.create_label(min_header, f"{min_freq:.0f} MHz")
                 min_freq_label.set_halign(Gtk.Align.END)
-                min_freq_label.get_style_context().add_class('small-label')
+                min_freq_label.set_ellipsize(3)  # Pango.EllipsizeMode.END
+                min_freq_label.set_size_request(80, -1)  # Minimum width for frequency display
+                min_freq_label.add_css_class('small-label')
                 min_freq_label.set_name(f"min_freq_label_{i}")  # Add name for later reference
                 self.min_freq_labels[i] = min_freq_label  # Store reference
                 
@@ -714,7 +745,7 @@ class LinuxVitalsApp(Gtk.Application):
                 scale.set_draw_value(False)
                 scale.set_name(f"cpu_min_scale_{i}")
                 scale.set_value(min_freq)
-                scale.set_size_request(180, 30)  # Compact scale
+                scale.set_size_request(160, 30)  # Fixed size needed for stable label rendering
                 scale.connect("value-changed", self.scale_manager.update_min_max_labels)
                 min_section.append(scale)
                 self.min_scales[i] = scale
@@ -732,7 +763,7 @@ class LinuxVitalsApp(Gtk.Application):
                 
                 # Add some spacing between min and max sections
                 spacer = self.widget_factory.create_vertical_box()
-                spacer.set_size_request(-1, 10)  # 10px vertical space
+                spacer.set_size_request(-1, 5)  # 5px vertical space
                 thread_box.append(spacer)
                 
                 # Max frequency section
@@ -744,7 +775,7 @@ class LinuxVitalsApp(Gtk.Application):
                 
                 max_title = self.widget_factory.create_label(max_header, "Maximum:")
                 max_title.set_halign(Gtk.Align.START)
-                max_title.get_style_context().add_class('small-label')
+                max_title.add_css_class('small-label')
                 
                 # Spacer to push frequency label to the right
                 max_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
@@ -756,7 +787,9 @@ class LinuxVitalsApp(Gtk.Application):
                 else:
                     max_freq_label = self.widget_factory.create_label(max_header, f"{max_freq:.0f} MHz")
                 max_freq_label.set_halign(Gtk.Align.END)
-                max_freq_label.get_style_context().add_class('small-label')
+                max_freq_label.set_ellipsize(3)  # Pango.EllipsizeMode.END
+                max_freq_label.set_size_request(80, -1)  # Minimum width for frequency display
+                max_freq_label.add_css_class('small-label')
                 max_freq_label.set_name(f"max_freq_label_{i}")  # Add name for later reference
                 self.max_freq_labels[i] = max_freq_label  # Store reference
                 
@@ -766,7 +799,7 @@ class LinuxVitalsApp(Gtk.Application):
                 scale.set_draw_value(False)
                 scale.set_name(f"cpu_max_scale_{i}")
                 scale.set_value(max_freq)
-                scale.set_size_request(180, 30)  # Compact scale
+                scale.set_size_request(160, 30)  # Fixed size needed for stable label rendering
                 scale.connect("value-changed", self.scale_manager.update_min_max_labels)
                 max_section.append(scale)
                 self.max_scales[i] = scale
@@ -1056,14 +1089,16 @@ class LinuxVitalsApp(Gtk.Application):
         def memory_callback():
             self.memory_manager.update_memory_info()
             self.memory_manager.update_memory_gui()
-        self.task_scheduler.schedule_task("memory", memory_callback, 1000)
+        interval_ms = self.memory_manager.get_update_interval_ms()
+        self.task_scheduler.schedule_task("memory", memory_callback, interval_ms)
 
     def schedule_disk_tasks(self):
         """Schedule disk monitoring tasks"""
         def disk_callback():
             self.disk_manager.update_disk_stats()
             self.disk_manager.update_disk_gui()
-        self.task_scheduler.schedule_task("disk", disk_callback, 1000)
+        interval_ms = self.disk_manager.get_update_interval_ms()
+        self.task_scheduler.schedule_task("disk", disk_callback, interval_ms)
 
     def schedule_process_tasks(self):
         """Schedule process monitoring tasks"""
@@ -1175,6 +1210,59 @@ class LinuxVitalsApp(Gtk.Application):
             self.more_button,
             self.settings_window.open_settings_window,
             lambda w: self.dialog_manager.show_about_dialog(self.window))
+
+    # Button Visibility Control Methods
+    def set_service_buttons_visible(self, visible):
+        """Show or hide service action buttons"""
+        try:
+            buttons = [
+                self.service_start_button,
+                self.service_stop_button,
+                self.service_restart_button,
+                self.service_enable_button,
+                self.service_disable_button,
+                self.service_properties_button
+            ]
+            for button in buttons:
+                if button:
+                    button.set_visible(visible)
+        except Exception as e:
+            self.logger.error(f"Error setting service button visibility: {e}")
+
+    def set_process_buttons_visible(self, visible):
+        """Show or hide process action buttons"""
+        try:
+            buttons = [
+                self.end_button,
+                self.kill_button,
+                self.stop_button,
+                self.continue_button,
+                self.restart_button,
+                self.properties_button
+            ]
+            for button in buttons:
+                if button:
+                    button.set_visible(visible)
+        except Exception as e:
+            self.logger.error(f"Error setting process button visibility: {e}")
+
+    def on_service_selection_changed(self, selection):
+        """Handle service selection changes"""
+        try:
+            model, tree_iter = selection.get_selected()
+            has_selection = tree_iter is not None
+            self.set_service_buttons_visible(has_selection)
+        except Exception as e:
+            self.logger.error(f"Error handling service selection change: {e}")
+
+    def on_process_selection_changed(self, selection):
+        """Handle process selection changes"""
+        try:
+            model, tree_iter = selection.get_selected()
+            has_selection = tree_iter is not None
+            self.set_process_buttons_visible(has_selection)
+        except Exception as e:
+            self.logger.error(f"Error handling process selection change: {e}")
 
     # Utility Methods
     def add_widgets_to_gui_components(self):

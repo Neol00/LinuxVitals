@@ -51,6 +51,9 @@ class SettingsWindow:
     def open_settings_window(self, widget=None, data=None):
         # Open the settings window
         try:
+            # Set transient parent when opening (main window should be available now)
+            if hasattr(self.main_app, 'window') and self.main_app.window:
+                self.settings_window.set_transient_for(self.main_app.window)
             self.settings_window.present()
         except Exception as e:
             self.logger.error(f"Error opening settings window: {e}")
@@ -283,6 +286,19 @@ class SettingsWindow:
         new_interval = round(spinbutton.get_value(), 1)
         self.cpu_manager.set_update_interval(new_interval)
         self.process_manager.set_update_interval(new_interval)
+        
+        # Save the new interval to config
+        self.config_manager.set_setting('Settings', 'update_interval', str(new_interval))
+        
+        # Restart memory and disk tasks with new interval
+        if hasattr(self.main_app, 'task_scheduler') and hasattr(self.main_app, 'memory_manager'):
+            # Cancel existing tasks
+            self.main_app.task_scheduler.cancel_task("memory")
+            self.main_app.task_scheduler.cancel_task("disk")
+            
+            # Reschedule with new interval
+            self.main_app.schedule_memory_tasks()
+            self.main_app.schedule_disk_tasks()
 
     def get_current_theme_preference(self):
         # Get the current theme preference from config

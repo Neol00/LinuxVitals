@@ -29,8 +29,9 @@ class MemoryManagerConfig:
     PERCENTAGE_MULTIPLIER = 100
 
 class MemoryManager:
-    def __init__(self, logger):
+    def __init__(self, logger, config_manager=None):
         self.logger = logger
+        self.config_manager = config_manager
         self.memory_history = [0] * MemoryManagerConfig.MEMORY_HISTORY_SIZE
         self.swap_history = [0] * MemoryManagerConfig.MEMORY_HISTORY_SIZE
         
@@ -159,6 +160,17 @@ class MemoryManager:
                 
         except Exception as e:
             self.logger.error(f"Error updating memory GUI: {e}")
+
+    def get_update_interval_ms(self) -> int:
+        """Get the update interval in milliseconds from config"""
+        try:
+            if self.config_manager:
+                interval_seconds = float(self.config_manager.get_setting('Settings', 'update_interval', '1.0'))
+                return int(interval_seconds * 1000)
+            return 1000  # Default to 1 second
+        except Exception as e:
+            self.logger.error(f"Error getting update interval: {e}")
+            return 1000
 
     def get_memory_summary(self) -> str:
         """Get a summary string of memory usage"""

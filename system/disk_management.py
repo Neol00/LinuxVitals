@@ -190,8 +190,9 @@ class DiskManagerConfig:
     HISTORY_SIZE = 60
 
 class DiskManager:
-    def __init__(self, logger):
+    def __init__(self, logger, config_manager=None):
         self.logger = logger or self._create_dummy_logger()
+        self.config_manager = config_manager
         self.disks = {}  # Dict of device_name -> DiskInfo
         
         # GUI components (initialized by UI setup)
@@ -551,7 +552,8 @@ class DiskManager:
         """Start disk monitoring tasks"""
         if self.update_task_id:
             GLib.source_remove(self.update_task_id)
-        self.update_task_id = GLib.timeout_add(int(DiskManagerConfig.UPDATE_INTERVAL * 1000), self.run_update_tasks)
+        interval_ms = self.get_update_interval_ms()
+        self.update_task_id = GLib.timeout_add(interval_ms, self.run_update_tasks)
 
     def stop_monitoring(self):
         """Stop disk monitoring tasks"""
@@ -575,6 +577,17 @@ class DiskManager:
     def get_disk_count(self):
         """Get the number of discovered disks"""
         return len(self.disks)
+
+    def get_update_interval_ms(self) -> int:
+        """Get the update interval in milliseconds from config"""
+        try:
+            if self.config_manager:
+                interval_seconds = float(self.config_manager.get_setting('Settings', 'update_interval', '1.0'))
+                return int(interval_seconds * 1000)
+            return 1000  # Default to 1 second
+        except Exception as e:
+            self.logger.error(f"Error getting update interval: {e}")
+            return 1000
 
     def get_disk_summary(self):
         """Get a summary of disk activity"""

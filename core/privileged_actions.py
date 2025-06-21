@@ -27,16 +27,27 @@ class PrivilegedActions:
 
     # Run commands with elevated privileges using pkexec
     def run_pkexec_command(self, command, cwd=None, success_callback=None, failure_callback=None):
-        # Convert command to string if it's a list
-        command_str = ' '.join(command) if isinstance(command, list) else command
-
         def run_command():
             try:
+                # Build pkexec command
+                if isinstance(command, list):
+                    # For list commands, use pkexec with the command directly
+                    pkexec_cmd = ['pkexec'] + command
+                else:
+                    # For string commands, use sh -c
+                    pkexec_cmd = ['pkexec', 'sh', '-c', command]
+                
                 # Execute the command with elevated privileges using pkexec
                 if cwd:
-                    subprocess.run(['pkexec', 'sh', '-c', f'cd {cwd} && {command_str}'], check=True)
-                else:
-                    subprocess.run(['pkexec', 'sh', '-c', command_str], check=True)
+                    # For cwd, we need to use sh -c in all cases
+                    if isinstance(command, list):
+                        command_str = ' '.join(command)
+                    else:
+                        command_str = command
+                    pkexec_cmd = ['pkexec', 'sh', '-c', f'cd {cwd} && {command_str}']
+                
+                self.logger.info(f"Executing pkexec command: {pkexec_cmd}")
+                subprocess.run(pkexec_cmd, check=True)
                 if success_callback:
                     GLib.idle_add(success_callback)
             except subprocess.CalledProcessError as e:

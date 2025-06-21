@@ -46,9 +46,10 @@ class MountsManagerConfig:
     BYTES_TO_MB = 1024 * 1024
 
 class MountsManager:
-    def __init__(self, logger, widget_factory=None):
+    def __init__(self, logger, widget_factory=None, privileged_actions=None):
         self.logger = logger
         self.widget_factory = widget_factory
+        self.privileged_actions = privileged_actions
         self.mounts = []  # List of MountInfo objects
         
         # GUI components
@@ -290,7 +291,7 @@ class MountsManager:
         """Show confirmation dialog before unmounting"""
         try:
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
@@ -315,20 +316,35 @@ class MountsManager:
             self.logger.error(f"Error showing unmount confirmation dialog: {e}")
 
     def unmount_confirmed(self, mount_info: MountInfo):
-        """Actually unmount the filesystem after confirmation"""
+        """Actually unmount the filesystem after confirmation using pkexec"""
         try:
-            # Use umount command
-            cmd = ["sudo", "umount", mount_info.mountpoint]
-            result = subprocess.run(cmd, capture_output=True, text=True)
+            if not self.privileged_actions:
+                self.logger.error("No privileged actions instance available")
+                self.show_error_dialog("Configuration Error", 
+                                     "Cannot execute privileged actions - missing privileged actions instance")
+                return
             
-            if result.returncode == 0:
+            # Use umount command
+            cmd = ["umount", mount_info.mountpoint]
+            
+            def success_callback():
                 self.logger.info(f"Successfully unmounted {mount_info.mountpoint}")
                 # Refresh mounts list
                 GLib.timeout_add(500, self.update_mounts)
-            else:
-                error_msg = result.stderr or "Unknown error"
+            
+            def failure_callback(error_msg):
                 self.logger.error(f"Failed to unmount {mount_info.mountpoint}: {error_msg}")
-                self.show_error_dialog("Unmount Failed", f"Failed to unmount {mount_info.mountpoint}:\n{error_msg}")
+                if "canceled" in error_msg.lower():
+                    self.logger.info(f"User canceled unmount for {mount_info.mountpoint}")
+                else:
+                    self.show_error_dialog("Unmount Failed", f"Failed to unmount {mount_info.mountpoint}:\n{error_msg}")
+            
+            # Use pkexec through privileged actions
+            self.privileged_actions.run_pkexec_command(
+                cmd, 
+                success_callback=success_callback, 
+                failure_callback=failure_callback
+            )
                 
         except Exception as e:
             self.logger.error(f"Error unmounting {mount_info.mountpoint}: {e}")
@@ -338,7 +354,7 @@ class MountsManager:
         """Show an error dialog"""
         try:
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,

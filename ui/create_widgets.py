@@ -76,7 +76,7 @@ class WidgetFactory:
         try:
             notebook = Gtk.Notebook()
             parent.append(notebook)
-            notebook.get_style_context().add_class('notebook')
+            notebook.add_css_class('notebook')
             return notebook
         except Exception as e:
             self.logger.error("Failed to create notebook: %s", e)
@@ -100,7 +100,7 @@ class WidgetFactory:
 
             tab_label = Gtk.Label(label=tab_name)
             tab_label.set_angle(0)  # Ensure text is horizontal
-            tab_label.get_style_context().add_class('tab-label')
+            tab_label.add_css_class('tab-label')
             notebook.append_page(scrolled_window, tab_label)
             return tab
         except Exception as e:
@@ -113,7 +113,7 @@ class WidgetFactory:
             settings_tab = Gtk.Box()
             settings_tab.set_orientation(Gtk.Orientation.VERTICAL)
             settings_tab_label = Gtk.Label(label=settings_tab_name)
-            settings_tab_label.get_style_context().add_class('settings-tab-label')
+            settings_tab_label.add_css_class('settings-tab-label')
             notebook.append_page(settings_tab, settings_tab_label)
             return settings_tab
         except Exception as e:
@@ -126,7 +126,7 @@ class WidgetFactory:
             about_tab = Gtk.Box()
             about_tab.set_orientation(Gtk.Orientation.VERTICAL)
             about_tab_label = Gtk.Label(label=about_tab_name)
-            about_tab_label.get_style_context().add_class('about-tab-label')
+            about_tab_label.add_css_class('about-tab-label')
             notebook.append_page(about_tab, about_tab_label)
             return about_tab
         except Exception as e:
@@ -264,7 +264,7 @@ class WidgetFactory:
             # Use a label widget for the text inside the button
             label = Gtk.Label(label=text)
             button.set_child(label)
-            button.get_style_context().add_class('button')
+            button.add_css_class('button')
 
             self._set_margins(button, **kwargs)
             self._attach_widget(container, button, x, y)
@@ -282,7 +282,7 @@ class WidgetFactory:
             # Create an image with the icon name
             info_icon = Gtk.Image.new_from_icon_name("dialog-information")
             button.set_child(info_icon)
-            button.get_style_context().add_class('infobutton')
+            button.add_css_class('infobutton')
 
             self._set_margins(button, **kwargs)
             self._attach_widget(container, button, x, y)

@@ -39,9 +39,10 @@ class ServicesManagerConfig:
     BYTES_TO_MB = 1024 * 1024
 
 class ServicesManager:
-    def __init__(self, logger, widget_factory=None):
+    def __init__(self, logger, widget_factory=None, privileged_actions=None):
         self.logger = logger
         self.widget_factory = widget_factory
+        self.privileged_actions = privileged_actions
         self.services = []  # List of ServiceInfo objects
         self.autostart_apps = []  # List of autostart applications
         
@@ -316,12 +317,24 @@ class ServicesManager:
             self.services_selection = self.services_tree_view.get_selection()
             self.services_selection.set_mode(Gtk.SelectionMode.SINGLE)
             
+            # Store reference to callback for later connection
+            self.selection_changed_callback = None
+            
             # Right-click context menu removed - using static buttons instead
             
             return self.services_tree_view
             
         except Exception as e:
             self.logger.error(f"Error creating services tree view: {e}")
+
+    def set_selection_changed_callback(self, callback):
+        """Set the callback for selection changes"""
+        try:
+            if self.services_selection and callback:
+                self.selection_changed_callback = callback
+                self.services_selection.connect("changed", callback)
+        except Exception as e:
+            self.logger.error(f"Error setting selection callback: {e}")
             return None
 
     def update_services_tree_view(self):
@@ -397,7 +410,7 @@ class ServicesManager:
         """Show confirmation dialog for service actions"""
         try:
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.WARNING,
                 buttons=Gtk.ButtonsType.YES_NO,
@@ -420,31 +433,42 @@ class ServicesManager:
             self.logger.error(f"Error showing service action confirmation: {e}")
 
     def execute_systemd_action(self, service_name, action):
-        """Execute a systemd action"""
+        """Execute a systemd action using pkexec"""
         try:
             if not self._is_systemctl_available():
                 self.logger.warning(f"Cannot execute systemctl {action} - systemctl not available")
                 return
                 
+            if not self.privileged_actions:
+                self.logger.error("No privileged actions instance available")
+                self.show_error_dialog("Configuration Error", 
+                                     "Cannot execute privileged actions - missing privileged actions instance")
+                return
+                
             service_unit = f"{service_name}.service"
-            cmd = ["sudo", "systemctl", action, service_unit]
+            cmd = ["systemctl", action, service_unit]
+            self.logger.info(f"Executing service action: {cmd}")
             
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-            
-            if result.returncode == 0:
+            def success_callback():
                 self.logger.info(f"Successfully executed {action} on {service_name}")
                 # Refresh services list after a short delay
                 GLib.timeout_add(1000, self.update_services)
-            else:
-                error_msg = result.stderr or "Unknown error"
+            
+            def failure_callback(error_msg):
                 self.logger.error(f"Failed to {action} {service_name}: {error_msg}")
-                self.show_error_dialog(f"Service {action.title()} Failed", 
-                                     f"Failed to {action} {service_name}:\n{error_msg}")
+                if "canceled" in error_msg.lower():
+                    self.logger.info(f"User canceled {action} action for {service_name}")
+                else:
+                    self.show_error_dialog(f"Service {action.title()} Failed", 
+                                         f"Failed to {action} {service_name}:\n{error_msg}")
+            
+            # Use pkexec through privileged actions
+            self.privileged_actions.run_pkexec_command(
+                cmd, 
+                success_callback=success_callback, 
+                failure_callback=failure_callback
+            )
                 
-        except subprocess.TimeoutExpired:
-            self.logger.error(f"Timeout while trying to {action} {service_name}")
-            self.show_error_dialog("Service Action Timeout", 
-                                 f"Timeout while trying to {action} {service_name}")
         except Exception as e:
             self.logger.error(f"Error executing {action} on {service_name}: {e}")
             self.show_error_dialog("Service Action Error", 
@@ -518,15 +542,22 @@ class ServicesManager:
         """Show detailed properties of a service"""
         try:
             # Create properties dialog
-            dialog = self.widget_factory.create_dialog(title=f"Service Properties - {service_name}")
+            dialog = self.widget_factory.create_dialog(title=f"Service Properties - {service_name}", 
+                                                      transient_for=self.widget_factory.main_window)
             dialog.set_default_size(600, 400)
             
             content_area = dialog.get_content_area()
             
             # Create scrolled window for service details
             scrolled = self.widget_factory.create_scrolled_window(
-                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+                policy=(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC),
+                hexpand=True, vexpand=True
             )
+            # Add margins to the scrolled window
+            scrolled.set_margin_start(10)
+            scrolled.set_margin_end(10)
+            scrolled.set_margin_top(10)
+            scrolled.set_margin_bottom(10)
             
             text_view = self.widget_factory.create_text_view()
             text_view.set_editable(False)
@@ -643,7 +674,7 @@ Desktop File Contents:
         """Show an error dialog"""
         try:
             dialog = self.widget_factory.create_message_dialog(
-                transient_for=None,
+                transient_for=self.widget_factory.main_window,
                 flags=0,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.OK,

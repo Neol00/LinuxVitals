@@ -386,8 +386,8 @@ class SettingsApplier:
         for core_id in range(physical_cores):
             # Calculate smu_args_value for each core
             smu_args_value = ((core_id & 8) << 5 | core_id & 7) << 20 | (offset_value & 0xFFFF)
-            commands.append(f"echo {smu_args_value} | sudo tee /sys/kernel/ryzen_smu_drv/smu_args > /dev/null")
-            commands.append(f"echo '0x35' | sudo tee /sys/kernel/ryzen_smu_drv/mp1_smu_cmd > /dev/null")
+            commands.append(f"echo {smu_args_value} | tee /sys/kernel/ryzen_smu_drv/smu_args > /dev/null")
+            commands.append(f"echo '0x35' | tee /sys/kernel/ryzen_smu_drv/mp1_smu_cmd > /dev/null")
         return " && ".join(commands)
 
     def create_systemd_service(self):
