@@ -340,12 +340,13 @@ class MonitorTabManager:
             memory_header.set_halign(Gtk.Align.START)
             
             # Create a box for memory graphs that can stack responsively
-            memory_graphs_box = self.widget_factory.create_horizontal_box(spacing=20, homogeneous=True)
+            memory_graphs_box = self.widget_factory.create_horizontal_box(spacing=20, homogeneous=False)
             monitor_box.append(memory_graphs_box)
-            
+
             # Memory usage graph
             memory_frame = self.widget_factory.create_frame()
             memory_frame.set_size_request(280, 120)
+            memory_frame.set_hexpand(True)  # Allow expansion when swap is hidden
             memory_graphs_box.append(memory_frame)
             
             # Create overlay for memory graph
@@ -405,19 +406,20 @@ class MonitorTabManager:
             swap_frame = self.widget_factory.create_frame()
             swap_frame.set_size_request(280, 120)
             memory_graphs_box.append(swap_frame)
-            
+
             # Create overlay for swap graph
             swap_overlay = self.widget_factory.create_overlay()
             swap_frame.set_child(swap_overlay)
-            
+
             # Create swap graph
             swap_graph = MemoryGraphArea("swap")
             swap_graph.set_content_width(280)
             swap_graph.set_content_height(120)
             swap_overlay.set_child(swap_graph)
-            
-            # Store reference for updates
+
+            # Store references for updates
             self.memory_manager.swap_graph = swap_graph
+            self.memory_manager.swap_frame = swap_frame  # Store frame reference for hiding/showing
             
             # Swap labels overlay
             swap_labels_box = self.widget_factory.create_vertical_box()
@@ -536,21 +538,21 @@ class MonitorTabManager:
             disk_spacer = self.widget_factory.create_horizontal_box(hexpand=True)
             disk_top_row.append(disk_spacer)
             
-            disk_usage_label = self.widget_factory.create_label(disk_top_row, text="0 MB/s")
+            disk_usage_label = self.widget_factory.create_label(disk_top_row, text="0 B/s")
             disk_usage_label.set_halign(Gtk.Align.END)
             disk_usage_label.add_css_class('thick-header')
-            
+
             disk_labels_box.append(disk_top_row)
-            
+
             # Bottom spacer for disk
             disk_bottom_spacer = self.widget_factory.create_vertical_box(vexpand=True)
             disk_labels_box.append(disk_bottom_spacer)
-            
+
             # Bottom row for disk details
             disk_bottom_row = self.widget_factory.create_horizontal_box(
                 margin_start=5, margin_bottom=5)
-            
-            disk_details_label = self.widget_factory.create_label(disk_bottom_row, text=f"Size: {disk_info.size} | Read: 0 MB/s | Write: 0 MB/s")
+
+            disk_details_label = self.widget_factory.create_label(disk_bottom_row, text=f"Size: {disk_info.size} | Read: 0 B/s | Write: 0 B/s")
             disk_details_label.set_halign(Gtk.Align.START)
             disk_details_label.add_css_class('medium-label')
             

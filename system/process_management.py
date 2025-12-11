@@ -121,7 +121,7 @@ class ProcessManager:
             self.logger.info(f"Scanned {len(processes)} processes")
             return processes
         except Exception as e:
-            self.logger.error(f"Error scanning processes: {e}")
+            self.logger.error(f"Error scanning processes: {e}", exc_info=True)
             return {}
 
     def scan_processes_psutil(self) -> Dict[int, ProcessInfo]:
@@ -158,8 +158,10 @@ class ProcessManager:
                     memory_percent = 0.0
                 
                 # Create ProcessInfo object
-                cmdline = ' '.join(pinfo.get('cmdline', []))
-                if not cmdline:
+                cmdline_list = pinfo.get('cmdline', [])
+                if cmdline_list and isinstance(cmdline_list, list):
+                    cmdline = ' '.join(cmdline_list)
+                else:
                     cmdline = pinfo.get('name', '')
                 
                 # Format status for better readability
@@ -337,6 +339,7 @@ class ProcessManager:
         except:
             return 1  # Fallback to 1 core
 
+
     def _get_total_cpu_time(self) -> int:
         """Get total CPU time from /proc/stat"""
         try:
@@ -392,15 +395,16 @@ class ProcessManager:
                     
                     if pid in self.prev_proc_times:
                         proc_time_delta = current_proc_time - self.prev_proc_times[pid]
-                        
+
                         # Calculate CPU percentage using the standard method
-                        # CPU% = (process_cpu_time_delta / total_cpu_time_delta) * 100 * num_cpus
+                        # CPU% = (process_cpu_time_delta / total_cpu_time_delta) * 100
+                        # This gives percentage relative to ONE core (0-100%)
                         if total_time_delta > 0:
-                            cpu_percent = (proc_time_delta / total_time_delta) * 100.0 * self.cpu_cores
+                            cpu_percent = (proc_time_delta / total_time_delta) * 100.0
                         else:
                             cpu_percent = 0.0
-                        
-                        # Cap at reasonable values (100% per core)
+
+                        # Cap at reasonable values (0-100% per core, can go up to 100*cores for multi-threaded)
                         cpu_percent = min(max(cpu_percent, 0.0), 100.0 * self.cpu_cores)
                         process.cpu_percent = round(cpu_percent, 1)
                         calculated_count += 1
@@ -465,29 +469,42 @@ class ProcessManager:
     def build_process_tree(self, processes: Dict[int, ProcessInfo]) -> List[ProcessInfo]:
         """Build a hierarchical process tree from flat process list"""
         try:
-            # First, link children to their parents
+            # First, clear any previous children
+            for pid, proc in processes.items():
+                proc.children = []
+
+            # Link children to their parents
             for pid, proc in processes.items():
                 if proc.ppid and proc.ppid in processes:
                     parent = processes[proc.ppid]
                     parent.children.append(proc)
-            
+
             # Find root processes (processes with no parent or parent not in our list)
             root_processes = []
             for pid, proc in processes.items():
                 if not proc.ppid or proc.ppid not in processes:
                     root_processes.append(proc)
-            
+
             # Sort root processes by name
             root_processes.sort(key=lambda p: p.name.lower())
-            
-            # Calculate cumulative CPU and memory usage for the tree
-            self._calculate_cumulative_usage(root_processes)
-            
+
+            # Sort all children by name recursively
+            self._sort_children_recursively(root_processes)
+
+            # DON'T calculate cumulative usage - each process shows only its own CPU
+
             return root_processes
-            
+
         except Exception as e:
             self.logger.error(f"Error building process tree: {e}")
             return []
+
+    def _sort_children_recursively(self, processes: List[ProcessInfo]):
+        """Recursively sort children by name"""
+        for proc in processes:
+            if proc.children:
+                proc.children.sort(key=lambda p: p.name.lower())
+                self._sort_children_recursively(proc.children)
 
     def _calculate_cumulative_usage(self, processes: List):
         """Calculate cumulative CPU and memory usage for process trees"""
@@ -547,12 +564,12 @@ class ProcessManager:
         try:
             # Create tree store (PID, Name, CPU%, Memory MB, Status, User, Command Line)
             self.process_store = self.widget_factory.create_tree_store([int, str, str, str, str, str, str])
-            
+
             # Create tree view
             self.process_tree_view = self.widget_factory.create_tree_view(model=self.process_store)
             self.process_tree_view.set_headers_visible(True)
             self.process_tree_view.set_enable_tree_lines(True)
-            
+
             # Create columns
             columns = [
                 ("PID", 0, 60),
@@ -563,7 +580,7 @@ class ProcessManager:
                 ("User", 5, 100),
                 ("Command Line", 6, 300)
             ]
-            
+
             for title, column_id, width in columns:
                 renderer = self.widget_factory.create_cell_renderer_text()
                 column = self.widget_factory.create_tree_view_column(title, renderer, text_column=column_id)
@@ -647,18 +664,30 @@ class ProcessManager:
     def _restore_expansion_state(self, expanded_pids):
         """Restore the expansion state of the tree view"""
         try:
-            if not expanded_pids or not self.process_tree_view:
+            if not self.process_tree_view:
                 return
-                
+
+            # Track if this is the first time (no saved state)
+            is_first_time = not expanded_pids or len(expanded_pids) == 0
+
             def restore_expanded(model, path, iter, data):
-                pid = model.get_value(iter, 0)
-                if pid in expanded_pids:
+                pid = model.get_value(iter, 0)  # PID at column 0
+                name = model.get_value(iter, 1)  # Name at column 1
+
+                parent_iter = model.iter_parent(iter)
+
+                # Only auto-expand root processes on first load
+                if is_first_time and parent_iter is None:  # This is a root process
+                    if name != "kthreadd":
+                        self.process_tree_view.expand_row(path, False)
+                # Restore previously expanded rows (for all processes, not just root)
+                elif expanded_pids and pid in expanded_pids:
                     self.process_tree_view.expand_row(path, False)
                 return False
-            
+
             # Use GLib.idle_add to ensure the tree is fully built before expanding
             GLib.idle_add(lambda: self.process_store.foreach(restore_expanded, None))
-            
+
         except Exception as e:
             self.logger.error(f"Error restoring expansion state: {e}")
     
@@ -836,22 +865,39 @@ class ProcessManager:
         except Exception as e:
             self.logger.error(f"Error in fallback rebuild: {e}")
     
-    def _add_single_process_to_store(self, process_info):
-        """Add a single process to the tree store (without hierarchy for now)"""
+    def _add_single_process_to_tree(self, process_info):
+        """Add a single process to the tree store in the correct hierarchical position"""
         try:
-            # For simplicity, add as top-level process (could enhance to maintain hierarchy later)
-            self.process_store.append(None, [
+            # Find parent iter if this process has a parent
+            parent_iter = None
+            if process_info.ppid:
+                # Search for parent in the tree
+                def find_parent(model, path, iter, data):
+                    pid = model.get_value(iter, 0)
+                    if pid == process_info.ppid:
+                        data['parent_iter'] = iter
+                        return True  # Stop iteration
+                    return False
+
+                parent_data = {'parent_iter': None}
+                self.process_store.foreach(find_parent, parent_data)
+                parent_iter = parent_data.get('parent_iter')
+
+            # Add the process to the tree
+            cpu_str = f"{process_info.cpu_percent:.1f}"
+            memory_mb_str = f"{process_info.memory_mb:.1f}"
+
+            self.process_store.append(parent_iter, [
                 process_info.pid,
                 process_info.name,
-                f"{process_info.cpu_percent:.1f}",
-                f"{process_info.memory_percent:.1f}",
-                f"{process_info.memory_mb:.1f}",
+                cpu_str,
+                memory_mb_str,
                 process_info.status,
                 process_info.user,
                 process_info.cmdline[:100] + "..." if len(process_info.cmdline) > 100 else process_info.cmdline
             ])
         except Exception as e:
-            self.logger.error(f"Error adding single process to store: {e}")
+            self.logger.error(f"Error adding single process to tree: {e}")
     
     def _update_tree_store_without_flashing(self):
         """Simple approach: just update existing data without clearing"""
@@ -879,13 +925,37 @@ class ProcessManager:
                     tree_iter = existing_pids[pid]
                     self._update_process_row(tree_iter, process_info)
                     updated_count += 1
-            
+
             self.logger.info(f"Updated {updated_count} existing processes")
-            
-            # If we have significantly different process counts, fall back to full rebuild
-            if abs(len(current_processes) - len(existing_pids)) > 10:
-                self.logger.info("Process count changed significantly, doing full rebuild")
-                self._fallback_to_full_rebuild()
+
+            # Remove processes that no longer exist
+            removed_count = 0
+            pids_to_remove = []
+            for pid in existing_pids:
+                if pid not in current_processes:
+                    pids_to_remove.append(pid)
+
+            # Remove them in reverse order to avoid iterator issues
+            for pid in pids_to_remove:
+                try:
+                    self.process_store.remove(existing_pids[pid])
+                    removed_count += 1
+                except Exception as e:
+                    self.logger.error(f"Error removing process {pid}: {e}")
+
+            if removed_count > 0:
+                self.logger.info(f"Removed {removed_count} terminated processes")
+
+            # Add new processes in-place to avoid flickering
+            added_count = 0
+            for pid, process_info in current_processes.items():
+                if pid not in existing_pids:
+                    # Add new process to the tree
+                    self._add_single_process_to_tree(process_info)
+                    added_count += 1
+
+            if added_count > 0:
+                self.logger.info(f"Added {added_count} new processes to tree")
             
         except Exception as e:
             self.logger.error(f"Error in simplified update: {e}")
@@ -898,7 +968,7 @@ class ProcessManager:
                 # Format data for display
                 cpu_str = f"{proc.cpu_percent:.1f}"
                 memory_mb_str = f"{proc.memory_mb:.1f}"
-                
+
                 # Add process to store
                 iter = self.process_store.append(parent_iter, [
                     proc.pid,
@@ -909,13 +979,11 @@ class ProcessManager:
                     proc.user,
                     proc.cmdline
                 ])
-                
+
                 # Add children recursively
                 if proc.children:
-                    # Sort children by name
-                    proc.children.sort(key=lambda p: p.name.lower())
                     self._add_processes_to_store(iter, proc.children)
-                    
+
         except Exception as e:
             self.logger.error(f"Error adding processes to store: {e}")
 
@@ -1015,12 +1083,21 @@ class ProcessManager:
         """Actually kill the process after confirmation"""
         try:
             self.logger.info(f"kill_process_confirmed called: pid={pid}, signal={sig}")
-            
+
             # Check if process still exists
             if pid not in self.processes:
                 self.logger.warning(f"Process {pid} no longer exists in our process list")
                 # Still try to kill it in case it exists but wasn't scanned yet
-            
+            else:
+                # Check if process is already a zombie
+                proc_info = self.processes[pid]
+                if proc_info.status == "Zombie":
+                    self.logger.info(f"Process {pid} is already a zombie (defunct) - cannot kill")
+                    self._show_error_dialog("Cannot Kill Zombie Process",
+                        f"Process '{proc_info.name}' (PID: {pid}) is already dead and waiting for its parent to clean it up.\n\n"
+                        f"Zombie processes cannot be killed - they will disappear when the parent process reaps them.")
+                    return
+
             self.logger.info(f"About to attempt process kill with signal {sig}")
             self.logger.info(f"PSUTIL_AVAILABLE: {PSUTIL_AVAILABLE}")
             
@@ -1028,7 +1105,16 @@ class ProcessManager:
                 # Try using psutil first
                 try:
                     proc = psutil.Process(pid)
-                    self.logger.info(f"Using psutil to kill process {pid}")
+                    proc_status = proc.status()
+                    self.logger.info(f"Using psutil to kill process {pid}, current status: {proc_status}")
+
+                    if proc_status == psutil.STATUS_ZOMBIE:
+                        self.logger.warning(f"Process {pid} is a zombie - already dead")
+                        self._show_error_dialog("Process Already Dead",
+                            f"Process {pid} is a zombie (already terminated). It cannot be killed again.\n\n"
+                            f"The process will disappear when its parent cleans it up.")
+                        return
+
                     if sig == signal.SIGKILL:
                         proc.kill()
                     else:
@@ -1085,9 +1171,17 @@ class ProcessManager:
                 except Exception as e:
                     self.logger.error(f"Unexpected exception in os.kill for process {pid}: {e}")
             
-            # Refresh process list after a short delay
-            self.logger.info(f"Scheduling process list refresh after {self.get_update_interval_ms()}ms")
-            GLib.timeout_add(self.get_update_interval_ms(), self.update_processes)
+            # Refresh process list immediately after a brief delay to allow the process to terminate
+            self.logger.info("Scheduling immediate process list refresh in 500ms")
+            def refresh_callback():
+                try:
+                    self.logger.info("Executing scheduled process refresh after kill")
+                    self.update_processes()
+                    self.logger.info("Process refresh completed successfully")
+                except Exception as e:
+                    self.logger.error(f"Error during scheduled process refresh: {e}", exc_info=True)
+                return False  # Don't repeat
+            GLib.timeout_add(500, refresh_callback)  # 500ms delay for process to fully terminate
             
         except Exception as e:
             self.logger.error(f"Error killing process {pid}: {e}")
@@ -1172,8 +1266,16 @@ class ProcessManager:
                     signal.SIGCONT: "continued"
                 }.get(sig, f"sent signal {sig} to")
                 self._show_success_notification(f"Process '{proc_info.name}' successfully {action_name} (required admin privileges)")
-                # Refresh process list after a short delay
-                GLib.timeout_add(self.get_update_interval_ms(), self.update_processes)
+                # Refresh process list immediately after a brief delay to allow the process to terminate
+                def refresh_callback():
+                    try:
+                        self.logger.info("Executing scheduled process refresh after pkexec kill")
+                        self.update_processes()
+                        self.logger.info("Process refresh completed successfully")
+                    except Exception as e:
+                        self.logger.error(f"Error during scheduled process refresh: {e}", exc_info=True)
+                    return False  # Don't repeat
+                GLib.timeout_add(500, refresh_callback)  # 500ms delay for process to fully terminate
             
             def on_failure(reason):
                 self.logger.info(f"pkexec FAILED: reason={reason}")

@@ -4,7 +4,7 @@
 find_python_command() {
     # List of possible Python commands to check
     python_candidates=("python3" "python" "python3.11" "python3.10" "python3.9" "python3.8")
-    
+
     for cmd in "${python_candidates[@]}"; do
         if command -v "$cmd" >/dev/null 2>&1; then
             # Check if it's Python 3
@@ -15,19 +15,24 @@ find_python_command() {
             fi
         fi
     done
-    
+
     echo "python3"  # Fallback to python3
     return 1
 }
 
-# Search for the LinuxVitals directory within the home directory
-linuxvitals_path=$(find $HOME -type d -name "LinuxVitals" 2>/dev/null | head -n 1)
+# Get the absolute path of the directory where this install.sh script is located
+# This is the LinuxVitals directory, regardless of where it's installed
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+linuxvitals_path="$SCRIPT_DIR"
 
-# Exit if LinuxVitals is not found
-if [ -z "$linuxvitals_path" ]; then
-    echo "LinuxVitals directory not found in your home directory."
+# Verify this is actually the LinuxVitals directory by checking for key files
+if [ ! -f "$linuxvitals_path/launch.py" ] || [ ! -d "$linuxvitals_path/icon" ]; then
+    echo "Error: This doesn't appear to be the LinuxVitals directory."
+    echo "Expected to find launch.py and icon/ directory in: $linuxvitals_path"
     exit 1
 fi
+
+echo "LinuxVitals directory found at: $linuxvitals_path"
 
 # Detect the correct Python command
 python_cmd=$(find_python_command)
@@ -54,10 +59,26 @@ Exec=$python_full_path $linuxvitals_path/launch.py
 Icon=$linuxvitals_path/icon/LinuxVitals-Icon.png
 Terminal=false
 Categories=Utility;Application;
+StartupWMClass=org.LinuxVitals
 EOF
 
 # Make the .desktop file executable
 chmod +x $HOME/.local/share/applications/org.LinuxVitals.desktop
 
-echo "LinuxVitals .desktop file has been created and made executable."
-echo "Using Python executable: $python_full_path"
+# Update desktop database to refresh icon cache
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database $HOME/.local/share/applications 2>/dev/null
+fi
+
+echo ""
+echo "✓ LinuxVitals installation completed successfully!"
+echo ""
+echo "Installation details:"
+echo "  • Desktop file: $HOME/.local/share/applications/org.LinuxVitals.desktop"
+echo "  • Python executable: $python_full_path"
+echo "  • LinuxVitals path: $linuxvitals_path"
+echo "  • Icon path: $linuxvitals_path/icon/LinuxVitals-Icon.png"
+echo ""
+echo "You can now launch LinuxVitals from your application menu or by running:"
+echo "  python3 $linuxvitals_path/launch.py"
+echo ""

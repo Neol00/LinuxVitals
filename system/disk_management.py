@@ -31,26 +31,30 @@ class DiskInfo:
         self.device_name = device_name
         self.model = model or "Unknown"
         self.size = size or "Unknown"
-        
+
         # I/O statistics
         self.read_bytes_per_sec = 0.0
         self.write_bytes_per_sec = 0.0
         self.read_iops = 0.0
         self.write_iops = 0.0
         self.utilization = 0.0
-        
+
         # History for graphs (60 seconds)
         self.read_history = [0.0] * 60
         self.write_history = [0.0] * 60
         self.utilization_history = [0.0] * 60
-        
+
         # Previous values for rate calculation
         self.prev_read_bytes = 0
         self.prev_write_bytes = 0
         self.prev_read_ios = 0
         self.prev_write_ios = 0
         self.prev_io_time = 0
-        self.prev_timestamp = time.time()
+        self.prev_timestamp = 0  # Start at 0 to skip initial measurement
+
+        # Warmup tracking to skip initial measurements
+        self.warmup_start_time = time.time()
+        self.warmup_complete = False
 
 class DiskGraphArea(Gtk.DrawingArea):
     """Custom drawing area for disk I/O graphs"""
@@ -187,7 +191,46 @@ class DiskManagerConfig:
     UPDATE_INTERVAL = 1.0
     SECTOR_SIZE = 512  # Standard sector size in bytes
     BYTES_TO_MB = 1024 * 1024
+    BYTES_TO_KB = 1024
     HISTORY_SIZE = 60
+
+    @staticmethod
+    def format_bytes_per_sec(bytes_per_sec):
+        """Format bytes/sec to appropriate unit (B/s, KB/s, or MB/s)"""
+        if bytes_per_sec >= DiskManagerConfig.BYTES_TO_MB:
+            return f"{bytes_per_sec / DiskManagerConfig.BYTES_TO_MB:.1f} MB/s"
+        elif bytes_per_sec >= DiskManagerConfig.BYTES_TO_KB:
+            return f"{bytes_per_sec / DiskManagerConfig.BYTES_TO_KB:.1f} KB/s"
+        else:
+            return f"{bytes_per_sec:.0f} B/s"
+
+    @staticmethod
+    def get_disk_colors(style_context):
+        """Get read/write colors based on current theme"""
+        try:
+            # Try to get theme background color
+            bg_lookup = style_context.lookup_color('theme_bg_color')
+            if bg_lookup[0]:
+                bg_color = bg_lookup[1]
+                is_light = bg_color.red > 0.5
+            else:
+                # Fallback to base color
+                base_lookup = style_context.lookup_color('theme_base_color')
+                if base_lookup[0]:
+                    bg_color = base_lookup[1]
+                    is_light = bg_color.red > 0.5
+                else:
+                    is_light = False
+
+            # Return hex colors for markup
+            if is_light:  # Light theme
+                return {'read': '#339933', 'write': '#ff66cc'}  # Green and Pink
+            else:  # Dark theme
+                return {'read': '#66cc66', 'write': '#ff99e6'}  # Light green and light pink
+
+        except Exception:
+            # Fallback to dark theme colors
+            return {'read': '#66cc66', 'write': '#ff99e6'}
 
 class DiskManager:
     def __init__(self, logger, config_manager=None):
@@ -460,52 +503,86 @@ class DiskManager:
                         # Convert sectors to bytes
                         read_bytes = read_sectors * DiskManagerConfig.SECTOR_SIZE
                         write_bytes = write_sectors * DiskManagerConfig.SECTOR_SIZE
-                        
+
+                        # Check if warmup period has elapsed (0.5 seconds)
+                        if not disk_info.warmup_complete:
+                            if current_time - disk_info.warmup_start_time >= 0.5:
+                                disk_info.warmup_complete = True
+                            # During warmup, just store values but don't calculate rates
+                            disk_info.prev_read_bytes = read_bytes
+                            disk_info.prev_write_bytes = write_bytes
+                            disk_info.prev_read_ios = read_ios
+                            disk_info.prev_write_ios = write_ios
+                            disk_info.prev_io_time = io_time_ms
+                            disk_info.prev_timestamp = current_time
+                            continue
+
                         # Calculate rates if we have previous data
                         time_delta = current_time - disk_info.prev_timestamp
-                        if time_delta > 0 and disk_info.prev_timestamp > 0 and time_delta < 300:  # Skip if delta > 5 minutes (likely first measurement)
+                        # Only calculate rates if:
+                        # 1. We have a valid time delta (> 0)
+                        # 2. We have previous data (prev_timestamp > 0)
+                        # 3. Time delta is reasonable (< 5 seconds to avoid spikes on tab switches)
+                        if time_delta > 0 and disk_info.prev_timestamp > 0 and time_delta < 5:
                             # Calculate bytes per second
                             read_bytes_delta = read_bytes - disk_info.prev_read_bytes
                             write_bytes_delta = write_bytes - disk_info.prev_write_bytes
-                            
+
                             # Handle counter rollover (unlikely but possible)
                             if read_bytes_delta < 0:
                                 read_bytes_delta = read_bytes
                             if write_bytes_delta < 0:
                                 write_bytes_delta = write_bytes
-                            
+
                             disk_info.read_bytes_per_sec = read_bytes_delta / time_delta
                             disk_info.write_bytes_per_sec = write_bytes_delta / time_delta
-                            
+
                             # Calculate IOPS
                             read_ios_delta = read_ios - disk_info.prev_read_ios
                             write_ios_delta = write_ios - disk_info.prev_write_ios
-                            
+
                             # Handle counter rollover
                             if read_ios_delta < 0:
                                 read_ios_delta = read_ios
                             if write_ios_delta < 0:
                                 write_ios_delta = write_ios
-                            
+
                             disk_info.read_iops = read_ios_delta / time_delta
                             disk_info.write_iops = write_ios_delta / time_delta
-                            
+
                             # Calculate utilization percentage
                             io_time_delta = io_time_ms - disk_info.prev_io_time
                             if io_time_delta < 0:
                                 io_time_delta = io_time_ms
-                            
+
                             disk_info.utilization = min(100.0, max(0, (io_time_delta / (time_delta * 1000)) * 100))
-                            
+
                             # Update history (convert bytes/sec to MB/sec for display)
                             disk_info.read_history.pop(0)
                             disk_info.read_history.append(disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
-                            
+
                             disk_info.write_history.pop(0)
                             disk_info.write_history.append(disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB)
-                            
+
                             disk_info.utilization_history.pop(0)
                             disk_info.utilization_history.append(disk_info.utilization)
+                        elif disk_info.prev_timestamp > 0:
+                            # Time delta too large (tab switch or pause) - reset to zero to avoid spike
+                            disk_info.read_bytes_per_sec = 0.0
+                            disk_info.write_bytes_per_sec = 0.0
+                            disk_info.read_iops = 0.0
+                            disk_info.write_iops = 0.0
+                            disk_info.utilization = 0.0
+
+                            # Add zero to history to show the gap
+                            disk_info.read_history.pop(0)
+                            disk_info.read_history.append(0.0)
+
+                            disk_info.write_history.pop(0)
+                            disk_info.write_history.append(0.0)
+
+                            disk_info.utilization_history.pop(0)
+                            disk_info.utilization_history.append(0.0)
                         
                         # Store current values for next iteration
                         disk_info.prev_read_bytes = read_bytes
@@ -532,19 +609,30 @@ class DiskManager:
                 # Update graph
                 if hasattr(self, 'disk_graphs') and device_name in self.disk_graphs:
                     self.disk_graphs[device_name].queue_draw()
-                
-                # Update usage labels (total throughput)
+
+                # Update usage labels (total throughput) with dynamic units
                 if hasattr(self, 'disk_usage_labels') and device_name in self.disk_usage_labels:
-                    total_throughput = (disk_info.read_bytes_per_sec + disk_info.write_bytes_per_sec) / DiskManagerConfig.BYTES_TO_MB
-                    self.disk_usage_labels[device_name].set_text(f"{total_throughput:.1f} MB/s")
-                
-                # Update details labels (read/write breakdown)
+                    total_throughput_bytes = disk_info.read_bytes_per_sec + disk_info.write_bytes_per_sec
+                    self.disk_usage_labels[device_name].set_text(DiskManagerConfig.format_bytes_per_sec(total_throughput_bytes))
+
+                # Update details labels (read/write breakdown) with dynamic units and colored text
                 if hasattr(self, 'disk_details_labels') and device_name in self.disk_details_labels:
-                    read_speed_mb = disk_info.read_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
-                    write_speed_mb = disk_info.write_bytes_per_sec / DiskManagerConfig.BYTES_TO_MB
-                    details_text = f"Size: {disk_info.size} | Read: {read_speed_mb:.1f} MB/s | Write: {write_speed_mb:.1f} MB/s"
-                    self.disk_details_labels[device_name].set_text(details_text)
-                        
+                    # Get theme colors
+                    label = self.disk_details_labels[device_name]
+                    style_context = label.get_style_context()
+                    colors = DiskManagerConfig.get_disk_colors(style_context)
+
+                    read_speed_str = DiskManagerConfig.format_bytes_per_sec(disk_info.read_bytes_per_sec)
+                    write_speed_str = DiskManagerConfig.format_bytes_per_sec(disk_info.write_bytes_per_sec)
+
+                    # Use markup to color the Read/Write words
+                    details_markup = (
+                        f"Size: {disk_info.size} | "
+                        f"<span foreground='{colors['read']}'>Read</span>: {read_speed_str} | "
+                        f"<span foreground='{colors['write']}'>Write</span>: {write_speed_str}"
+                    )
+                    label.set_markup(details_markup)
+
         except Exception as e:
             self.logger.error(f"Error updating disk GUI: {e}")
 

@@ -49,6 +49,7 @@ class MemoryManager:
         # GUI components (will be set by main app)
         self.memory_graph = None
         self.swap_graph = None
+        self.swap_frame = None  # Frame containing the swap graph (for hiding/showing)
         self.memory_usage_label = None
         self.swap_usage_label = None
         self.memory_details_label = None
@@ -131,33 +132,38 @@ class MemoryManager:
         try:
             if self.memory_graph:
                 self.memory_graph.update(self.memory_percentage / 100)
-            
-            if self.swap_graph:
-                self.swap_graph.update(self.swap_percentage / 100)
-            
+
             if self.memory_usage_label:
                 self.memory_usage_label.set_text(f"{self.memory_percentage:.1f}%")
-            
-            if self.swap_usage_label:
-                self.swap_usage_label.set_text(f"{self.swap_percentage:.1f}%")
-            
+
             if self.memory_details_label:
                 used_gb = self.used_memory / MemoryManagerConfig.BYTES_TO_GB
                 total_gb = self.total_memory / MemoryManagerConfig.BYTES_TO_GB
                 available_gb = self.available_memory / MemoryManagerConfig.BYTES_TO_GB
-                
+
                 details_text = f"Used: {used_gb:.1f} GB / {total_gb:.1f} GB\nAvailable: {available_gb:.1f} GB"
                 self.memory_details_label.set_text(details_text)
-            
-            # Update separate swap details label
-            if self.swap_details_label:
+
+            # Hide or show swap graph based on swap availability
+            if self.swap_frame:
                 if self.total_swap > 0:
-                    swap_used_gb = self.used_swap / MemoryManagerConfig.BYTES_TO_GB
-                    swap_total_gb = self.total_swap / MemoryManagerConfig.BYTES_TO_GB
-                    self.swap_details_label.set_text(f"Swap: {swap_used_gb:.1f} GB / {swap_total_gb:.1f} GB")
+                    # Swap is available, show the swap graph
+                    self.swap_frame.set_visible(True)
+
+                    if self.swap_graph:
+                        self.swap_graph.update(self.swap_percentage / 100)
+
+                    if self.swap_usage_label:
+                        self.swap_usage_label.set_text(f"{self.swap_percentage:.1f}%")
+
+                    if self.swap_details_label:
+                        swap_used_gb = self.used_swap / MemoryManagerConfig.BYTES_TO_GB
+                        swap_total_gb = self.total_swap / MemoryManagerConfig.BYTES_TO_GB
+                        self.swap_details_label.set_text(f"Swap: {swap_used_gb:.1f} GB / {swap_total_gb:.1f} GB")
                 else:
-                    self.swap_details_label.set_text("Swap: Not available")
-                
+                    # No swap available, hide the swap graph
+                    self.swap_frame.set_visible(False)
+
         except Exception as e:
             self.logger.error(f"Error updating memory GUI: {e}")
 

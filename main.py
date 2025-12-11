@@ -47,6 +47,10 @@ class LinuxVitalsApp(Gtk.Application):
     def __init__(self):
         super().__init__(application_id="org.LinuxVitals")
 
+        # Set WM class so window managers can match this to the .desktop file
+        GLib.set_prgname("org.LinuxVitals")
+        GLib.set_application_name("LinuxVitals")
+
         # Set up paths
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.icon_path = os.path.join(self.script_dir, "icon", "LinuxVitals-Icon.png")
@@ -147,9 +151,28 @@ class LinuxVitalsApp(Gtk.Application):
             # Set minimum window size to prevent widget clipping
             self.window.set_size_request(800, 500)
             
-            # Set application icon
+            # Set application icon at application level (GTK4 way)
             if os.path.exists(self.icon_path):
-                self.window.set_icon_name("LinuxVitals")
+                try:
+                    # GTK4 uses the application icon, not window icon
+                    # We need to register our icon with the icon theme
+                    from gi.repository import Gtk, Gio
+                    icon_theme = Gtk.IconTheme.get_for_display(self.window.get_display())
+                    icon_theme.add_search_path(os.path.join(self.script_dir, "icon"))
+                    self.logger.info(f"Added icon search path: {os.path.join(self.script_dir, 'icon')}")
+
+                    # Set the icon for the application
+                    icon = Gio.FileIcon.new(Gio.File.new_for_path(self.icon_path))
+                    self.set_icon(icon)
+                    self.logger.info(f"Set application icon from: {self.icon_path}")
+
+                    # Check if .desktop file is installed
+                    desktop_file = os.path.expanduser("~/.local/share/applications/org.LinuxVitals.desktop")
+                    if not os.path.exists(desktop_file):
+                        self.logger.warning("LinuxVitals .desktop file not found. The icon may not appear in taskbar/panel.")
+                        self.logger.info("Run './install.sh' to install the .desktop file for proper icon display.")
+                except Exception as e:
+                    self.logger.error(f"Error setting application icon: {e}")
                 
             # Connect window size change signal
             self.window.connect("notify::default-width", self.on_window_size_changed)
@@ -521,8 +544,6 @@ class LinuxVitalsApp(Gtk.Application):
             self.end_button = self.widget_factory.create_button(menu_bar, "End", self.end_selected_process)
             self.kill_button = self.widget_factory.create_button(menu_bar, "Kill", self.kill_selected_process)
             self.stop_button = self.widget_factory.create_button(menu_bar, "Stop", self.stop_selected_process)
-            self.continue_button = self.widget_factory.create_button(menu_bar, "Continue", self.continue_selected_process)
-            self.restart_button = self.widget_factory.create_button(menu_bar, "Restart", self.restart_selected_process)
             self.properties_button = self.widget_factory.create_button(menu_bar, "Properties", self.show_selected_process_properties)
             
             # Initially hide all process buttons
@@ -1135,16 +1156,6 @@ class LinuxVitalsApp(Gtk.Application):
         selected_pid = self.process_manager.get_selected_process_pid()
         self.process_manager.execute_process_action('stop', selected_pid)
 
-    def continue_selected_process(self, widget):
-        """Continue the selected process with SIGCONT"""
-        selected_pid = self.process_manager.get_selected_process_pid()
-        self.process_manager.execute_process_action('continue', selected_pid)
-
-    def restart_selected_process(self, widget):
-        """Restart the selected process"""
-        selected_pid = self.process_manager.get_selected_process_pid()
-        self.process_manager.execute_process_action('restart', selected_pid)
-
     def show_selected_process_properties(self, widget):
         """Show properties of the selected process"""
         selected_pid = self.process_manager.get_selected_process_pid()
@@ -1236,8 +1247,6 @@ class LinuxVitalsApp(Gtk.Application):
                 self.end_button,
                 self.kill_button,
                 self.stop_button,
-                self.continue_button,
-                self.restart_button,
                 self.properties_button
             ]
             for button in buttons:
